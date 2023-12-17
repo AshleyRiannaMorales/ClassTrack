@@ -1,9 +1,13 @@
 <script setup>
-import Categories from './components/Categories.vue'
+
 </script>
 
+
 <template>
-  <Categories/>
+    <div>
+        <router-view></router-view>
+    </div>
 </template>
+
 
 <style scoped></style>
