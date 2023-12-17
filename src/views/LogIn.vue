@@ -10,7 +10,7 @@ const navigateToHome = () => {
 };
 
 const navigateToDashboard = () => {
-    router.push('/dumpPage');
+    router.push('/admindashboard');
 };
 
 
@@ -136,4 +136,11 @@ label {
 #signUpLink:active {
     text-decoration: none;
 }
+
+@media only screen and (max-width: 768px) { 
+    .loginContainer {
+        margin-left: 0;
+    }
+}
+
 </style>
