@@ -9,7 +9,7 @@ import TopBarMenu from "../components/TopBarMenu.vue";
 <template>
     <SideBarMenu />
     <TopBarMenu />
-    <div class="adminDashboard">
+    <div class="adminDashboard-container">
         <text>Admin Dashboard</text>
     </div>
 
