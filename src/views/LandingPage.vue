@@ -1,19 +1,9 @@
 <script setup>
 import Button from 'primevue/button';
-
 </script>
 
-
 <template>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Inter:wght@400;500;700;900&family=Lexend&family=Poppins:wght@400;800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
-
-  <body>
-
+  <div class="wrapper">
 
     <!-- Side Bar -->
     <nav>
@@ -54,10 +44,6 @@ import Button from 'primevue/button';
       <Button label="Log In" id="button-login" icon="pi pi-user" />
     </router-link>
 
-    <!--
-    <router-link to="/dumpPage"> <Button role="link" label="TRY" id="dumpButton" /> </router-link>
-    -->
-
     <div class="container">
 
       <!-- Text -->
@@ -74,71 +60,36 @@ import Button from 'primevue/button';
         <router-link to="/signup">
           <Button label="Start using LabClass" id="button-signup" />
         </router-link>
-
       </div>
 
       <!-- Image -->
       <div class="image">
-        <img class="pageIMG" src="../assets/LandingPageIMG.png">
+        <img class="pageIMG" src="../assets/LandingPageIMG.png" alt="Landing Page Image">
       </div>
 
     </div>
-  </body>
+  </div>
 </template>
-
-
+  
 <style scoped>
 * {
   margin: 0;
   padding: 0;
-  outline: none;
-  border: none;
-  text-decoration: none;
-  box-sizing: border-box;
-
 }
 
-body {
-  background: white;
-  margin: 0;
-  padding: 0;
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .container {
-  flex: 1;
-  margin-left: 5%;
-}
-
-
-
-.pageIMG {
-  max-width: 25%;
-  height: auto;
-  position: absolute;
-  right: 150px;
-  bottom: 105px;
-  top: 145px;
-  margin-bottom: 135px;
-}
-
-.text {
-  font-family: 'Inter', sans-serif;
-  padding: 200px;
-  color: #DD385A;
-
-
-  .text-title {
-    font-size: 55px;
-    font-weight: 700;
-    margin-top: 5%;
-  }
-
-  .text-subtitle {
-    margin-top: 0;
-    font-size: 15px;
-
-  }
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  margin-top: 100px;
 }
 
 nav {
@@ -153,17 +104,11 @@ nav {
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
 
-.logoHeader {
-  width: 300px;
-  display: flex;
-}
-
 .logoCT {
   margin: 20px 24px;
   width: 72px;
   height: 72px;
   position: relative;
-  transition: all 0.5s ease;
   top: 0;
 }
 
@@ -194,8 +139,39 @@ i:hover {
   bottom: 30px;
 }
 
+.text {
+  font-family: 'Inter', sans-serif;
+  color: #DD385A;
+  flex: 1;
+  padding: 25px;
+}
+
+.text-title {
+  font-size: 55px;
+  font-weight: 700;
+  margin-top: 5%;
+}
+
+.text-subtitle {
+  margin-top: 0;
+  font-size: 15px;
+}
+
+.image {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.pageIMG {
+  width: 90%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 button {
   font-family: 'Inter', sans-serif;
+  border: none;
 }
 
 #button-login {
@@ -216,6 +192,7 @@ button {
 
 #button-signup {
   background-color: #DD385A;
+  color: white;
   font-weight: 700;
   padding: 10px 60px;
   border-radius: 10px;
@@ -227,11 +204,40 @@ button {
   color: #DD385A;
 }
 
-@media screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
+
+  #button-login {
+    margin-right: 20px;
+  }
+
+  .text-title {
+    font-size: 47px;
+  }
+
+  .text-subtitle {
+    margin-top: 7px;
+    font-size: 13px;
+  }
+
+  #button-signup {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .wrapper {
+    margin-left: 50px;
+    padding: 0;
+  }
+
+  .container {
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 0;
+  }
+
   .pageIMG {
-    width: 0;
+    width: 80%;
   }
 
 }
-
 </style>
