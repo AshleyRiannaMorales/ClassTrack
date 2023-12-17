@@ -221,7 +221,7 @@ button {
 }
 
 #button-signup:hover {
-  background-color: #fdecf0;
+  
   color: #DD385A;
 }
 
