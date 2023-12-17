@@ -10,7 +10,7 @@ const navigateToHome = () => {
 };
 
 const navigateToDashboard = () => {
-    router.push('/admindashboard');
+    router.push('/dumpPage');
 };
 
 

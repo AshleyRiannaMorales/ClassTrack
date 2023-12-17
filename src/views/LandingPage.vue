@@ -78,7 +78,9 @@ import Button from 'primevue/button';
       </div>
 
       <!-- Image -->
-      <img class="pageIMG" src="../assets/LandingPageIMG.png">
+      <div class="image">
+        <img class="pageIMG" src="../assets/LandingPageIMG.png">
+      </div>
 
     </div>
   </body>
