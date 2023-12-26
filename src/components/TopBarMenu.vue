@@ -58,13 +58,12 @@ import 'primeicons/primeicons.css'
 ul {
     list-style: none;
     text-align: left;
-    padding: 5px 10px;
 }
 
 ul li .list {
     display: inline-block;
     position: relative;
-    padding: 5px 15px;
+    padding: 9px 15px;
 }
 
 span {
