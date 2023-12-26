@@ -18,10 +18,10 @@ import TopBarMenu from "../components/TopBarMenu.vue";
 
         <div class="overview-container">
             <h2 class="overview-title">Overview</h2>
-
-            <!-- Pending -->
-            <div class="pending-wrapper">
-                <div class="pending-wrapper-2">
+            
+            <div class="wrapper">
+                <!-- Pending -->
+                <div class="pending-wrapper">
                     <div class="pending-header">
                         <div class="pending-details">
                             <span class="title-wrapper">Pending</span>
@@ -30,12 +30,29 @@ import TopBarMenu from "../components/TopBarMenu.vue";
                         <i class="pi pi-inbox" style="font-size: 1.5rem"></i>
                     </div>
                 </div>
+
+                <!-- Confirmed -->
+                <div class="pending-wrapper">
+                    <div class="pending-header">
+                        <div class="pending-details">
+                            <span class="title-wrapper">Confirmed</span>
+                            <span class="value-wrapper">2 Bookings</span>
+                        </div>
+                        <i class="pi pi-check-circle" style="font-size: 1.5rem"></i>
+                    </div>
+                </div>
+
+                <!-- Cancelled -->
+                <div class="pending-wrapper">
+                    <div class="pending-header">
+                        <div class="pending-details">
+                            <span class="title-wrapper">Cancelled</span>
+                            <span class="value-wrapper">1 Bookings</span>
+                        </div>
+                        <i class="pi pi-times-circle" style="font-size: 1.5rem"></i>
+                    </div>
+                </div>
             </div>
-
-            <!-- Confirmed -->
-            
-
-            <!-- Cancelled -->
         </div>
     </div>
 </template>
@@ -63,14 +80,17 @@ import TopBarMenu from "../components/TopBarMenu.vue";
     margin-top: 20px;
 }
 
-.pending-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    
+.overview-title {
+    margin-top: 0;
 }
 
-.pending-wrapper-2 {
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.pending-wrapper {
     background: white;
     border-radius: 10px;
     padding: 1.2rem;
@@ -112,6 +132,7 @@ i {
     border-radius: 50%;
     font-size: 1.5rem;
     background-color: #DD385A;
+    padding-top: 17px;
 }
 
 </style>

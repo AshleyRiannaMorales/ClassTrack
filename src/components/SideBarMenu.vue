@@ -12,7 +12,7 @@ import 'primeicons/primeicons.css'
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
                 
 
-    <div>
+    <div class="sidebar">
         <nav>
             <ul>
                 <li>
@@ -63,16 +63,6 @@ import 'primeicons/primeicons.css'
                         </router-link>
                     </div>
                 </li>
-                <!--
-                    <li>
-                    <div class="containerMenuItem" id="signout">
-                        <router-link to="/"> 
-                        <i class="pi pi-sign-out" style="font-size: 2.0rem"></i> 
-                        <span class="menuLabel">Sign Out</span>
-                        </router-link>
-                    </div>
-                </li>
-                 -->
                 
             </ul>
         </nav>
@@ -93,6 +83,12 @@ import 'primeicons/primeicons.css'
 
 body {
     background: white;
+}
+
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 
 nav {
