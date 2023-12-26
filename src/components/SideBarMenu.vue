@@ -32,6 +32,14 @@ import 'primeicons/primeicons.css'
                     </div>
                 </li>
                 <li>
+                    <div class="containerMenuItem" id="notifications">
+                        <router-link to="/"> 
+                        <i class="pi pi pi-bell" style="font-size: 2.0rem"></i> 
+                        <span class="menuLabel">Notifications</span>
+                        </router-link>
+                    </div>
+                </li>
+                <li>
                     <div class="containerMenuItem">
                         <router-link to="">
                         <i class="pi pi-book" style="font-size: 2.0rem"></i>
@@ -55,14 +63,17 @@ import 'primeicons/primeicons.css'
                         </router-link>
                     </div>
                 </li>
-                <li>
+                <!--
+                    <li>
                     <div class="containerMenuItem" id="signout">
-                        <router-link to=""> 
+                        <router-link to="/"> 
                         <i class="pi pi-sign-out" style="font-size: 2.0rem"></i> 
                         <span class="menuLabel">Sign Out</span>
                         </router-link>
                     </div>
                 </li>
+                 -->
+                
             </ul>
         </nav>
     </div>
@@ -130,6 +141,7 @@ img {
 .containerMenuItem {
     width: 300px;
     padding: 30px;
+    margin-top: 5px;
     padding-left: 42px;
     font-family: 'Inter', sans-serif;
 }

@@ -18,8 +18,8 @@ import TopBarMenu from "../components/TopBarMenu.vue";
 
 <style scoped>
 
-.adminDashboard {
-    padding: 10px 200px;
+.adminDashboard-container {
+    padding: 75px 200px;
 
 }
 

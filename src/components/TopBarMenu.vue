@@ -4,19 +4,87 @@ import 'primeicons/primeicons.css'
 
 
 <template>
-    <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Inter:wght@400;500;700;900&family=Lexend&family=Poppins:wght@400;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-    <div>
-        <nav class="topnavbar">
-            <ul>
-                <li></li>
-            </ul>
-        </nav>
+    <div class="menuWrapper">
+        <ul class="menuDropDown">
+            <li>
+                <div class="list">
+                    <router-link to="">
+                        <i class="pi pi-user"></i>
+                        <span class="adminProfile"> Administrator </span>
+                    </router-link>
+                </div>
+                <ul class="dropdown">
+                    <li>
+                        <div class="list">
+                            <router-link to="">
+                                <i class="pi pi-cog"></i>
+                                <span class="settings"> Settings </span>
+                            </router-link>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="list">
+                            <router-link to="/">
+                                <i class="pi pi-sign-out"></i>
+                                <span class="signout"> Sign Out </span>
+                            </router-link>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </template>
 
 
 <style scoped>
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    color: #DD385A;
+}
+
+.menuWrapper {
+    position: absolute;
+    right: 30px;
+    top: 18px;
+}
+
+ul {
+    list-style: none;
+    text-align: center;
+}
+
+ul li .list {
+    display: inline-block;
+    position: relative;
+}
+
+span {
+    font-family: 'Inter', sans-serif;
+}
+
+ul li ul.dropdown li {
+    display: block;
+    margin: 5px 0px;
+}
+
+ul li ul.dropdown {
+    width: auto;
+    z-index: 999;
+    display: none;
+}
+
+ul li .list:hover {
+    background-color: pink;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+}
 </style>
