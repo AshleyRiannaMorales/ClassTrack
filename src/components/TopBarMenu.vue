@@ -14,7 +14,7 @@ import 'primeicons/primeicons.css'
                 <div class="list">
                     <router-link to="">
                         <i class="pi pi-user"></i>
-                        <span class="adminProfile"> Administrator </span>
+                        <span class="adminProfile"> Administrator </span> <i class="pi pi-angle-down"></i>
                     </router-link>
                 </div>
                 <ul class="dropdown">
@@ -57,31 +57,36 @@ import 'primeicons/primeicons.css'
 
 ul {
     list-style: none;
-    text-align: center;
+    text-align: left;
+    padding: 5px 10px;
 }
 
 ul li .list {
     display: inline-block;
     position: relative;
+    padding: 5px 15px;
 }
 
 span {
     font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
 ul li ul.dropdown li {
     display: block;
-    margin: 5px 0px;
+    margin: 4px 0px;
 }
 
 ul li ul.dropdown {
     width: auto;
     z-index: 999;
     display: none;
+    background-color: #fff0f0;
 }
 
 ul li .list:hover {
-    background-color: pink;
+    background-color: #ecd3d3;
+    width: 100%;
 }
 
 ul li:hover ul.dropdown {
