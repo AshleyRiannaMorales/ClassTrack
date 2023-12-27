@@ -5,13 +5,47 @@ import 'primeicons/primeicons.css'
 import Password from 'primevue/password';
 import router from '../router';
 
+import { ref, computed } from "vue";
+
+
+const admin = ref([
+    {
+        userID: 12345,
+        password: "openlabstaff",
+        code: 2023
+    }
+]);
+
+const instructor = ref([
+    {
+        userID: 230005,
+        password: "instructor"
+    }
+]);
+
 const navigateToHome = () => {
     router.push('/');
 };
 
-const navigateToDashboard = () => {
-    router.push('/admindashboard');
+const checkUser = () => {
+    const matchedAdmin = admin.value.find(user => user.userID === userID && user.password === userPass);
+    const matchedInstructor = instructor.value.find(user => user.userID === userID && user.password === userPass);
+
+    if (matchedAdmin) {
+        const code = prompt("Please enter the code:");
+        if (code && parseInt(code) === matchedAdmin.code) {
+            router.push('/AdminDashboard');
+        } else {
+            alert("Incorrect code. Please try again.");
+        }
+    } else if (matchedInstructor) {
+        router.push('/InstructorDashboard');
+    } else {
+        alert("Invalid credentials. Please try again.");
+    }
 };
+
+
 
 
 </script>
@@ -41,7 +75,7 @@ const navigateToDashboard = () => {
             <Password type="text" v-model="userPass" />
         </div>
 
-        <Button type="submit" class="buttonLogin" @click="navigateToDashboard" label="Log In" />
+        <Button type="submit" class="buttonLogin" @click="checkUser" label="Log In" />
 
         <div class="noAccountContainer">
             <text id="noAccountYet">Don't have an account yet?</text>
