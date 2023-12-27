@@ -49,7 +49,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to=""> 
+                        <router-link to="/Laboratories"> 
                         <i class="pi pi-desktop" style="font-size: 2.0rem"></i> 
                         <span class="menuLabel">Laboratories</span>
                         </router-link>
