@@ -86,7 +86,6 @@ button {
 .p-button-info {
     background-color: #fff0f0;
     color: #DD385A;
-    font-family: 'Inter', sans-serif;
 }
 </style>
 
