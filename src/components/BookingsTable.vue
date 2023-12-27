@@ -56,11 +56,11 @@ const rejectAction = () => {
             <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
             <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
             <Column field="bookingStatus" header="Status" style="color: #DD385A;">
-                <template #body="rowData">
+                <template #body="{ rowData }">
                     <Button :label="rowData.bookingStatus === 'Pending' ? 'Pending' : 'Approved'"
                         :icon="rowData.bookingStatus === 'Pending' ? 'pi pi-spinner' : 'pi pi-check'"
                         :class="rowData.bookingStatus === 'Pending' ? 'p-button-info' : 'p-button-success'"
-                        @click="rowData.bookingStatus === 'Pending' ? showConfirmDialog(rowData) : null"></Button>
+                        @click="rowData.bookingStatus === 'Pending' ? showConfirmDialog(rowData) : null" />
                 </template>
             </Column>
         </DataTable>
