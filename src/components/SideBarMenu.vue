@@ -33,7 +33,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem" id="notifications">
-                        <router-link to="/"> 
+                        <router-link to=""> 
                         <i class="pi pi pi-bell" style="font-size: 2.0rem"></i> 
                         <span class="menuLabel">Notifications</span>
                         </router-link>
@@ -88,7 +88,10 @@ body {
 .sidebar {
     position: -webkit-sticky;
     position: sticky;
+    float: left;
     top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 nav {
