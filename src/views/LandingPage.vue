@@ -21,21 +21,21 @@ import Button from 'primevue/button';
         <div class="items">
           <li>
             <div class="containerMenuItem">
-              <router-link to="">
+              <router-link to="https://sites.google.com/uic.edu.ph/group11/home">
                 <i class="pi pi-google" style="font-size: 1.7rem"></i>
               </router-link>
             </div>
           </li>
           <li>
             <div class="containerMenuItem">
-              <router-link to="">
+              <router-link to="https://github.com/AshleyRiannaMorales/LabClass">
                 <i class="pi pi-github" style="font-size: 1.7rem"></i>
               </router-link>
             </div>
           </li>
           <li>
             <div class="containerMenuItem">
-              <router-link to="">
+              <router-link to="https://mail.google.com/mail/u/labclass@uic.edu.ph/#compose">
                 <i class="pi pi-envelope" style="font-size: 1.7rem"></i>
               </router-link>
             </div>
