@@ -81,13 +81,12 @@ const rejectAction = () => {
 
 button {
     padding: 5px;
-    font-family: 'Inter', sans-serif;
 }
 
 .p-button-info {
     background-color: #fff0f0;
     color: #DD385A;
-    
+    font-family: 'Inter', sans-serif;
 }
 </style>
 
