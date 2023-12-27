@@ -11,8 +11,7 @@ import { ref, computed } from "vue";
 const admin = ref([
     {
         userID: 12345,
-        password: "openlabstaff",
-        code: 2023
+        password: "openlabstaff"
     }
 ]);
 
@@ -27,19 +26,24 @@ const navigateToHome = () => {
     router.push('/');
 };
 
-const checkUser = () => {
-    const matchedAdmin = admin.value.find(user => user.userID === userID && user.password === userPass);
-    const matchedInstructor = instructor.value.find(user => user.userID === userID && user.password === userPass);
+const userID = ref("");
+const userPass = ref("");
 
-    if (matchedAdmin) {
-            router.push('/AdminDashboard');
-    } else if (matchedInstructor) {
+const checkUser = () => {
+    const isAdmin = admin.value.some(adminUser => adminUser.userID == userID.value && adminUser.password == userPass.value);
+    const isInstructor = instructor.value.some(instructorUser => instructorUser.userID == userID.value && instructorUser.password == userPass.value);
+
+    if (isAdmin) {
+        // Redirect to Admin Dashboard
+        router.push('/AdminDashboard');
+    } else if (isInstructor) {
+        // Redirect to Instructor Dashboard
         router.push('/InstructorDashboard');
     } else {
-        alert("Invalid credentials. Please try again.");
+        // Handle invalid user credentials (optional)
+        alert("Invalid user credentials. Try again.");
     }
 };
-
 
 
 
