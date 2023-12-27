@@ -10,14 +10,14 @@ import { ref, computed } from "vue";
 
 const admin = ref([
     {
-        userID: 12345,
+        userID: 100001,
         password: "openlabstaff"
     }
 ]);
 
 const instructor = ref([
     {
-        userID: 230005,
+        userID: 500001,
         password: "instructor"
     }
 ]);

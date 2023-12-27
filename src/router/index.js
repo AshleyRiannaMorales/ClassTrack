@@ -4,6 +4,7 @@ import LandingPage from "../views/LandingPage.vue";
 import LogIn from "../views/LogIn.vue";
 import SignUp from "../views/SignUp.vue";
 import AdminDashboard from "../views/AdminDashboard.vue";
+import AdminBookings from "../views/AdminBookings.vue";
 import dumpPage from "../views/trylng.vue"
 
 const routes = [
@@ -26,6 +27,10 @@ const routes = [
     {
         path: "/admindashboard",
         component: AdminDashboard,
+    },
+    {
+        path: "/adminbookings",
+        component: AdminBookings,
     },
     
 ]

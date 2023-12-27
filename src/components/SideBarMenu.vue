@@ -32,7 +32,7 @@ import 'primeicons/primeicons.css'
                     </div>
                 </li>
                 <li>
-                    <div class="containerMenuItem" id="notifications">
+                    <div class="containerMenuItem">
                         <router-link to=""> 
                         <i class="pi pi pi-bell" style="font-size: 2.0rem"></i> 
                         <span class="menuLabel">Notifications</span>
@@ -41,7 +41,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="">
+                        <router-link to="/AdminBookings">
                         <i class="pi pi-book" style="font-size: 2.0rem"></i>
                         <span class="menuLabel">Bookings</span>
                         </router-link>

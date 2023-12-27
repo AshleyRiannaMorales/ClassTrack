@@ -89,9 +89,6 @@ const confirmedBookings = computed(() => schedWeek.value.filter(item => item.sta
         <!-- Schedule (Table) -->
         <div class="schedTable">
             <h1> Schedule </h1>
-            
-            <!-- Dropdown for choosing a day of the week-->
-            
 
             <DataTable :value="schedWeek" tableStyle="min-width: 50rem; font-family: 'Inter', sans-serif;">
                 <Column field="id" header="ID" style="color: #DD385A;"></Column>
