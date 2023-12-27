@@ -32,12 +32,7 @@ const checkUser = () => {
     const matchedInstructor = instructor.value.find(user => user.userID === userID && user.password === userPass);
 
     if (matchedAdmin) {
-        const code = prompt("Please enter the code:");
-        if (code && parseInt(code) === matchedAdmin.code) {
             router.push('/AdminDashboard');
-        } else {
-            alert("Incorrect code. Please try again.");
-        }
     } else if (matchedInstructor) {
         router.push('/InstructorDashboard');
     } else {
