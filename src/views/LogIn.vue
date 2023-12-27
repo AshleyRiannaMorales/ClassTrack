@@ -34,18 +34,13 @@ const checkUser = () => {
     const isInstructor = instructor.value.some(instructorUser => instructorUser.userID == userID.value && instructorUser.password == userPass.value);
 
     if (isAdmin) {
-        // Redirect to Admin Dashboard
         router.push('/AdminDashboard');
     } else if (isInstructor) {
-        // Redirect to Instructor Dashboard
         router.push('/InstructorDashboard');
     } else {
-        // Handle invalid user credentials (optional)
         alert("Invalid user credentials. Try again.");
     }
 };
-
-
 
 </script>
 
