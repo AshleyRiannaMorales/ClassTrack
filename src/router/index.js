@@ -6,17 +6,12 @@ import SignUp from "../views/SignUp.vue";
 import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminBookings from "../views/AdminBookings.vue";
 import Laboratories from "../views/Laboratories.vue";
-import dumpPage from "../views/trylng.vue";
-
+import InstructorDashboard from "../views/InstructorDashboard.vue";
 
 const routes = [
     {
         path: "/",
         component: LandingPage,
-    },
-    {
-        path: "/dumppage",
-        component: dumpPage,
     },
     {
         path: "/login",
@@ -38,6 +33,10 @@ const routes = [
         path: "/laboratories",
         component: Laboratories,
     },
+    {
+        path: "/instructordashboard",
+        component: InstructorDashboard,
+    }
     
 ]
 
