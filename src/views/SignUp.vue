@@ -24,7 +24,7 @@ const navigateToHome = () => {
         <text id="titleSignUp">Sign Up</text>
         </div>
 
-        <label for="userInsID">Instructor ID</label>
+        <label for="userInsID">Instructor Username</label>
         <div class="p-inputgroup">
             <InputText type="text" v-model="userInsID" />
         </div>
