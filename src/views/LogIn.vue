@@ -59,7 +59,7 @@ const checkUser = () => {
             <text id="titleLogin">Log In</text>
         </div>
         
-        <label for="userID">User ID</label>
+        <label for="userID">Username</label>
         <div class="p-inputgroup">
             <InputText type="text" v-model="userID" />
         </div>
