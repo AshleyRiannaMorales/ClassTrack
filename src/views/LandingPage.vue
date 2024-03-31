@@ -62,15 +62,20 @@ import Button from 'primevue/button';
           <text>Coordinating and managing computer laboratory schedules are made easy.</text>
         </div>
 
-        <router-link to="/signup">
+        <div class="button">
+          <router-link to="/signup">
           <Button label="Start using LabClass" id="button-signup" />
-        </router-link>
+          </router-link>
+        </div>
+        
+      </div>
+
+      <div class="image">
+          <img class="pageIMG" src="../assets/LandingPageIMG.png" alt="Landing Page Image">
       </div>
 
       <!-- Image -->
-      <div class="image">
-        <img class="pageIMG" src="../assets/LandingPageIMG.png" alt="Landing Page Image">
-      </div>
+      
 
     </div>
   </div>
@@ -93,7 +98,7 @@ import Button from 'primevue/button';
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 10px;
   margin-top: 100px;
 }
 
@@ -102,7 +107,6 @@ nav {
   top: 0;
   bottom: 0;
   left: 0;
-  min-height: 100vh;
   background: #DD385A;
   width: 120px;
   overflow: hidden;
@@ -164,7 +168,7 @@ i:hover {
 
 .image {
   max-width: 400px;
-  padding: 20px;
+  padding: 18px;
 }
 
 .pageIMG {
