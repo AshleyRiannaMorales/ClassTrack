@@ -1,7 +1,7 @@
-# Vue 3 + Vite
+# LabClass Setup Guide
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This guide provides a set of instructions to set up the project, LabClass, in your own Visual Studio Code.
 
-## Recommended IDE Setup
+## Step 1: Create a folder in your PC or laptop then name it "_setupLabClass_".
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Step 2: Open your VS Code and open the _setupLabClass_ folder.
