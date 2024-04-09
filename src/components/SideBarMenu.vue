@@ -88,8 +88,9 @@ body {
 }
 
 .sidebar {
-    position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
+    top: 0;
+    width: 100%;
     float: left;
     top: 0;
     left: 0;
