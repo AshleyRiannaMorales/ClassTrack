@@ -10,9 +10,11 @@ import BookingsTable from "../components/BookingsTable.vue";
     <TopBarMenu />
 
     <div class="adminBookings-container">
-        <span class="greetings">Booking Requests</span>
+        <span class="greetings">Bookings</span>
         <BookingsTable />
     </div>
+
+    
 </template>
 
 <style scoped>

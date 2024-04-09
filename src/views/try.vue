@@ -112,8 +112,6 @@ nav {
 .logoHeader{
     width: 300px;
     display: flex;
-    padding-bottom: 15px;
-    padding-top: 15px;
 }
 
 .logoCT {
@@ -161,7 +159,7 @@ i {
     padding: 25px;
     font-size: 16px;
     position: relative;
-    margin-left: 22px;
+    margin-left: 21px;
     color: white;
     top: -7.5px;
 }
