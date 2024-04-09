@@ -20,7 +20,8 @@ import BookingsTable from "../components/BookingsTable.vue";
 <style scoped>
 
 .adminBookings-container {
-    padding: 70px 175px;
+    margin-left: 60px;
+    padding: 70px 100px;
     font-family: 'Inter', sans-serif;
     color: #DD385A;
 }
