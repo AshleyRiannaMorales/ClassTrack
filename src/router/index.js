@@ -6,6 +6,8 @@ import SignUp from "../views/SignUp.vue";
 import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminBookings from "../views/AdminBookings.vue";
 import InstructorDashboard from "../views/InstructorDashboard.vue";
+import InstructorSchedule from "../views/InstructorSchedule.vue";
+
 import Try from "../views/try.vue";
 
 const routes = [
@@ -32,6 +34,10 @@ const routes = [
     {
         path: "/instructordashboard",
         component: InstructorDashboard,
+    },
+    {
+        path: "/instructorschedule",
+        component: InstructorSchedule,
     },
     {
         path: "/try",
