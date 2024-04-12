@@ -1,8 +1,5 @@
 <script setup>
 import 'primeicons/primeicons.css'
-
-
-
 </script>
 
 
@@ -51,7 +48,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="/Laboratories"> 
+                        <router-link to=""> 
                             <img src="../assets/icon-sched.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Schedule</span>
                         </router-link>

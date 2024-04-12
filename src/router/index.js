@@ -3,10 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from "../views/LandingPage.vue";
 import LogIn from "../views/LogIn.vue";
 import SignUp from "../views/SignUp.vue";
+
 import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminBookings from "../views/AdminBookings.vue";
+
 import InstructorDashboard from "../views/InstructorDashboard.vue";
 import InstructorSchedule from "../views/InstructorSchedule.vue";
+import InstructorBookings from "../views/InstructorBookings.vue";
 
 import Try from "../views/try.vue";
 
@@ -42,6 +45,10 @@ const routes = [
     {
         path: "/try",
         component: Try,
+    },
+    {
+        path: "/instructorbookings",
+        component: InstructorBookings,
     }
     
 ]

@@ -1,7 +1,7 @@
 <script setup>
 import SideBarMenu from "../components/SideBarMenu.vue";
 import TopBarMenu from "../components/TopBarMenu.vue";
-import BookingsTable from "../components/BookingsTable.vue";
+import AdminBookingsTable from "../components/AdminBookingsTable.vue";
 
 </script>
 
@@ -11,7 +11,7 @@ import BookingsTable from "../components/BookingsTable.vue";
 
     <div class="adminBookings-container">
         <span class="greetings">Bookings</span>
-        <BookingsTable />
+        <AdminBookingsTable />
     </div>
 
     
