@@ -9,109 +9,123 @@ const navigateToHome = () => {
     router.push('/');
 };
 
+
 </script>
 
+
 <template>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <div class="signupContainer">
-        <div class="header">
-            <div class="flex flex-wrap justify-content-center gap-3">
-                <Button icon="pi pi-chevron-left" class="buttonBack" @click="navigateToHome" text rounded aria-label="Return" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Inter:wght@400;500;700;900&family=Lexend&family=Poppins:wght@400;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
+
+
+    <div class="signup-container">
+
+        <div class="signupHeader">
+            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
+            <text id="signupTitle">Sign Up</text>
+        </div>
+
+        <div class="instructorUsername">
+            <label for="instructorID">Instructor Username</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorID" class="p-username-input" />
             </div>
-        <text id="titleSignUp">Sign Up</text>
         </div>
 
-        <label for="userInsID">Instructor Username</label>
-        <div class="p-inputgroup">
-            <InputText type="text" v-model="userInsID" />
+        <div class="instructorFirstName">
+            <label for="instructorFname">Instructor First Name</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorFname" class="p-firstname-input" />
+            </div>
         </div>
 
-        <label for="userFName">Instructor First Name</label>
-        <div class="p-inputgroup">
-            <InputText type="text" v-model="userFName" />
+        <div class="instructorLastName">
+            <label for="instructorLname">Instructor Last Name</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorLname" class="p-lastname-input" />
+            </div>
         </div>
 
-        <label for="userLName">Instructor Last Name</label>
-        <div class="p-inputgroup">
-            <InputText type="text" v-model="userLName" />
+        <div class="instructorPassword">
+            <label for="instructorPass">Password</label>
+            <div class="p-inputgroup">
+                <Password type="text" v-model="instructorPass" class="p-password-input" />
+            </div>
         </div>
 
-        <label for="userInsPass">Password</label>
-        <div class="p-inputgroup">
-            <Password type="text" v-model="userInsPass" />
-        </div>
-
-        <Button type="submit" class="buttonSignup" label="Sign Up" />
+        <Button type="submit" class="signupButton" label="Sign Up" />
 
         <div class="haveAccountContainer">
             <text id="haveAccount">Already have an account?</text>
             <router-link to="/LogIn"> <text id="logInLink">Log In</text> </router-link>
         </div>
+
     </div>
-    
+
 </template>
+
 
 <style scoped>
 
-.signupContainer {
+* {
     font-family: Inter, 'sans serif';
-    color: #DD385A;
-    margin: auto;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);   
 }
 
-.buttonBack {
-    color:#DD385A;
+.signup-container {
+    width: 270px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#titleSignUp {
-    font-family: Inter, 'sans serif';
+.signupHeader {
+    margin-bottom: 50px;
+}
+
+#signupTitle {
     color: #DD385A;
     font-size: 33px;
     font-weight: 700;
-    margin-left: 20%;
-}
-
-.header {
-    margin-bottom: 27%;
-    display: flex;
+    margin-left: 15%;
 }
 
 label {
     font-weight: 700;
     font-size: 15px;
+    color: #DD385A;
+}
+
+.backButton {
+    color:#DD385A;
 }
 
 .p-inputgroup {
-    margin-bottom: 10%;
-    width: 120%;
+    margin-bottom: 8%;
+    width: 100%;
 }
 
-.buttonSignup {
-    font-family: Inter, 'sans serif';
+.signupButton {
+    margin-top: 30px;
     font-size: 14px;
     font-weight: 600;
     background-color: #DD385A;
-    margin-right: 0.5%;
-    margin-top: 25%;
-    width: 120%;
-    height: 38px;
+    color: white;
+    width: 100%;
 }
 
-.buttonSignup:hover {
+.signupButton:hover {
     background-color: #ff8fa5;
 }
 
 .haveAccountContainer {
     margin-top: 15px;
-    margin-left: 50px;
-    width: 120%;
+    text-align: center;
 }
 
 #haveAccount {
@@ -124,6 +138,10 @@ label {
     font-weight: 700;
     font-size: 12px;
     color:#DD385A;
+}
+
+#logInLink:hover {
+    color: #ff8fa5;
 }
 
 </style>

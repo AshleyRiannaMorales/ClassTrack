@@ -1,6 +1,13 @@
 <script setup>
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
 import 'primeicons/primeicons.css'
+import Password from 'primevue/password';
+import router from '../router';
 
+const navigateToHome = () => {
+    router.push('/');
+};
 
 
 </script>
@@ -17,181 +24,124 @@ import 'primeicons/primeicons.css'
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
 
-    <div class="sidebar-container">
-        <div class="sidebar">
-            <nav>
-                <ul>
-                    <li>
-                        <div class="logoHeader">
-                            <img class="logoCT" src="../assets/Logo-100px.png">
-                            <span class="nameCT">
-                                <text id="nameClass">Class</text><text id="nameTrack">Track</text>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="containerMenuItem">
-                            <router-link to="/AdminDashboard">
-                                <img src="../assets/icon-home3.svg" style="width: 2.1rem; margin-left: -1px">
-                                <span class="menuLabel">Dashboard</span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="containerMenuItem">
-                            <router-link to="">
-                                <img src="../assets/icon-notif.svg" style="width: 2.1rem; margin-left: -1px">
-                                <span class="menuLabel">Notifications</span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="containerMenuItem">
-                            <router-link to="/AdminBookings">
-                                <img src="../assets/icon-book3.svg" style="width: 2.1rem; margin-left: -1px">
-                                <span class="menuLabel">Bookings</span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="containerMenuItem">
-                            <router-link to="/Laboratories">
-                                <img src="../assets/icon-sched.svg" style="width: 2.1rem; margin-left: -1px">
-                                <span class="menuLabel">Laboratories</span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="containerMenuItem">
-                            <router-link to="">
-                                <img src="../assets/icon-bar.svg" style="width: 2.1rem; margin-left: -1px">
-                                <span class="menuLabel">Reports</span>
-                            </router-link>
-                        </div>
-                    </li>
+    <div class="signup-container">
 
-                </ul>
-            </nav>
+        <div class="signupHeader">
+            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
+            <text id="signupTitle">Sign Up</text>
         </div>
-    </div>
 
-    <div class=text-container>
-        <text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</text>
+        <div class="instructorUsername">
+            <label for="instructorID">Instructor Username</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorID" class="p-username-input" />
+            </div>
+        </div>
+
+        <div class="instructorFirstName">
+            <label for="instructorFname">Instructor First Name</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorFname" class="p-firstname-input" />
+            </div>
+        </div>
+
+        <div class="instructorLastName">
+            <label for="instructorLname">Instructor Last Name</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorLname" class="p-lastname-input" />
+            </div>
+        </div>
+
+        <div class="instructorPassword">
+            <label for="instructorPass">Password</label>
+            <div class="p-inputgroup">
+                <Password type="text" v-model="instructorPass" class="p-password-input" />
+            </div>
+        </div>
+
+        <Button type="submit" class="signupButton" label="Sign Up" />
+
+        <div class="haveAccountContainer">
+            <text id="haveAccount">Already have an account?</text>
+            <router-link to="/LogIn"> <text id="logInLink">Log In</text> </router-link>
+        </div>
+
     </div>
 
 </template>
 
 
 <style scoped>
+
 * {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    border: none;
-    text-decoration: none;
-    box-sizing: border-box;
+    font-family: Inter, 'sans serif';
 }
 
-body {
-    background: white;
+.signup-container {
+    width: 270px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.sidebar {
-    position: fixed;
-    top: 0;
+.signupHeader {
+    margin-bottom: 50px;
+}
+
+#signupTitle {
+    color: #DD385A;
+    font-size: 33px;
+    font-weight: 700;
+    margin-left: 15%;
+}
+
+label {
+    font-weight: 700;
+    font-size: 15px;
+    color: #DD385A;
+}
+
+.backButton {
+    color:#DD385A;
+}
+
+.p-inputgroup {
+    margin-bottom: 8%;
     width: 100%;
-    float: left;
-    top: 0;
-    left: 0;
-    z-index: 1;
 }
 
-
-
-.text-container {
-    font-size: 50px;
+.signupButton {
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #DD385A;
+    color: white;
+    width: 100%;
 }
 
-nav {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    min-height: 100vh;
-    background: #DD385A;
-    width: 120px;
-    overflow: hidden;
-    transition: width 0.2s linear;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+.signupButton:hover {
+    background-color: #ff8fa5;
 }
 
-.logoHeader {
-    width: 300px;
-    display: flex;
-}
-
-.logoCT {
-    margin: 20px 24px;
-    width: 72px;
-    height: 72px;
-    position: relative;
-    transition: all 0.5s ease;
-    top: 0;
-}
-
-
-.nameCT {
-    font-family: 'COCOGOOSE', sans-serif;
-    font-size: 24px;
-    margin: auto;
-    margin-left: 0px;
-}
-
-#nameClass {
-    color: #fff5f5;
-}
-
-#nameTrack {
-    color: #ffd0d0;
-}
-
-.containerMenuItem {
-    width: 300px;
-    padding: 30px;
-    margin-top: 5px;
-    padding-left: 42px;
-    font-family: 'Inter', sans-serif;
-}
-
-i {
-    position: relative;
-    top: -0.5px;
-    font-size: 30px;
+.haveAccountContainer {
+    margin-top: 15px;
     text-align: center;
-    color: white;
 }
 
-.menuLabel {
-    padding: 25px;
-    font-size: 16px;
-    position: relative;
-    margin-left: 21px;
-    color: white;
-    top: -7.5px;
+#haveAccount {
+    font-size: 12px;
+    color: #7D7D7D;
 }
 
-.containerMenuItem:hover {
-    background: #A52841;
+#logInLink {
+    margin-left: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    color:#DD385A;
 }
 
-#signout {
-    position: absolute;
-    bottom: 0;
+#logInLink:hover {
+    color: #ff8fa5;
 }
 
-
-nav:hover {
-    width: 290px;
-    transition: all 0.5s ease;
-}
 </style>
