@@ -7,7 +7,6 @@ import { ref } from "vue";
 
 const booking = ref([
     {
-        instructor: "Gelo Yaco",
         bookingDate: "12 April 2024",
         bookingStartTime: "14:30",
         bookingEndTime: "16:00",
@@ -22,7 +21,6 @@ const booking = ref([
 <template>
     <div class="tableBookings">
         <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
-            <Column field="instructor" header="Instructor" style="color: #DD385A;"></Column>
             <Column field="bookingDate" header="Booking Date" style="color: #DD385A;"></Column>
             <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
             <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
