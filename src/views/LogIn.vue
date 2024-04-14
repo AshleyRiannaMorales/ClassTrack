@@ -3,44 +3,75 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import 'primeicons/primeicons.css'
 import Password from 'primevue/password';
+
+
+import Divider from 'primevue/divider';
+
 import router from '../router';
 
-import { ref, computed } from "vue";
+const Login = {
+    data() {
+        return {
+            admin_User: '',
+            admin_Password: '',
+            prompt: {
+                visible: false,
+                message: '',
+                type: ''
+            }
+        };
+    },
+    methods: {
+        attemptLogin() {
+            const formData = new FormData();
+            formData.append('admin_User', this.admin_User);
+            formData.append('admin_Password', this.admin_Password);
 
+            axios.post('http://127.0.0.1:8000/api/administrator/login/', formData)
+                .then(response => {
+                    if (response.data) {
+                        console.log("Success");
+                        this.$router.push('/maindashboards');
+                    } else {
+                        console.log("error");
+                        this.showStyledPrompt('Incorrect username or password', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during login:', error);
+                    if (error.response && error.response.status === 401) {
+                        this.showStyledPrompt('Incorrect username or password', 'error');
+                    } else {
+                        this.showStyledPrompt('An error occurred. Please try again later.', 'error');
+                    }
+                });
+        },
+        showStyledPrompt(message, type) {
+            this.prompt.message = message;
+            this.prompt.type = type;
+            this.prompt.visible = true;
 
-const admin = ref([
-    {
-        userID: 100001,
-        password: "openlabstaff"
+            this.$nextTick(() => {
+                if (this.$refs.styledPrompt) {
+                    this.$refs.styledPrompt.classList.add('fade-in');
+                }
+            });
+
+            setTimeout(() => {
+                this.hideStyledPrompt();
+            }, 3000);
+        },
+        hideStyledPrompt() {
+            if (this.$refs.styledPrompt) {
+                this.$refs.styledPrompt.classList.remove('fade-in');
+                setTimeout(() => {
+                    this.prompt.visible = false;
+                }, 500);
+            }
+        }
     }
-]);
-
-const instructor = ref([
-    {
-        userID: 500001,
-        password: "instructor"
-    }
-]);
-
-const navigateToHome = () => {
-    router.push('/');
 };
 
-const userID = ref("");
-const userPass = ref("");
-
-const checkUser = () => {
-    const isAdmin = admin.value.some(adminUser => adminUser.userID == userID.value && adminUser.password == userPass.value);
-    const isInstructor = instructor.value.some(instructorUser => instructorUser.userID == userID.value && instructorUser.password == userPass.value);
-
-    if (isAdmin) {
-        router.push('/AdminDashboard');
-    } else if (isInstructor) {
-        router.push('/InstructorDashboard');
-    } else {
-        alert("Invalid user credentials. Try again.");
-    }
-};
 
 </script>
 
@@ -58,25 +89,25 @@ const checkUser = () => {
     <div class="login-container">
 
         <div class="loginHeader">
-            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
+            <router-link to="/">
+                <Button icon="pi pi-chevron-left" class="backButton" text rounded
+                aria-label="Return" />
+            </router-link>
             <text id="loginTitle">Log In</text>
         </div>
 
-        <div class="userUsername">
-            <label for="userID">Username</label>
-            <div class="p-inputgroup">
-                <InputText type="text" v-model="userID" class="p-username-input" />
-            </div>
-        </div>
 
-        <div class="userPassword">
-            <label for="userPass">Password</label>
-            <div class="p-inputgroup">
-                <Password type="text" v-model="userPass" class="p-password-input" />
-            </div>
-        </div>
+        <div class="chooseUserType">
 
-        <Button type="submit" class="loginButton" @click="checkUser" label="Log In" />
+            <router-link to="/instructorlogin">
+                <Button id="instructorUserButton" class="usertypeButton" label="Log in as Instructor" />
+            </router-link>
+
+            <router-link to="/adminlogin">
+                <Button id="adminUserButton" class="usertypeButton" label="Log in as Administrator" />
+            </router-link>
+
+        </div>
 
         <div class="noAccount-container">
             <text id="noAccount">Don't have an account yet?</text>
@@ -89,14 +120,13 @@ const checkUser = () => {
 
 
 <style scoped>
-
 * {
     font-family: Inter, 'sans serif';
 }
 
 .login-container {
     width: 270px;
-    margin-top: 150px;
+    margin-top: 185px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -112,32 +142,30 @@ const checkUser = () => {
     margin-left: 20%;
 }
 
-label {
-    font-weight: 700;
-    font-size: 15px;
+.backButton {
     color: #DD385A;
 }
 
-.backButton {
-    color:#DD385A;
+.chooseUserType {
+    margin-bottom: 10%;
 }
 
-.p-inputgroup {
-    margin-bottom: 8%;
+
+.usertypeButton {
+    font-size: 15px;
+    font-weight: 500;
+    background-color: transparent;
+    color: #DD385A;
     width: 100%;
+    border: 1px solid #DD385A;
+    height: 37px;
+    margin-bottom: 6%;
 }
 
-.loginButton {
-    margin-top: 30px;
-    font-size: 14px;
-    font-weight: 600;
+.usertypeButton:hover {
     background-color: #DD385A;
-    color: white;
-    width: 100%;
-}
-
-.loginButton:hover {
-    background-color: #ff8fa5;
+    color: #fdecf0;
+    font-weight: 600;
 }
 
 .noAccount-container {
@@ -154,11 +182,10 @@ label {
     margin-left: 6px;
     font-weight: 700;
     font-size: 12px;
-    color:#DD385A;
+    color: #DD385A;
 }
 
 #signUpLink:hover {
     color: #ff8fa5;
 }
-
 </style>

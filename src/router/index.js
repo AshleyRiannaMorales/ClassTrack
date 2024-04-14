@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import LandingPage from "../views/LandingPage.vue";
 import LogIn from "../views/LogIn.vue";
+import AdminLogin from "../views/AdminLogin.vue";
+import InstructorLogin from "../views/InstructorLogin.vue";
+
 import SignUp from "../views/SignUp.vue";
 
 import AdminDashboard from "../views/AdminDashboard.vue";
@@ -49,6 +52,14 @@ const routes = [
     {
         path: "/instructorbookings",
         component: InstructorBookings,
+    },
+    {
+        path: "/adminlogin",
+        component: AdminLogin,
+    },
+    {
+        path: "/instructorlogin",
+        component: InstructorLogin,
     }
     
 ]
