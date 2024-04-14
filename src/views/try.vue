@@ -5,42 +5,23 @@ import 'primeicons/primeicons.css'
 import Password from 'primevue/password';
 import router from '../router';
 
-import { ref, computed } from "vue";
+import { ref } from 'vue';
 
+const useModal = () => {
+  const modal = ref(null);
 
-const admin = ref([
-    {
-        userID: 100001,
-        password: "openlabstaff"
-    }
-]);
+  const openModal = () => {
+    modal.value.style.display = 'block';
+  };
 
-const instructor = ref([
-    {
-        userID: 500001,
-        password: "instructor"
-    }
-]);
+  const closeModal = () => {
+    modal.value.style.display = 'none';
+  };
 
-const navigateToHome = () => {
-    router.push('/');
+  return { modal, openModal, closeModal };
 };
 
-const userID = ref("");
-const userPass = ref("");
-
-const checkUser = () => {
-    const isAdmin = admin.value.some(adminUser => adminUser.userID == userID.value && adminUser.password == userPass.value);
-    const isInstructor = instructor.value.some(instructorUser => instructorUser.userID == userID.value && instructorUser.password == userPass.value);
-
-    if (isAdmin) {
-        router.push('/AdminDashboard');
-    } else if (isInstructor) {
-        router.push('/InstructorDashboard');
-    } else {
-        alert("Invalid user credentials. Try again.");
-    }
-};
+const { modal, openModal, closeModal } = useModal();
 
 </script>
 
@@ -55,110 +36,59 @@ const checkUser = () => {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
-    <div class="login-container">
+    <div>
+    <!-- Button to trigger the modal -->
+    <button @click="openModal">Open Modal</button>
 
-        <div class="loginHeader">
-            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
-            <text id="loginTitle">Log In</text>
-        </div>
+    <!-- Modal component -->
+    <div ref="modal" class="modal">
+      <div class="modal-content">
+        <!-- Close button -->
+        <span class="close" @click="closeModal">&times;</span>
 
-        <div class="userUsername">
-            <label for="userID">Username</label>
-            <div class="p-inputgroup">
-                <InputText type="text" v-model="userID" class="p-username-input" />
-            </div>
-        </div>
-
-        <div class="userPassword">
-            <label for="userPass">Password</label>
-            <div class="p-inputgroup">
-                <Password type="text" v-model="userPass" class="p-password-input" />
-            </div>
-        </div>
-
-        <Button type="submit" class="loginButton" @click="checkUser" label="Log In" />
-
-        <div class="noAccount-container">
-            <text id="noAccount">Don't have an account yet?</text>
-            <router-link to="/SignUp"> <text id="signUpLink">Sign Up</text> </router-link>
-        </div>
-
+        <!-- Modal content -->
+        <p>This is a pop-up window.</p>
+      </div>
     </div>
+  </div>
 
 </template>
 
 
 <style scoped>
 
-* {
-    font-family: Inter, 'sans serif';
+.modal {
+  display: none; /* Initially hidden */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
 }
 
-.login-container {
-    width: 270px;
-    margin-top: 150px;
-    margin-left: auto;
-    margin-right: auto;
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
 }
 
-.loginHeader {
-    margin-bottom: 50px;
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-#loginTitle {
-    color: #DD385A;
-    font-size: 33px;
-    font-weight: 700;
-    margin-left: 20%;
-}
-
-label {
-    font-weight: 700;
-    font-size: 15px;
-    color: #DD385A;
-}
-
-.backButton {
-    color:#DD385A;
-}
-
-.p-inputgroup {
-    margin-bottom: 8%;
-    width: 100%;
-}
-
-.loginButton {
-    margin-top: 30px;
-    font-size: 14px;
-    font-weight: 600;
-    background-color: #DD385A;
-    color: white;
-    width: 100%;
-}
-
-.loginButton:hover {
-    background-color: #ff8fa5;
-}
-
-.noAccount-container {
-    margin-top: 15px;
-    text-align: center;
-}
-
-#noAccount {
-    font-size: 12px;
-    color: #7D7D7D;
-}
-
-#signUpLink {
-    margin-left: 6px;
-    font-weight: 700;
-    font-size: 12px;
-    color:#DD385A;
-}
-
-#signUpLink:hover {
-    color: #ff8fa5;
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 </style>

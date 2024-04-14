@@ -38,7 +38,9 @@ const booking = ref([
 
 <style scoped>
 * {
+    font-family: 'Inter', sans-serif;
     padding: 15px 0px;
+    font-size: 15px
 }
 
 button {
