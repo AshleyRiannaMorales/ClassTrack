@@ -17,50 +17,23 @@ import InstructorBookings from "../views/InstructorBookings.vue";
 import Try from "../views/try.vue";
 
 const routes = [
-    {
-        path: "/",
-        component: LandingPage,
-    },
-    {
-        path: "/login",
-        component: LogIn,
-    },
-    {
-        path: "/signup",
-        component: SignUp,
-    },
-    {
-        path: "/admindashboard",
-        component: AdminDashboard,
-    },
-    {
-        path: "/adminbookings",
-        component: AdminBookings,
-    },
-    {
-        path: "/instructordashboard",
-        component: InstructorDashboard,
-    },
-    {
-        path: "/instructorschedule",
-        component: InstructorSchedule,
-    },
-    {
-        path: "/try",
-        component: Try,
-    },
-    {
-        path: "/instructorbookings",
-        component: InstructorBookings,
-    },
-    {
-        path: "/adminlogin",
-        component: AdminLogin,
-    },
-    {
-        path: "/instructorlogin",
-        component: InstructorLogin,
-    }
+    { path: "/", component: LandingPage, },
+    { path: "/login", component: LogIn, },
+    { path: "/signup", component: SignUp, },
+
+    { path: "/admindashboard", component: AdminDashboard, },
+    { path: "/adminbookings", component: AdminBookings, },
+    { path: "/adminlogin", component: AdminLogin, },
+
+    { path: "/instructordashboard", component: InstructorDashboard, },
+    { path: "/instructorschedule", component: InstructorSchedule, },
+    { path: "/instructorbookings", component: InstructorBookings, },
+    { path: "/instructorlogin", component: InstructorLogin, },
+
+    { path: "/try", component: Try, },
+    
+    
+    
     
 ]
 
