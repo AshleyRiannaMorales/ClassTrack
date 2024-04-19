@@ -50,7 +50,7 @@ import 'primeicons/primeicons.css'
 }
 
 .menuWrapper {
-    position: absolute;
+    position: fixed;
     right: 30px;
     top: 18px;
 }
