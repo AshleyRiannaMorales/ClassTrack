@@ -4,11 +4,42 @@ import InputText from 'primevue/inputtext';
 import 'primeicons/primeicons.css'
 import Password from 'primevue/password';
 import router from '../router';
+import { ref } from 'vue';
+import axios from 'axios';
 
 const navigateToLogin = () => {
     router.push('/login');
 };
 
+const instructorData = ref({
+    instructorEmail: '',
+    instructorPass: '',
+})
+
+const loginInstructor = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('instructor_email', instructorData.value.instructorEmail);
+        formData.append('instructor_pass', instructorData.value.instructorPass);
+
+        const response = await axios.post('http://127.0.0.1:8000/api/login/instructor', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        if (response.status === 200) {
+            router.push('/instructordashboard');
+        } else {
+            console.error('Instructor login failed:', response.statusText);
+            throw new Error('Instructor login failed');
+        }
+    } catch (error) {
+        console.error('Error authenticating instructor:', error.response ? error.response.data : error.message);
+        // Display error message to the user
+        alert(error.response.data.detail);
+    }
+};
 
 
 </script>
@@ -25,38 +56,41 @@ const navigateToLogin = () => {
 
     <div class="login-container">
 
-        <div class="loginHeader">
-            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToLogin" text rounded
-                aria-label="Return" />
-            <text id="loginTitle">Instructor</text>
-        </div>
+        <form @submit.prevent="loginInstructor">
 
-        <div class="userUsername">
-            <label for="userID">Email</label>
-            <div class="p-inputgroup">
-                <InputText type="text" v-model="userID" class="p-username-input" />
+            <div class="loginHeader">
+                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToLogin" text rounded
+                    aria-label="Return" />
+                <text id="loginTitle">Instructor</text>
             </div>
-        </div>
 
-        <div class="userPassword">
-            <label for="userPass">Password</label>
-            <div class="p-inputgroup">
-                <Password type="text" v-model="userPass" class="p-password-input" />
+            <div class="userUsername">
+                <label for="userID">Email</label>
+                <div class="p-inputgroup">
+                    <InputText type="text" v-model="instructorData.instructorEmail" class="p-username-input" />
+                </div>
             </div>
-        </div>
 
-        <Button type="submit" class="loginButton" @click="checkUser" label="Log In" />
+            <div class="userPassword">
+                <label for="userPass">Password</label>
+                <div class="p-inputgroup">
+                    <Password type="text" v-model="instructorData.instructorPass" class="p-password-input" />
+                </div>
+            </div>
 
-        <div class="noAccount-container">
-            <text id="noAccount">Don't have an account yet?</text>
-            <router-link to="/SignUp"> <text id="signUpLink">Sign Up</text> </router-link>
-        </div>
+            <Button type="submit" class="loginButton" label="Log In" />
+
+            <div class="noAccount-container">
+                <text id="noAccount">Don't have an account yet?</text>
+                <router-link to="/SignUp"> <text id="signUpLink">Sign Up</text> </router-link>
+            </div>
+
+        </form>
 
     </div>
 </template>
 
 <style scoped>
-
 * {
     font-family: Inter, 'sans serif';
 }
@@ -86,7 +120,7 @@ label {
 }
 
 .backButton {
-    color:#DD385A;
+    color: #DD385A;
 }
 
 .p-inputgroup {
@@ -121,11 +155,10 @@ label {
     margin-left: 6px;
     font-weight: 700;
     font-size: 12px;
-    color:#DD385A;
+    color: #DD385A;
 }
 
 #signUpLink:hover {
     color: #ff8fa5;
 }
-
 </style>
