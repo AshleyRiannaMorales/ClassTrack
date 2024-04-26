@@ -15,9 +15,9 @@ import AdminBookingsTable from "../components/AdminBookingsTable.vue";
 
         <div class="instructorBookings-buttons">
 
-            
-            
-            
+
+
+
 
         </div>
 
@@ -28,7 +28,6 @@ import AdminBookingsTable from "../components/AdminBookingsTable.vue";
 </template>
 
 <style scoped>
-
 * {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
@@ -44,7 +43,4 @@ import AdminBookingsTable from "../components/AdminBookingsTable.vue";
     font-size: 40px;
     font-weight: 700;
 }
-
-
-
 </style>

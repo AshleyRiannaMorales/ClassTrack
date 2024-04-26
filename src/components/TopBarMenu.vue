@@ -14,7 +14,7 @@ import 'primeicons/primeicons.css'
                 <div class="list">
                     <router-link to="">
                         <i class="pi pi-user"></i>
-                        <span class="adminProfile"> Administrator </span> <i class="pi pi-angle-down"></i>
+                        <span class="profile"> User </span> <i class="pi pi-angle-down"></i>
                     </router-link>
                 </div>
                 <ul class="dropdown">
@@ -55,9 +55,14 @@ import 'primeicons/primeicons.css'
     top: 18px;
 }
 
+.profile {
+    padding: 5px;
+}
+
 ul {
     list-style: none;
     text-align: left;
+    width: 120px;
 }
 
 ul li .list {

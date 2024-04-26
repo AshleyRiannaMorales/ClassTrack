@@ -13,6 +13,7 @@ import AdminBookings from "../views/AdminBookings.vue";
 import InstructorDashboard from "../views/InstructorDashboard.vue";
 import InstructorSchedule from "../views/InstructorSchedule.vue";
 import InstructorBookings from "../views/InstructorBookings.vue";
+import CreateBookingRequest from "../views/CreateBookingRequest.vue";
 
 import Try from "../views/try.vue";
 
@@ -29,6 +30,7 @@ const routes = [
     { path: "/instructorschedule", component: InstructorSchedule, },
     { path: "/instructorbookings", component: InstructorBookings, },
     { path: "/instructorlogin", component: InstructorLogin, },
+    { path: "/createbookingrequest", component: CreateBookingRequest, },
 
     { path: "/try", component: Try, },
     

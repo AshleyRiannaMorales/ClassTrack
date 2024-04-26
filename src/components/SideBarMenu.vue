@@ -24,7 +24,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="/AdminDashboard">
+                        <router-link to="/InstructorDashboard">
                             <img src="../assets/icon-home3.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Dashboard</span>
                         </router-link>
@@ -40,7 +40,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="/AdminBookings">
+                        <router-link to="/InstructorBookings">
                             <img src="../assets/icon-book3.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Bookings</span>
                         </router-link>

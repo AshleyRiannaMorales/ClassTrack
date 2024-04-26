@@ -7,7 +7,6 @@ import { ref } from 'vue';
 import router from '../router';
 import axios from 'axios';
 
-
 const instructorData = ref({
     instructorEmail: '',
     instructorUsername: '',
@@ -40,6 +39,7 @@ const testPasswordStrength = (password) => {
 
 
 const signupInstructor = async () => {
+
     // Validate input fields
     if (!instructorData.value.instructorEmail || !instructorData.value.instructorUsername || !instructorData.value.instructorFname || !instructorData.value.instructorLname || !instructorData.value.instructorPass) {
         alert('Please fill out all required fields.');
@@ -52,14 +52,20 @@ const signupInstructor = async () => {
         alert('Please enter a valid email address.');
         return;
     }
+    
 
     // Validate password strength
-    if (instructorData.value.instructorEmail.length < 8) {
+    const measurePass = instructorData.value.instructorPass;
+    if (measurePass.length < 8) {
         alert('Password must be at least 8 characters long.');
         return;
     }
 
     try {
+
+        // Check if email already exists - INSERT HERE
+        
+
         const formData = new FormData();
         formData.append('email', instructorData.value.instructorEmail);
         formData.append('username', instructorData.value.instructorUsername);
@@ -75,7 +81,7 @@ const signupInstructor = async () => {
 
         if (response.status === 200) {
             // Signup successful
-            router.push('/instructordashboard'); // Redirect to success page
+            router.push('/instructordashboard'); 
         } else {
             // Handle specific error cases
             const errorData = response.data;
