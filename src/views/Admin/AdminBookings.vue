@@ -1,7 +1,7 @@
 <script setup>
-import SideBarMenu from "../components/SideBarMenu.vue";
-import TopBarMenu from "../components/TopBarMenu.vue";
-import AdminBookingsTable from "../components/AdminBookingsTable.vue";
+import SideBarMenu from "../../components/SideBarMenu.vue";
+import TopBarMenu from "../../components/TopBarMenu.vue";
+import AdminBookingsTable from "../../components/AdminBookingsTable.vue";
 
 
 </script>

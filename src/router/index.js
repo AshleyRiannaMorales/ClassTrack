@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import LandingPage from "../views/LandingPage.vue";
 import LogIn from "../views/LogIn.vue";
-import AdminLogin from "../views/AdminLogin.vue";
+import AdminLogin from "../views/Admin/AdminLogin.vue";
 import InstructorLogin from "../views/InstructorLogin.vue";
 
 import SignUp from "../views/SignUp.vue";
 
-import AdminDashboard from "../views/AdminDashboard.vue";
-import AdminBookings from "../views/AdminBookings.vue";
+import AdminDashboard from "../views/Admin/AdminDashboard.vue";
+import AdminBookings from "../views/Admin/AdminBookings.vue";
+import AdminNotifications from "../views/Admin/AdminNotifications.vue";
 
 import InstructorDashboard from "../views/InstructorDashboard.vue";
 import InstructorSchedule from "../views/InstructorSchedule.vue";
@@ -25,6 +26,7 @@ const routes = [
     { path: "/admindashboard", component: AdminDashboard, },
     { path: "/adminbookings", component: AdminBookings, },
     { path: "/adminlogin", component: AdminLogin, },
+    { path: "/adminnotifications", component: AdminNotifications, },
 
     { path: "/instructordashboard", component: InstructorDashboard, },
     { path: "/instructorschedule", component: InstructorSchedule, },

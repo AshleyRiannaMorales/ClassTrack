@@ -2,7 +2,7 @@
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
-import router from '../router';
+import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
 
