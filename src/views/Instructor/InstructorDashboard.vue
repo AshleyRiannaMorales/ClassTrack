@@ -1,6 +1,6 @@
 <script setup>
-import SideBarMenu from "../components/SideBarMenu.vue";
-import TopBarMenu from "../components/TopBarMenu.vue";
+import SideBarMenu from "../../components/SideBarMenu.vue";
+import TopBarMenu from "../../components/TopBarMenu.vue";
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';

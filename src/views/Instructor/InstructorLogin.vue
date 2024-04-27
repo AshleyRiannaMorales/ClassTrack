@@ -3,12 +3,12 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import 'primeicons/primeicons.css'
 import Password from 'primevue/password';
-import router from '../router';
+import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
 
-const navigateToLogin = () => {
-    router.push('/login');
+const navigateToHome = () => {
+    router.push('/');
 };
 
 const instructorData = ref({
@@ -59,9 +59,9 @@ const loginInstructor = async () => {
         <form @submit.prevent="loginInstructor">
 
             <div class="loginHeader">
-                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToLogin" text rounded
+                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
                     aria-label="Return" />
-                <text id="loginTitle">Instructor</text>
+                <text id="loginTitle">Sign In</text>
             </div>
 
             <div class="userUsername">

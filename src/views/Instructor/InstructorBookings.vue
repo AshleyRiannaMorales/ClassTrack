@@ -1,10 +1,10 @@
 <script setup>
-import SideBarMenu from "../components/SideBarMenu.vue";
-import TopBarMenu from "../components/TopBarMenu.vue";
-import InstructorBookingsTable from "../components/InstructorBookingsTable.vue";
+import SideBarMenu from "../../components/SideBarMenu.vue";
+import TopBarMenu from "../../components/TopBarMenu.vue";
+import InstructorBookingsTable from "../../components/InstructorBookingsTable.vue";
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import router from '../router';
+import router from '../../router';
 import axios from 'axios';
 import { ref } from 'vue';
 

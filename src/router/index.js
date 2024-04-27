@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import LandingPage from "../views/LandingPage.vue";
-import LogIn from "../views/LogIn.vue";
 import AdminLogin from "../views/Admin/AdminLogin.vue";
-import InstructorLogin from "../views/InstructorLogin.vue";
+import InstructorLogin from "../views/Instructor/InstructorLogin.vue";
 
 import SignUp from "../views/SignUp.vue";
 
@@ -11,16 +10,15 @@ import AdminDashboard from "../views/Admin/AdminDashboard.vue";
 import AdminBookings from "../views/Admin/AdminBookings.vue";
 import AdminNotifications from "../views/Admin/AdminNotifications.vue";
 
-import InstructorDashboard from "../views/InstructorDashboard.vue";
-import InstructorSchedule from "../views/InstructorSchedule.vue";
-import InstructorBookings from "../views/InstructorBookings.vue";
+import InstructorDashboard from "../views/Instructor/InstructorDashboard.vue";
+import InstructorSchedule from "../views/Instructor/InstructorSchedule.vue";
+import InstructorBookings from "../views/Instructor/InstructorBookings.vue";
 import CreateBookingRequest from "../views/CreateBookingRequest.vue";
 
 import Try from "../views/try.vue";
 
 const routes = [
     { path: "/", component: LandingPage, },
-    { path: "/login", component: LogIn, },
     { path: "/signup", component: SignUp, },
 
     { path: "/admindashboard", component: AdminDashboard, },

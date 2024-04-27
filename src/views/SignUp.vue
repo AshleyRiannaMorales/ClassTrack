@@ -2,10 +2,12 @@
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import 'primeicons/primeicons.css'
-import Password from 'primevue/password';
 import { ref } from 'vue';
 import router from '../router';
 import axios from 'axios';
+
+import Message from 'primevue/message';
+
 
 const instructorData = ref({
     instructorEmail: '',
@@ -15,26 +17,8 @@ const instructorData = ref({
     instructorPass: '',
 });
 
-const passwordStrengthMessage = ref('');
-
-
 const navigateToHome = () => {
     router.push('/');
-};
-
-
-const checkPasswordStrength = () => {
-    const password = instructorData.value.instructorPass;
-    passwordStrengthMessage.value = testPasswordStrength(password);
-};
-
-
-const testPasswordStrength = (password) => {
-    if (password.length < 8) {
-        return "Password must be at least 8 characters long.";
-    } else {
-        return "";
-    }
 };
 
 
@@ -52,19 +36,11 @@ const signupInstructor = async () => {
         alert('Please enter a valid email address.');
         return;
     }
-    
-
-    // Validate password strength
-    const measurePass = instructorData.value.instructorPass;
-    if (measurePass.length < 8) {
-        alert('Password must be at least 8 characters long.');
-        return;
-    }
 
     try {
 
         // Check if email already exists - INSERT HERE
-        
+
 
         const formData = new FormData();
         formData.append('email', instructorData.value.instructorEmail);
@@ -81,7 +57,7 @@ const signupInstructor = async () => {
 
         if (response.status === 200) {
             // Signup successful
-            router.push('/instructordashboard'); 
+            router.push('/instructordashboard');
         } else {
             // Handle specific error cases
             const errorData = response.data;
@@ -115,19 +91,29 @@ const signupInstructor = async () => {
             <div class="signupHeader">
                 <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
                     aria-label="Return" />
-                <text id="signupTitle">Sign Up</text>
+                <text id="signupTitle">Verification</text>
             </div>
-            <div class="instructorUsername">
-                <label for="instructorEmail">Instructor Email</label>
+            <div class="verificationNote">
+                <Message :closable="false" severity="secondary" icon="pi pi-info-circle" style="background-color: #fce1e6; color: #DD385A;">
+                    <div class="message-text-container">
+                        <text class="p-message-text">For security, we want to make sure that 
+                        you are an official UIC Instructor.</text>
+                    </div>
+                </Message>
+
+            </div>
+
+            <div class="instructorID">
+                <label for="instructorEmail">Instructor ID</label>
                 <div class="p-inputgroup">
-                    <InputText type="text" v-model="instructorData.instructorEmail" class="p-email-input" />
+                    <InputText type="text" v-model="instructorData.instructorID" class="p-id-input" />
                 </div>
             </div>
 
             <div class="instructorUsername">
-                <label for="instructorUsername">Instructor Username</label>
+                <label for="instructorEmail">Instructor Email</label>
                 <div class="p-inputgroup">
-                    <InputText type="text" v-model="instructorData.instructorUsername" class="p-username-input" />
+                    <InputText type="text" v-model="instructorData.instructorEmail" class="p-email-input" />
                 </div>
             </div>
 
@@ -145,20 +131,11 @@ const signupInstructor = async () => {
                 </div>
             </div>
 
-            <div class="instructorPassword">
-                <label for="instructorPass">Password</label>
-                <div class="p-inputgroup">
-                    <Password type="password" v-model="instructorData.instructorPass" class="p-password-input"
-                        @input="checkPasswordStrength" />
-                </div>
-                <div v-if="passwordStrengthMessage" class="password-strength">{{ passwordStrengthMessage }}</div>
-            </div>
-
-            <Button type="submit" class="signupButton" label="Sign Up" />
+            <Button type="submit" class="signupButton" label="Submit" />
 
             <div class="haveAccountContainer">
                 <text id="haveAccount">Already have an account?</text>
-                <router-link to="/LogIn"> <text id="logInLink">Log In</text> </router-link>
+                <router-link to="/instructorlogin"> <text id="logInLink">Log In</text> </router-link>
             </div>
 
         </form>
@@ -174,20 +151,33 @@ const signupInstructor = async () => {
 
 .signup-container {
     width: 270px;
-    margin-top: 67px;
+    margin-top: 65px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .signupHeader {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 #signupTitle {
     color: #DD385A;
     font-size: 33px;
     font-weight: 700;
-    margin-left: 15%;
+    margin-left: 9px;
+}
+
+.verificationNote {
+    margin-bottom: 30px;
+}
+
+.message-text-container {
+    margin-left: 7px;
+}
+
+.p-message-text {
+    font-size: 13px;
+    color: #DD385A;
 }
 
 label {
@@ -206,7 +196,7 @@ label {
 }
 
 .signupButton {
-    margin-top: 30px;
+    margin-top: 15px;
     font-size: 14px;
     font-weight: 600;
     background-color: #DD385A;
