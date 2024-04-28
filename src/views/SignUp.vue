@@ -96,7 +96,7 @@ const signupInstructor = async () => {
             <div class="verificationNote">
                 <Message :closable="false" severity="secondary" icon="pi pi-info-circle" style="background-color: #fce1e6; color: #DD385A;">
                     <div class="message-text-container">
-                        <text class="p-message-text">For security, we want to make sure that 
+                        <text class="p-message-text">For security, we want to make sure first that 
                         you are an official UIC Instructor.</text>
                     </div>
                 </Message>

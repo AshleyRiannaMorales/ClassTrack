@@ -9,6 +9,7 @@ import SignUp from "../views/SignUp.vue";
 import AdminDashboard from "../views/Admin/AdminDashboard.vue";
 import AdminBookings from "../views/Admin/AdminBookings.vue";
 import AdminNotifications from "../views/Admin/AdminNotifications.vue";
+import AdminSchedule from "../views/Admin/AdminSchedule.vue";
 
 import InstructorDashboard from "../views/Instructor/InstructorDashboard.vue";
 import InstructorSchedule from "../views/Instructor/InstructorSchedule.vue";
@@ -23,8 +24,9 @@ const routes = [
 
     { path: "/admindashboard", component: AdminDashboard, },
     { path: "/adminbookings", component: AdminBookings, },
-    { path: "/adminlogin", component: AdminLogin, },
+    { path: "/admin", component: AdminLogin, },
     { path: "/adminnotifications", component: AdminNotifications, },
+    { path: "/adminschedule", component: AdminSchedule, },
 
     { path: "/instructordashboard", component: InstructorDashboard, },
     { path: "/instructorschedule", component: InstructorSchedule, },

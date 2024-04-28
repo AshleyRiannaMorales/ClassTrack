@@ -65,7 +65,7 @@ const loginInstructor = async () => {
             </div>
 
             <div class="userUsername">
-                <label for="userID">Email</label>
+                <label for="userID">Email or ID</label>
                 <div class="p-inputgroup">
                     <InputText type="text" v-model="instructorData.instructorEmail" class="p-username-input" />
                 </div>
@@ -110,7 +110,7 @@ const loginInstructor = async () => {
     color: #DD385A;
     font-size: 33px;
     font-weight: 700;
-    margin-left: 8%;
+    margin-left: 40px;
 }
 
 label {

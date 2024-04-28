@@ -1,5 +1,12 @@
-<script setup></script>
+<script setup>
+import SideBarMenu from "../../components/SideBarMenu.vue";
+import TopBarMenu from "../../components/TopBarMenu.vue";
 
-<template></template>
+</script>
+
+<template>
+    <SideBarMenu />
+    <TopBarMenu />
+</template>
 
 <style scoped></style>

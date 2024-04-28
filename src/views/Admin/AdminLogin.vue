@@ -6,8 +6,8 @@ import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
 
-const navigateToLogin = () => {
-    router.push('/login');
+const navigateToHome = () => {
+    router.push('/');
 };
 
 const adminData = ref({
@@ -53,11 +53,11 @@ const loginAdmin = async () => {
     <div class="login-container">
         <form @submit.prevent="loginAdmin">
             <div class="loginHeader">
-                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToLogin" text rounded aria-label="Return" />
+                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
                 <text id="loginTitle">Admin</text>
             </div>
             <div class="userUsername">
-                <label for="userID">User ID</label>
+                <label for="userID">ID</label>
                 <div class="p-inputgroup">
                     <InputText type="text" v-model="adminData.adminID" class="p-username-input" />
                 </div>
