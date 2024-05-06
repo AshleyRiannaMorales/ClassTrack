@@ -12,17 +12,17 @@ const navigateToHome = () => {
 };
 
 const instructorData = ref({
-    instructorEmail: '',
+    instructorEmailorID: '',
     instructorPass: '',
 })
 
 const loginInstructor = async () => {
     try {
         const formData = new FormData();
-        formData.append('instructor_email', instructorData.value.instructorEmail);
-        formData.append('instructor_pass', instructorData.value.instructorPass);
+        formData.append('IDorEmail', instructorData.value.instructorEmailorID);
+        formData.append('password', instructorData.value.instructorPass);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/login/instructor', formData, {
+        const response = await axios.post('http://127.0.0.1:8000/api/instructor/login', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -67,7 +67,7 @@ const loginInstructor = async () => {
             <div class="userUsername">
                 <label for="userID">Email or ID</label>
                 <div class="p-inputgroup">
-                    <InputText type="text" v-model="instructorData.instructorEmail" class="p-username-input" />
+                    <InputText type="text" v-model="instructorData.instructorEmailorID" class="p-username-input" />
                 </div>
             </div>
 

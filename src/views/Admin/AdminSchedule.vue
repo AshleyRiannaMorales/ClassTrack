@@ -43,40 +43,41 @@ onMounted(async () => {
         <div class="weekTables">
 
             <div class="table">
+                
                 <DataTable :value="mon_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Monday" field="computerLabID"/>
-                    <Column field="subject" />
-                    <Column field="instructorName" />
-                    <Column field="schedDay" />
-                    <Column field="schedStartTime" />
-                    <Column field="schedEndTime" />
-                    <Column field="student_course" />
-                    <Column field="student_year" />
-                    <Column field="Section" />
+                    <Column header="Day" field="schedDay"/>
+                    <Column header="Room" field="computerLabID"/>
+                    <Column header="Subject" field="subject" />
+                    <Column header="Instructor" field="instructorName" />
+                    <Column header="Start Time" field="schedStartTime" />
+                    <Column header="End Time" field="schedEndTime" />
+                    <Column header="Course" field="student_course" />
+                    <Column header="Year" field="student_year" />
+                    <Column header="Section" field="student_section" />
                 </DataTable>
 
                 <DataTable :value="tue_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Tuesday" field="computerLabID" />
-                    <Column field="subject" />
-                    <Column field="instructorName" />
-                    <Column field="schedDay" />
-                    <Column field="schedStartTime" />
-                    <Column field="schedEndTime" />
-                    <Column field="student_course" />
-                    <Column field="student_year" />
-                    <Column field="Section" />
+                    <Column header="Day" field="schedDay"/>
+                    <Column header="Room" field="computerLabID"/>
+                    <Column header="Subject" field="subject" />
+                    <Column header="Instructor" field="instructorName" />
+                    <Column header="Start Time" field="schedStartTime" />
+                    <Column header="End Time" field="schedEndTime" />
+                    <Column header="Course" field="student_course" />
+                    <Column header="Year" field="student_year" />
+                    <Column header="Section" field="student_section" />
                 </DataTable>
 
                 <DataTable :value="wed_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Wednesday" field="computerLabID"  />
-                    <Column field="subject" />
-                    <Column field="instructorName" />
-                    <Column field="schedDay" />
-                    <Column field="schedStartTime" />
-                    <Column field="schedEndTime" />
-                    <Column field="student_course" />
-                    <Column field="student_year" />
-                    <Column field="Section" />
+                    <Column header="Day" field="schedDay"/>
+                    <Column header="Room" field="computerLabID"/>
+                    <Column header="Subject" field="subject" />
+                    <Column header="Instructor" field="instructorName" />
+                    <Column header="Start Time" field="schedStartTime" />
+                    <Column header="End Time" field="schedEndTime" />
+                    <Column header="Course" field="student_course" />
+                    <Column header="Year" field="student_year" />
+                    <Column header="Section" field="student_section" />
                 </DataTable>
             </div>
 

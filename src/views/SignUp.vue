@@ -91,7 +91,7 @@ const signupInstructor = async () => {
             <div class="signupHeader">
                 <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
                     aria-label="Return" />
-                <text id="signupTitle">Verification</text>
+                <text id="signupTitle">Sign Up</text>
             </div>
             <div class="verificationNote">
                 <Message :closable="false" severity="secondary" icon="pi pi-info-circle" style="background-color: #fce1e6; color: #DD385A;">
@@ -164,7 +164,7 @@ const signupInstructor = async () => {
     color: #DD385A;
     font-size: 33px;
     font-weight: 700;
-    margin-left: 9px;
+    margin-left: 35px;
 }
 
 .verificationNote {

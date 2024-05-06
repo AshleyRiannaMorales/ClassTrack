@@ -3,7 +3,6 @@ import SideBarMenu from "../../components/SideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 import AdminBookingsTable from "../../components/AdminBookingsTable.vue";
 
-
 </script>
 
 <template>
@@ -13,10 +12,7 @@ import AdminBookingsTable from "../../components/AdminBookingsTable.vue";
     <div class="adminBookings-container">
         <span class="greetings">Bookings</span>
 
-        <div class="instructorBookings-buttons">
-
-
-
+        <div class="adminBookings-buttons">
 
 
         </div>

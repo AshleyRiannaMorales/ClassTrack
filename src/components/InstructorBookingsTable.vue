@@ -3,30 +3,33 @@ import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-import { ref } from "vue";
+import { ref, onMounted } from 'vue';
+import axios from "axios";
 
-const booking = ref([
-    {
-        bookingDate: "12 April 2024",
-        bookingStartTime: "14:30",
-        bookingEndTime: "16:00",
-        bookingPurpose: "Web Applications Development 2",
-        labRoom: "203",
-        bookingStatus: "Pending"
-    },
-]);
+const booking = ref(null);
+
+onMounted(async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/booking-requests/newest-to-oldest');
+        console.log('Bookings response data:', response.data);
+
+        booking.value = response.data;
+    } catch (error) {
+        console.error('Error fetching bookings data:', error);
+    }
+});
+
 
 </script>
 
 <template>
     <div class="tableBookings">
         <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
-            <Column field="bookingDate" header="Booking Date" style="color: #DD385A;"></Column>
+            <Column field="computerLabID" header="Room" style="color: #DD385A;"></Column>
             <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
             <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
             <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
-            <Column field="labRoom" header="Lab. Room No." style="color: #DD385A;"></Column>
-            <Column field="bookingStatus" header="Status" style="color: #DD385A;"></Column>
+            <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
             <Column field="" header="" style="color: #DD385A;">
                 <template #body="rowData">
                     <Button icon="pi pi-bars" class="p-button-info" id="detailsButton"/>
