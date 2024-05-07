@@ -1,10 +1,46 @@
 <script setup>
 import router from '../../router';
+import { ref } from 'vue';
+import axios from 'axios';
 
 
 const navigateToHome = () => {
     router.push('/')
 };
+
+const instructorData = ref({
+    instructorEmailorID: '',
+    instructorPass: '',
+});
+
+const loginInstructor = async () => {
+    try {
+        const formData = new FormData();
+        formData.append('IDorEmail', instructorData.value.instructorEmailorID);
+        formData.append('password', instructorData.value.instructorPass);
+
+
+        const response = await axios.post('http://127.0.0.1:8000/api/instructor/login', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+
+        if (response.status === 200) {
+            router.push('/instructordashboard');
+        } else {
+            console.error('Instructor login failed:', response.statusText);
+            throw new Error('Instructor login failed');
+        }
+    } catch (error) {
+        console.error('Error authenticating instructor:', error.response ? error.response.data : error.message);
+        // Display error message to the user
+        alert(error.response.data.detail);
+    }
+};
+
+
 
 
 </script>
@@ -20,31 +56,36 @@ const navigateToHome = () => {
 
     <div class="login-container">
 
-        <div class="loginHeader">
-            <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
+        <form @submit.prevent="loginInstructor">
+
+            <div class="loginHeader">
+                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
                     aria-label="Return" />
-            <text id="loginTitle"> Sign In </text>
-        </div>
+                <text id="loginTitle"> Sign In </text>
+            </div>
 
-        <!-- Email or ID -->
-        <label for="userIDEmail">Email or ID</label>
-        <div class="p-inputgroup">
-            <InputText type="text" />
-        </div>
+            <!-- Email or ID -->
+            <label for="userIDEmail">Email or ID</label>
+            <div class="p-inputgroup">
+                <InputText type="text" v-model="instructorData.instructorEmailorID" class="p-username-input" />
+            </div>
 
-        <!-- Password -->
-        <label for="userPass">Password</label>
-        <div class="p-inputgroup">
-            <Password type="text" />
-        </div>
+            <!-- Password -->
+            <label for="userPass">Password</label>
+            <div class="p-inputgroup">
+                <Password type="text" v-model="instructorData.instructorPass" :feedback="false" class="p-password-input" />
+            </div>
 
-        <Button type="submit" class="loginButton" label="Log In" />
+            <Button type="submit" class="loginButton" label="Log In" />
 
 
-        <div class="noAccount-container">
-            <text id="noAccount">Don't have an account yet?</text>
-            <router-link to="/SignUp"> <text id="signUpLink">Sign Up</text> </router-link>
-        </div>
+            <div class="noAccount-container">
+                <text id="noAccount">Don't have an account yet?</text>
+                <router-link to="/SignUp"> <text id="signUpLink">Sign Up</text> </router-link>
+            </div>
+
+        </form>
+
     </div>
 
 </template>
@@ -131,5 +172,4 @@ label {
 #signUpLink:hover {
     color: #ff8fa5;
 }
-
 </style>
