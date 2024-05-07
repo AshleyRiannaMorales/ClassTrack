@@ -1,10 +1,11 @@
 <script setup>
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
 import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
+import { useToast } from 'primevue/usetoast';
+
+
+const toast = useToast();
 
 const navigateToHome = () => {
     router.push('/');
@@ -16,6 +17,17 @@ const adminData = ref({
 });
 
 const loginAdmin = async () => {
+
+    // Validate input fields
+    if (!adminData.value.adminID || !adminData.value.adminPass ) {
+        toast.add({ 
+        severity: 'error', 
+        summary: 'Login Failed!', 
+        detail: 'Please fill out all fields.', 
+        life: 3000 });
+        return;
+    }
+
     try {
         const formData = new FormData();
         formData.append('admin_id', adminData.value.adminID);
@@ -50,6 +62,8 @@ const loginAdmin = async () => {
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
 
+    <Toast />
+
     <div class="login-container">
         <form @submit.prevent="loginAdmin">
             <div class="loginHeader">
@@ -65,7 +79,7 @@ const loginAdmin = async () => {
             <div class="userPassword">
                 <label for="userPass">Password</label>
                 <div class="p-inputgroup">
-                    <Password type="password" v-model="adminData.adminPass" class="p-password-input" />
+                    <Password type="password" v-model="adminData.adminPass" class="p-password-input" :feedback="false" />
                 </div>
             </div>
             <Button type="submit" class="loginButton" label="Log In" />

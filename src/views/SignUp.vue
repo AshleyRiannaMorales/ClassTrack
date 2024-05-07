@@ -1,13 +1,11 @@
 <script setup>
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import 'primeicons/primeicons.css'
 import { ref } from 'vue';
 import router from '../router';
 import axios from 'axios';
+import { useToast } from 'primevue/usetoast';
 
-import Message from 'primevue/message';
 
+const toast = useToast();
 
 const instructorData = ref({
     instructorEmail: '',
@@ -26,7 +24,11 @@ const signupInstructor = async () => {
 
     // Validate input fields
     if (!instructorData.value.instructorEmail || !instructorData.value.instructorUsername || !instructorData.value.instructorFname || !instructorData.value.instructorLname || !instructorData.value.instructorPass) {
-        alert('Please fill out all required fields.');
+        toast.add({ 
+        severity: 'error', 
+        summary: 'Sign Up Failed', 
+        detail: 'Please fill out all fields.', 
+        life: 3000 });
         return;
     }
 
@@ -47,7 +49,6 @@ const signupInstructor = async () => {
         formData.append('username', instructorData.value.instructorUsername);
         formData.append('fname', instructorData.value.instructorFname);
         formData.append('lname', instructorData.value.instructorLname);
-        formData.append('password', instructorData.value.instructorPass);
 
         const response = await axios.post('http://127.0.0.1:8000/api/signup/instructors', formData, {
             headers: {
@@ -57,7 +58,10 @@ const signupInstructor = async () => {
 
         if (response.status === 200) {
             // Signup successful
-            router.push('/instructordashboard');
+
+
+
+            // router.push('/instructordashboard');
         } else {
             // Handle specific error cases
             const errorData = response.data;
@@ -85,6 +89,7 @@ const signupInstructor = async () => {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
+    <Toast />
 
     <div class="signup-container">
         <form @submit.prevent="signupInstructor">

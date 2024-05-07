@@ -2,6 +2,10 @@
 import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
+import { useToast } from 'primevue/usetoast';
+
+
+const toast = useToast();
 
 
 const navigateToHome = () => {
@@ -14,6 +18,17 @@ const instructorData = ref({
 });
 
 const loginInstructor = async () => {
+
+    // Validate input fields
+    if (!instructorData.value.instructorEmailorID || !instructorData.value.instructorPass ) {
+        toast.add({ 
+        severity: 'error', 
+        summary: 'Login Failed!', 
+        detail: 'Please fill out all fields.', 
+        life: 3000 });
+        return;
+    }
+
     try {
         const formData = new FormData();
         formData.append('IDorEmail', instructorData.value.instructorEmailorID);
@@ -28,7 +43,10 @@ const loginInstructor = async () => {
 
 
         if (response.status === 200) {
+
             router.push('/instructordashboard');
+
+
         } else {
             console.error('Instructor login failed:', response.statusText);
             throw new Error('Instructor login failed');
@@ -54,6 +72,8 @@ const loginInstructor = async () => {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
+    <Toast />
+
     <div class="login-container">
 
         <form @submit.prevent="loginInstructor">
@@ -73,7 +93,8 @@ const loginInstructor = async () => {
             <!-- Password -->
             <label for="userPass">Password</label>
             <div class="p-inputgroup">
-                <Password type="text" v-model="instructorData.instructorPass" :feedback="false" class="p-password-input" />
+                <Password type="text" v-model="instructorData.instructorPass" :feedback="false"
+                    class="p-password-input" />
             </div>
 
             <Button type="submit" class="loginButton" label="Log In" />
