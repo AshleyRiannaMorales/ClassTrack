@@ -12,7 +12,7 @@ const navigateToHome = () => {
 
 const adminData = ref({
     adminID: '',
-    adminPass: ''
+    adminPass: '',
 });
 
 const loginAdmin = async () => {
