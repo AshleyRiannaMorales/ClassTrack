@@ -1,8 +1,4 @@
 <script setup>
-import Button from 'primevue/button';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-
 import { ref, onMounted } from 'vue';
 import axios from "axios";
 
@@ -18,6 +14,11 @@ onMounted(async () => {
         console.error('Error fetching bookings data:', error);
     }
 });
+
+const approveRequest = async () => {
+
+    
+};
 
 
 </script>

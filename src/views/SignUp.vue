@@ -8,11 +8,10 @@ import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 
 const instructorData = ref({
+    instructorID: '',
     instructorEmail: '',
-    instructorUsername: '',
     instructorFname: '',
     instructorLname: '',
-    instructorPass: '',
 });
 
 const navigateToHome = () => {
@@ -23,12 +22,13 @@ const navigateToHome = () => {
 const signupInstructor = async () => {
 
     // Validate input fields
-    if (!instructorData.value.instructorEmail || !instructorData.value.instructorUsername || !instructorData.value.instructorFname || !instructorData.value.instructorLname || !instructorData.value.instructorPass) {
-        toast.add({ 
-        severity: 'error', 
-        summary: 'Sign Up Failed', 
-        detail: 'Please fill out all fields.', 
-        life: 3000 });
+    if (!instructorData.value.instructorID || !instructorData.value.instructorEmail || !instructorData.value.instructorFname || !instructorData.value.instructorLname) {
+        toast.add({
+            severity: 'error',
+            summary: 'Sign Up Failed',
+            detail: 'Please fill out all fields.',
+            life: 3000
+        });
         return;
     }
 
@@ -45,12 +45,12 @@ const signupInstructor = async () => {
 
 
         const formData = new FormData();
-        formData.append('email', instructorData.value.instructorEmail);
-        formData.append('username', instructorData.value.instructorUsername);
-        formData.append('fname', instructorData.value.instructorFname);
-        formData.append('lname', instructorData.value.instructorLname);
+        formData.append('instructorID', instructorData.value.instructorID);
+        formData.append('instructorEmail', instructorData.value.instructorEmail);
+        formData.append('instructorFirstName', instructorData.value.instructorFname);
+        formData.append('instructorLastName', instructorData.value.instructorLname);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/signup/instructors', formData, {
+        const response = await axios.post('http://127.0.0.1:8000/api/verify/instructor', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -59,14 +59,27 @@ const signupInstructor = async () => {
         if (response.status === 200) {
             // Signup successful
 
+            toast.add({
+                severity: 'success',
+                summary: 'Sign Up Successful.',
+                detail: 'Please wait for the approval of the Admin.',
+                life: 3000
+            });
 
+            clearInputs();
 
             // router.push('/instructordashboard');
         } else {
             // Handle specific error cases
             const errorData = response.data;
             if (errorData.error === 'ExistingEmail') {
-                alert('Email already exists. Please use a different email address.');
+
+                toast.add({
+                    severity: 'error',
+                    summary: 'Email already exists.',
+                    detail: 'Please use a different email address.',
+                    life: 3000
+                });
             } else {
                 alert('Signup failed: ' + errorData.error);
             }
@@ -76,6 +89,15 @@ const signupInstructor = async () => {
         // Display error message or handle error
         alert('Error signing up instructor: ' + error.message);
     }
+};
+
+const clearInputs = () => {
+    instructorData.value = {
+        instructorID: '',
+        instructorEmail: '',
+        instructorFname: '',
+        instructorLname: '',
+    };
 };
 
 </script>
@@ -99,10 +121,11 @@ const signupInstructor = async () => {
                 <text id="signupTitle">Sign Up</text>
             </div>
             <div class="verificationNote">
-                <Message :closable="false" severity="secondary" icon="pi pi-info-circle" style="background-color: #fce1e6; color: #DD385A;">
+                <Message :closable="false" severity="secondary" icon="pi pi-info-circle"
+                    style="background-color: #fce1e6; color: #DD385A;">
                     <div class="message-text-container">
-                        <text class="p-message-text">For security, we want to make sure first that 
-                        you are an official UIC Instructor.</text>
+                        <text class="p-message-text">For security, we want to make sure first that
+                            you are an official UIC Instructor.</text>
                     </div>
                 </Message>
 
