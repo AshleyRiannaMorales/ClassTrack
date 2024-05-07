@@ -18,6 +18,7 @@ import Message from 'primevue/message';
 import Card from 'primevue/card'
 import Divider from 'primevue/divider'
 import Password from 'primevue/password';
+import Dialog from 'primevue/dialog';
 
 
 import ConfirmationService from 'primevue/confirmationservice';
@@ -41,6 +42,7 @@ createApp(App)
     .component("Divider",Divider)
     .component("Message",Message)
     .component("Password",Password)
+    .component("Dialog",Dialog)
     .mount('#app')
 
 

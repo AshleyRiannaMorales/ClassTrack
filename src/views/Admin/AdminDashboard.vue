@@ -1,9 +1,7 @@
 <script setup>
-import SideBarMenu from "../../components/SideBarMenu.vue";
+import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
 
 import { ref, computed } from "vue";
 
@@ -37,7 +35,7 @@ const confirmedBookings = computed(() => schedWeek.value.filter(item => item.sta
 </script>
 
 <template>
-    <SideBarMenu />
+    <AdminSideBarMenu />
     <TopBarMenu />
     <div class="adminDashboard-container">
         <span class="greetings">Welcome, Admin!</span>

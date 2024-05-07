@@ -2,12 +2,11 @@
 import SideBarMenu from "../../components/SideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 import InstructorBookingsTable from "../../components/InstructorBookingsTable.vue";
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-
-
-
 import { ref } from 'vue';
+
+
+const visible = ref(false);
+
 
 
 </script>
@@ -22,12 +21,44 @@ import { ref } from 'vue';
         <span class="greetings">Bookings</span>
 
         <!-- Buttons: Sorting, Filtering, Creating Request -->
-
-
         <div class="instructorBookings-buttons">
 
 
-            <Button class="modalButton" label="Book a Schedule" icon="pi pi-plus" />
+            <!-- Button for Dialog Box/Pop Up -->
+            <Button id="bookingButton" @click="visible = true" label="Book a Schedule" icon="pi pi-plus" />
+
+            <!-- Dialog Box/Pop Up for Creating Booking Request -->
+            <Dialog v-model:visible="visible" modal header="Booking Request" style="font-family: 'Inter', sans-serif; color:#DD385A;" :style="{ width: '30rem' }">
+            <span class="p-text-secondary block mb-5">Fill out the details.</span>
+            <div class="fields">
+                <label for="username" class="font-semibold w-6rem">Instructor ID</label>
+                <InputText id="username" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="fields">
+                <label for="email" class="font-semibold w-6rem">Computer Lab. No.</label>
+                <InputText id="email" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="fields">
+                <label for="email" class="font-semibold w-6rem">Booking Date</label>
+                <InputText id="email" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="fields">
+                <label for="email" class="font-semibold w-6rem">Start Time</label>
+                <InputText id="email" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="fields">
+                <label for="email" class="font-semibold w-6rem">End Time</label>
+                <InputText id="email" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="fields">
+                <label for="email" class="font-semibold w-6rem">Purpose</label>
+                <InputText id="email" class="inputBox" autocomplete="off" />
+            </div>
+            <div class="dialogButtons">
+                <Button type="button" id="cancelButton" label="Cancel" severity="secondary" @click="visible = false"></Button>
+                <Button type="button" id="submitButton" label="Submit" @click="visible = false"></Button>
+            </div>
+        </Dialog>
         </div>
 
         <!-- Modal/Popup: Creating Request -->
@@ -59,7 +90,25 @@ import { ref } from 'vue';
     font-weight: 700;
 }
 
-.modalButton {
+#bookingButton {
     background-color: #DD385A;
 }
+
+.fields {
+    margin: 15px 0;
+}
+
+.inputBox {
+    margin-left: 15px;
+}
+
+.dialogButtons {
+    padding-top: 15px;
+}
+
+#submitButton {
+    margin-left: 10px;
+    background-color:#DD385A
+}
+
 </style>

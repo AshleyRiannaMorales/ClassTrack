@@ -1,11 +1,11 @@
 <script setup>
-import SideBarMenu from "../../components/SideBarMenu.vue";
+import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 </script>
 
 <template>
 
-    <SideBarMenu />
+    <AdminSideBarMenu />
     <TopBarMenu />
 
     

@@ -1,12 +1,12 @@
 <script setup>
-import SideBarMenu from "../../components/SideBarMenu.vue";
+import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 import AdminBookingsTable from "../../components/AdminBookingsTable.vue";
 
 </script>
 
 <template>
-    <SideBarMenu />
+    <AdminSideBarMenu />
     <TopBarMenu />
 
     <div class="adminBookings-container">

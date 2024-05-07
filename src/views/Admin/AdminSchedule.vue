@@ -1,5 +1,5 @@
 <script setup>
-import SideBarMenu from "../../components/SideBarMenu.vue";
+import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -28,7 +28,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <SideBarMenu />
+    <AdminSideBarMenu />
     <TopBarMenu />
 
     <div class="adminSched-container">

@@ -24,7 +24,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="/InstructorDashboard">
+                        <router-link to="/AdminDashboard">
                             <img src="../assets/icon-home3.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Dashboard</span>
                         </router-link>
@@ -40,7 +40,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="/InstructorBookings">
+                        <router-link to="/AdminBookings">
                             <img src="../assets/icon-book3.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Bookings</span>
                         </router-link>
@@ -48,7 +48,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to=""> 
+                        <router-link to="AdminSchedule"> 
                             <img src="../assets/icon-sched.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Schedule</span>
                         </router-link>
@@ -161,7 +161,7 @@ i {
     position: relative;
     margin-left: 22px;
     color: white;
-    top: -7.5px;
+    top: -9.5px;
 }
 
 .containerMenuItem:hover {
