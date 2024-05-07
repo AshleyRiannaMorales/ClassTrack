@@ -135,7 +135,7 @@ const signupInstructor = async () => {
 
             <div class="haveAccountContainer">
                 <text id="haveAccount">Already have an account?</text>
-                <router-link to="/instructorlogin"> <text id="logInLink">Log In</text> </router-link>
+                <router-link to="/instructor"> <text id="logInLink">Log In</text> </router-link>
             </div>
 
         </form>

@@ -1,12 +1,7 @@
 <script setup>
 import SideBarMenu from "../../components/SideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
-
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-
 import { ref, computed } from "vue";
-
 
 
 const schedWeek = ref([
@@ -33,6 +28,8 @@ const schedWeek = ref([
 ]);
 
 const confirmedBookings = computed(() => schedWeek.value.filter(item => item.status === "approved").length);
+
+
 </script>
 
 <template>
@@ -42,8 +39,7 @@ const confirmedBookings = computed(() => schedWeek.value.filter(item => item.sta
         <span class="greetings">Welcome, Instructor!</span>
 
         <div id="currentDate">
-            <!-- needs JS -->
-            Date here
+            
         </div>
 
         <div class="overview-container">

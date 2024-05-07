@@ -17,6 +17,8 @@ import InstructorBookings from "../views/Instructor/InstructorBookings.vue";
 import CreateBookingRequest from "../views/CreateBookingRequest.vue";
 
 import Try from "../views/try.vue";
+import Trial from "../views/trial.vue";
+
 
 const routes = [
     { path: "/", component: LandingPage, },
@@ -35,6 +37,7 @@ const routes = [
     { path: "/createbookingrequest", component: CreateBookingRequest, },
 
     { path: "/try", component: Try, },
+    { path: "/trial", component: Trial, },
     
     
     

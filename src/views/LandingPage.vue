@@ -45,7 +45,7 @@ import Button from 'primevue/button';
     </nav>
 
     <!-- Top Button (Login) -->
-    <router-link to="/instructorlogin">
+    <router-link to="/instructor">
       <Button label="Log In" id="button-login" icon="pi pi-user" />
     </router-link>
 
