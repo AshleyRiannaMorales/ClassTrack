@@ -9,34 +9,9 @@ import 'primeicons/primeicons.css'
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <div class="menuWrapper">
-        <ul class="menuDropDown">
-            <li>
-                <div class="list">
-                    <router-link to="">
-                        <i class="pi pi-user"></i>
-                        <span class="profile"> User </span> <i class="pi pi-angle-down"></i>
-                    </router-link>
-                </div>
-                <ul class="dropdown">
-                    <li>
-                        <div class="list">
-                            <router-link to="">
-                                <i class="pi pi-cog"></i>
-                                <span class="settings"> Settings </span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="list">
-                            <router-link to="/">
-                                <i class="pi pi-sign-out"></i>
-                                <span class="signout"> Sign Out </span>
-                            </router-link>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        <router-link to="/">
+            <Button id="signoutButton" label="Log out" icon="pi pi-sign-out" />
+        </router-link>
     </div>
 </template>
 
@@ -47,6 +22,8 @@ import 'primeicons/primeicons.css'
     margin: 0;
     text-decoration: none;
     color: #DD385A;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
 .menuWrapper {
@@ -55,14 +32,21 @@ import 'primeicons/primeicons.css'
     top: 18px;
 }
 
-.profile {
-    padding: 5px;
+#signoutButton {
+    background-color: transparent;
+    padding: 10px;
+    border: none;
 }
+
+#signoutButton:hover {
+    background-color: #fcebeb;
+}
+
 
 ul {
     list-style: none;
     text-align: left;
-    width: 120px;
+    width: 126px;
 }
 
 ul li .list {

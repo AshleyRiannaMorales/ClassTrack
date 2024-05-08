@@ -48,7 +48,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to="AdminSchedule"> 
+                        <router-link to="/AdminSchedule"> 
                             <img src="../assets/icon-sched.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Schedule</span>
                         </router-link>
@@ -56,7 +56,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to=""> 
+                        <router-link to="/users"> 
                             <img src="../assets/icon-users3.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Users</span>
                         </router-link>
