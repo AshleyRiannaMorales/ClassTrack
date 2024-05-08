@@ -15,7 +15,6 @@ import InstructorLogIn from "../views/Instructor/InstructorLogIn.vue"
 import InstructorDashboard from "../views/Instructor/InstructorDashboard.vue";
 import InstructorSchedule from "../views/Instructor/InstructorSchedule.vue";
 import InstructorBookings from "../views/Instructor/InstructorBookings.vue";
-import CreateBookingRequest from "../views/CreateBookingRequest.vue";
 
 import Try from "../views/try.vue";
 import Trial from "../views/trial.vue";
@@ -36,7 +35,6 @@ const routes = [
     { path: "/instructordashboard", component: InstructorDashboard, },
     { path: "/instructorschedule", component: InstructorSchedule, },
     { path: "/instructorbookings", component: InstructorBookings, },
-    { path: "/createbookingrequest", component: CreateBookingRequest, },
 
     { path: "/try", component: Try, },
     { path: "/trial", component: Trial, },
