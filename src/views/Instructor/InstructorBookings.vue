@@ -3,9 +3,23 @@ import SideBarMenu from "../../components/SideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
 import InstructorBookingsTable from "../../components/InstructorBookingsTable.vue";
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
+
+
+const booking = ref(null);
+
+onMounted(async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/booking-requests/newest-to-oldest');
+        console.log('Bookings response data:', response.data);
+
+        booking.value = response.data;
+    } catch (error) {
+        console.error('Error fetching bookings data:', error);
+    }
+});
 
 const toast = useToast();
 
@@ -197,7 +211,21 @@ const clearInputFields = () => {
 
         </div>
 
-        <InstructorBookingsTable />
+        <div class="tableBookings">
+        <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
+            <Column field="computerLabID" header="Room" style="color: #DD385A;"></Column>
+            <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
+            <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
+            <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
+            <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
+            <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
+            <Column field="" header="" style="color: #DD385A;">
+                <template #body="rowData">
+                    <Button icon="pi pi-bars" class="p-button-info" id="detailsButton"/>
+                </template>
+            </Column>
+        </DataTable>
+    </div>
 
     </div>
 
@@ -219,6 +247,10 @@ const clearInputFields = () => {
 .greetings {
     font-size: 40px;
     font-weight: 700;
+}
+
+.instructorBookings-buttons {
+    padding: 15px 0px;
 }
 
 label {
