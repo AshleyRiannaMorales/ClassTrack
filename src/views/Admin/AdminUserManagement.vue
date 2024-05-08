@@ -8,7 +8,7 @@ const userRequest = ref(null);
 
 onMounted(async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/admin/pending_verification');
+        const response = await axios.get('http://127.0.0.1:8000/api/pending_verification');
         console.log('User verification requests data:', response.data);
 
         userRequest.value = response.data;
@@ -43,8 +43,7 @@ const bookSchedule = async () => {
                 <DataTable :value="userRequest" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
                     <Column field="requestID" header="Request ID" style="color: #DD385A;"></Column>
                     <Column field="instructorID" header="Instructor ID" style="color: #DD385A;"></Column>
-                    <Column field="instructorFirstName" header="First Name" style="color: #DD385A;"></Column>
-                    <Column field="instructorLastName" header="Last Name" style="color: #DD385A;"></Column>
+                    <Column field="instructorName" header="Name" style="color: #DD385A;"></Column>
                     <Column field="instructorEmail" header="Email" style="color: #DD385A;"></Column>
                     <Column field="" header="Actions" style="color: #DD385A;">
                         <template #body="rowData">

@@ -13,11 +13,11 @@ const toast = useToast();
 const visible = ref(false);
 
 const rooms = ref([
-    { name: '201', code: '201' },
-    { name: '202', code: '202' },
-    { name: '203', code: '203' },
-    { name: '204', code: '204' },
-    { name: '205', code: '205' }
+    { roomNum: '201' },
+    { roomNum: '202' },
+    { roomNum: '203' },
+    { roomNum: '204' },
+    { roomNum: '205' }
 ]);
 
 
@@ -71,6 +71,7 @@ const bookSchedule = async () => {
             });
             // Submitting booking request successful
             
+            clearInputFields();
             visible.value = false;
         }
     } catch (error) {
@@ -85,8 +86,51 @@ const bookSchedule = async () => {
 };
 
 const submitBookingRequest = () => {
+    // Convert date objects to strings
+    const bookingDate = bookingRequestData.value.bookingDate instanceof Date ? bookingRequestData.value.bookingDate.toLocaleDateString() : bookingRequestData.value.bookingDate;
+    const bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date ? bookingRequestData.value.bookingStartTime.toLocaleTimeString() : bookingRequestData.value.bookingStartTime;
+    const bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date ? bookingRequestData.value.bookingEndTime.toLocaleTimeString() : bookingRequestData.value.bookingEndTime;
+
+    // Convert instructorID to integer
+    const instructorID = parseInt(bookingRequestData.value.instructorID);
+
+    // Convert computerLabID to integer if it's not already
+    let computerLabID = bookingRequestData.value.computerLabID;
+    if (typeof computerLabID === 'object') { // Assuming computerLabID is an object
+        computerLabID = parseInt(computerLabID.roomNum);
+    } else if (typeof computerLabID === 'string') { // Assuming computerLabID is a string
+        computerLabID = parseInt(computerLabID);
+    }
+
+    const bookingPurpose = bookingRequestData.value.bookingPurpose;
+
+    // Update the bookingRequestData object with the modified data
+    bookingRequestData.value = {
+        ...bookingRequestData.value,
+        instructorID,
+        computerLabID,
+        bookingDate,
+        bookingStartTime,
+        bookingEndTime,
+        bookingPurpose
+    };
+
+    // Now the bookingRequestData object contains the modified data
+    console.log("Updated Booking Request Data:", bookingRequestData.value);
+    
     bookSchedule();
 };
+
+const clearInputFields = () => {
+    // Reset all input fields to initial state
+    bookingRequestData.value.instructorID = '';
+    bookingRequestData.value.computerLabID = '';
+    bookingRequestData.value.bookingDate = '';
+    bookingRequestData.value.bookingStartTime = '';
+    bookingRequestData.value.bookingEndTime = '';
+    bookingRequestData.value.bookingPurpose = '';
+};
+
 
 
 </script>
@@ -109,7 +153,6 @@ const submitBookingRequest = () => {
             <Button id="bookingButton" @click="visible = true" label="Book a Schedule" icon="pi pi-plus" />
 
             <!-- Dialog Box/Pop Up for Creating Booking Request -->
-
             <Dialog v-model:visible="visible" modal header="Booking Request" style="font-family: 'Inter', sans-serif;"
                 :style="{ width: '30rem' }">
                 <span class="p-text-secondary block mb-5">Fill out the details.</span>
@@ -121,28 +164,25 @@ const submitBookingRequest = () => {
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Computer Lab. No.</label>
-                        <InputText id="username" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.computerLabID" />
+                        <Dropdown v-model="bookingRequestData.computerLabID" :options="rooms" optionLabel="roomNum" placeholder="Select a Room"
+                            checkmark :highlightOnSelect="false" class="dropdownField" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Booking Date</label>
-                        <InputText id="username" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.bookingDate" />
+                        <Calendar v-model="bookingRequestData.bookingDate" dateFormat="dd/mm/yy" class="calendarField" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Start Time</label>
-                        <InputText id="username" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.bookingStartTime" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingStartTime" timeOnly class="timeField-start" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">End Time</label>
-                        <InputText id="username" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.bookingEndTime" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingEndTime" timeOnly class="timeField-end" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Purpose</label>
-                        <InputText id="email" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.bookingPurpose" />
+                        <InputText id="purpose" class="inputBox" autocomplete="off"
+                            v-model="bookingRequestData.bookingPurpose" placeholder="(e.g., Course Name, Meeting, Event Name)" />
                     </div>
                     <div class="dialogButtons">
                         <Button type="button" id="cancelButton" label="Cancel" severity="secondary"
@@ -211,6 +251,10 @@ label {
 
 .timeField-end {
     margin-left: 15px;
+}
+
+#purpose {
+    width: 320px;
 }
 
 .dialogButtons {
