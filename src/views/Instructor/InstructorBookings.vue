@@ -78,7 +78,7 @@ const bookSchedule = async () => {
         if (response.status === 200) {
             console.log('Data:', bookingRequestData);
 
-            /* toast.add({
+            toast.add({
             severity: 'success',
             summary: 'Submission Success.',
             detail: 'Booking Request sent!',
@@ -86,7 +86,7 @@ const bookSchedule = async () => {
             });
             
             clearInputFields();
-            visible.value = false; */
+            visible.value = false;
         }
     } catch (error) {
         console.error('Error submitting booking request:', error);
