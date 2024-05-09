@@ -7,7 +7,6 @@ import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
 
-
 const booking = ref(null);
 
 onMounted(async () => {
@@ -77,16 +76,17 @@ const bookSchedule = async () => {
 
 
         if (response.status === 200) {
-            toast.add({
+            console.log('Data:', bookingRequestData);
+
+            /* toast.add({
             severity: 'success',
             summary: 'Submission Success.',
             detail: 'Booking Request sent!',
             life: 3000
             });
-            // Submitting booking request successful
             
             clearInputFields();
-            visible.value = false;
+            visible.value = false; */
         }
     } catch (error) {
         console.error('Error submitting booking request:', error);
@@ -101,9 +101,15 @@ const bookSchedule = async () => {
 
 const submitBookingRequest = () => {
     // Convert date objects to strings
-    const bookingDate = bookingRequestData.value.bookingDate instanceof Date ? bookingRequestData.value.bookingDate.toLocaleDateString() : bookingRequestData.value.bookingDate;
-    const bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date ? bookingRequestData.value.bookingStartTime.toLocaleTimeString() : bookingRequestData.value.bookingStartTime;
-    const bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date ? bookingRequestData.value.bookingEndTime.toLocaleTimeString() : bookingRequestData.value.bookingEndTime;
+    const bookingDate = bookingRequestData.value.bookingDate instanceof Date 
+        ? bookingRequestData.value.bookingDate.toISOString().split('T')[0] // Extract YYYY-MM-DD
+        : bookingRequestData.value.bookingDate;
+    const bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date 
+        ? bookingRequestData.value.bookingStartTime.toLocaleTimeString()
+        : bookingRequestData.value.bookingStartTime;
+    const bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date 
+        ? bookingRequestData.value.bookingEndTime.toLocaleTimeString()
+        : bookingRequestData.value.bookingEndTime;
 
     // Convert instructorID to integer
     const instructorID = parseInt(bookingRequestData.value.instructorID);
@@ -187,11 +193,11 @@ const clearInputFields = () => {
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Start Time</label>
-                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingStartTime" timeOnly class="timeField-start" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingStartTime" timeOnly :timeFormat="'HH:mm'" class="timeField-start" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">End Time</label>
-                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingEndTime" timeOnly class="timeField-end" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingEndTime" timeOnly :timeFormat="'HH:mm'" class="timeField-end" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Purpose</label>
@@ -259,6 +265,7 @@ label {
 
 #bookingButton {
     background-color: #DD385A;
+    border: none;
 }
 
 .fields {
@@ -295,6 +302,7 @@ label {
 
 #submitButton {
     margin-left: 10px;
-    background-color: #DD385A
+    background-color: #DD385A;
+    border: none;
 }
 </style>
