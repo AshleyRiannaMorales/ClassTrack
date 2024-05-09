@@ -11,5 +11,5 @@
 > npm install primeicons
 ## 3. Display the Webpage
 - To display the webpage, type:
-- > npm run dev
+> npm run dev
 - Click the localhost link.
