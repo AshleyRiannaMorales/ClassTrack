@@ -1,5 +1,15 @@
-# LabClass Setup Guide
+# LabClass FE Setup Guide
 
-This guide provides a set of instructions to set up the project, LabClass, in your own Visual Studio Code.
-
-## 1. 
+## 1. Clone Repository
+- Create a new folder in your computer.
+- Open your VS Code and go to the terminal and command prompt.
+> git clone https://github.com/AshleyRiannaMorales/LabClass.git
+## 2. Open Repository
+- In your terminal, type the following:
+> cd LabClass
+> npm install primevue
+> npm install primeicons
+## 3. Display the Webpage
+- To display the webpage, type:
+- > npm run dev
+- Click the localhost link.
