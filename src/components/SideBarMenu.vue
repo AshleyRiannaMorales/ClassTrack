@@ -48,7 +48,7 @@ import 'primeicons/primeicons.css'
                 </li>
                 <li>
                     <div class="containerMenuItem">
-                        <router-link to=""> 
+                        <router-link to="/InstructorSchedule"> 
                             <img src="../assets/icon-sched.svg" style="width: 2.1rem; margin-left: -1px">
                             <span class="menuLabel">Schedule</span>
                         </router-link>

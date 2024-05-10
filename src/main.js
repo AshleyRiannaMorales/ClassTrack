@@ -8,6 +8,7 @@ import 'primeicons/primeicons.css';
 
 import router from './router';
 
+
 import PrimeVue from "primevue/config";
 import InputText from 'primevue/inputtext';
 import DataTable from 'primevue/datatable'

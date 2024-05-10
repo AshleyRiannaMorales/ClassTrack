@@ -225,11 +225,6 @@ const clearInputFields = () => {
             <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
             <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
             <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
-            <Column field="" header="" style="color: #DD385A;">
-                <template #body="rowData">
-                    <Button icon="pi pi-bars" class="p-button-info" id="detailsButton"/>
-                </template>
-            </Column>
         </DataTable>
     </div>
 

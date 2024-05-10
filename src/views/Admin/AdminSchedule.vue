@@ -1,25 +1,25 @@
 <script setup>
 import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-
 import { ref, onMounted } from 'vue';
 import axios from "axios";
 
-const mon_semSched = ref(null);
-const tue_semSched = ref(null);
-const wed_semSched = ref(null);
 
+const selectedOption = ref({ option: 'First Semester A.Y. 2023-2024', api: 'newest-to-oldest' });
+const sortOptions = [
+    { option: 'First Semester A.Y. 2023-2024', api: 'newest-to-oldest' },
+    { option: 'Second Semester A.Y. 2022-2023', api: 'oldest-to-newest' }
+];
+
+const semSched = ref(null);
 
 onMounted(async () => {
     try {
         const response = await axios.get('http://127.0.0.1:8000/api/semester-schedules/first-semester');
         console.log('Response data:', response.data);
 
-        mon_semSched.value = mon_semSched.value = response.data.filter(entry => entry.schedDay === "Monday");
-        tue_semSched.value = tue_semSched.value = response.data.filter(entry => entry.schedDay === "Tuesday");
-        wed_semSched.value = wed_semSched.value = response.data.filter(entry => entry.schedDay === "Wednesday");
+        semSched.value = response.data;
+
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -32,57 +32,38 @@ onMounted(async () => {
     <TopBarMenu />
 
     <div class="adminSched-container">
-        <span class="greetings">Schedule</span>
+        <span class="greetings">Semester Schedule</span>
 
-        <!--
-            <div class="addbutton-container">
-                <Button label="Update Schedule"></Button>
-            </div>
-        -->
+        <div class="buttons-container">
+            <label for="dropdown"> Select Semester: </label>
+            <Dropdown id="semDropdown" v-model="selectedOption" :options="sortOptions" optionLabel="option"
+                placeholder="Semester" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
+                @change="fetchData" />
 
-        <div class="weekTables">
+            <Button label="Add a New Schedule" id="updateButton" icon="pi pi-file-edit"></Button>
+        </div>
 
-            <div class="table">
-                
-                <DataTable :value="mon_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Day" field="schedDay"/>
-                    <Column header="Room" field="computerLabID"/>
-                    <Column header="Subject" field="subject" />
-                    <Column header="Instructor" field="instructorName" />
-                    <Column header="Start Time" field="schedStartTime" />
-                    <Column header="End Time" field="schedEndTime" />
-                    <Column header="Course" field="student_course" />
-                    <Column header="Year" field="student_year" />
-                    <Column header="Section" field="student_section" />
-                </DataTable>
 
-                <DataTable :value="tue_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Day" field="schedDay"/>
-                    <Column header="Room" field="computerLabID"/>
-                    <Column header="Subject" field="subject" />
-                    <Column header="Instructor" field="instructorName" />
-                    <Column header="Start Time" field="schedStartTime" />
-                    <Column header="End Time" field="schedEndTime" />
-                    <Column header="Course" field="student_course" />
-                    <Column header="Year" field="student_year" />
-                    <Column header="Section" field="student_section" />
-                </DataTable>
 
-                <DataTable :value="wed_semSched" tableStyle="min-width: 50rem">
-                    <Column header="Day" field="schedDay"/>
-                    <Column header="Room" field="computerLabID"/>
-                    <Column header="Subject" field="subject" />
-                    <Column header="Instructor" field="instructorName" />
-                    <Column header="Start Time" field="schedStartTime" />
-                    <Column header="End Time" field="schedEndTime" />
-                    <Column header="Course" field="student_course" />
-                    <Column header="Year" field="student_year" />
-                    <Column header="Section" field="student_section" />
-                </DataTable>
-            </div>
+
+        <div class="table">
+
+            <DataTable :value="semSched" tableStyle="min-width: 50rem">
+                <Column header="Day" field="schedDay" style="color: #DD385A;" />
+                <Column header="Room" field="computerLabID" style="color: #DD385A;" />
+                <Column header="Subject" field="subject" style="color: #DD385A;" />
+                <Column header="Instructor" field="instructorName" style="color: #DD385A;" />
+                <Column header="Start Time" field="schedStartTime" style="color: #DD385A;" />
+                <Column header="End Time" field="schedEndTime" style="color: #DD385A;" />
+                <Column header="Course" field="student_course" style="color: #DD385A;" />
+                <Column header="Year" field="student_year" style="color: #DD385A;" />
+                <Column header="Section" field="student_section" style="color: #DD385A;" />
+            </DataTable>
 
 
         </div>
+
+
 
     </div>
 
@@ -97,7 +78,6 @@ onMounted(async () => {
 .adminSched-container {
     margin-left: 60px;
     padding: 70px 100px;
-    font-family: 'Inter', sans-serif;
     color: #DD385A;
 }
 
@@ -106,19 +86,25 @@ onMounted(async () => {
     font-weight: 700;
 }
 
-.addbutton-container {
-    margin-top: 10px;
+.buttons-container {
+    margin: 15px 0px;
 }
 
-.weekTables {
-    margin-top: 15px;
+#semDropdown {
+    margin-left: 10px;
+}
+
+
+#updateButton {
+    background-color: #DD385A;
+    border: none;
+    padding: 11px 15px;
+    margin-left: 15px;
 }
 
 .table {
     margin-bottom: 25px;
-}
-
-.monTable {
-    text-align: left;
+    margin-top: 15px;
+    color: #DD385A;
 }
 </style>
