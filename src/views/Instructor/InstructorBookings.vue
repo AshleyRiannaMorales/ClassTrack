@@ -1,29 +1,43 @@
 <script setup>
 import SideBarMenu from "../../components/SideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
-import InstructorBookingsTable from "../../components/InstructorBookingsTable.vue";
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
 
+const selectedSortOption = ref({ option: 'Recently Created', api: 'newest-to-oldest' });
+const sortOptions = [
+    { option: 'Recently Created', api: 'newest-to-oldest' },
+    { option: 'Previously Created', api: 'oldest-to-newest' }
+];
+
+
+const selectedFilterOption = ref(null);
+const filterOptions = [
+    { status: 'Pending' }, 
+    { status: 'Approved' },
+    { status: 'Rejected' },
+];
+
 const booking = ref(null);
 
-onMounted(async () => {
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/booking-requests/newest-to-oldest');
-        console.log('Bookings response data:', response.data);
+onMounted(fetchData);
 
+async function fetchData() {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/booking-requests/${selectedSortOption.value.api}`);
+        console.log('Bookings response data:', response.data);
         booking.value = response.data;
     } catch (error) {
         console.error('Error fetching bookings data:', error);
     }
-});
+}
 
 const toast = useToast();
 
 
-const visible = ref(false);
+const reqVisible = ref(false); // For Dialog: Creating a Booking Request
 
 const rooms = ref([
     { roomNum: '201' },
@@ -79,12 +93,12 @@ const bookSchedule = async () => {
             console.log('Data:', bookingRequestData);
 
             toast.add({
-            severity: 'success',
-            summary: 'Submission Success.',
-            detail: 'Booking Request sent!',
-            life: 3000
+                severity: 'success',
+                summary: 'Submission Success.',
+                detail: 'Booking Request sent!',
+                life: 3000
             });
-            
+
             clearInputFields();
             visible.value = false;
         }
@@ -101,15 +115,21 @@ const bookSchedule = async () => {
 
 const submitBookingRequest = () => {
     // Convert date objects to strings
-    const bookingDate = bookingRequestData.value.bookingDate instanceof Date 
+    const bookingDate = bookingRequestData.value.bookingDate instanceof Date
         ? bookingRequestData.value.bookingDate.toISOString().split('T')[0] // Extract YYYY-MM-DD
         : bookingRequestData.value.bookingDate;
-    const bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date 
+
+    // Convert start time to 24-hour format
+    let bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date
         ? bookingRequestData.value.bookingStartTime.toLocaleTimeString()
         : bookingRequestData.value.bookingStartTime;
-    const bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date 
+    bookingStartTime = convertTo24HourFormat(bookingStartTime); // Convert to 24-hour format
+
+    // Convert end time to 24-hour format
+    let bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date
         ? bookingRequestData.value.bookingEndTime.toLocaleTimeString()
         : bookingRequestData.value.bookingEndTime;
+    bookingEndTime = convertTo24HourFormat(bookingEndTime); // Convert to 24-hour format
 
     // Convert instructorID to integer
     const instructorID = parseInt(bookingRequestData.value.instructorID);
@@ -137,7 +157,7 @@ const submitBookingRequest = () => {
 
     // Now the bookingRequestData object contains the modified data
     console.log("Updated Booking Request Data:", bookingRequestData.value);
-    
+
     bookSchedule();
 };
 
@@ -151,7 +171,32 @@ const clearInputFields = () => {
     bookingRequestData.value.bookingPurpose = '';
 };
 
+// Function to convert time to 24-hour format
+const convertTo24HourFormat = (timeString) => {
+    const [time, modifier] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+        hours = '00';
+    }
+    if (modifier === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+    }
+    return `${hours}:${minutes}`;
+};
 
+const getStatusColor = (rowData) => {
+    const status = rowData.bookingReqStatus;
+    switch (status) {
+        case 'Pending':
+            return { color: 'orange' }; // Set text color to orange for Pending status
+        case 'Approved':
+            return { color: 'green' }; // Set text color to green for Approved status
+        case 'Rejected':
+            return { color: 'red' }; // Set text color to red for Rejected status
+        default:
+            return {}; // Default text color
+    }
+};
 
 </script>
 
@@ -168,13 +213,32 @@ const clearInputFields = () => {
         <!-- Buttons: Sorting, Filtering, Creating Request -->
         <div class="instructorBookings-buttons">
 
+            
+
+            <span class="sortButton">
+                <label for="dropdown" id="sortLabel"> Sort By: </label>
+                <Dropdown id="sort" v-model="selectedSortOption" :options="sortOptions" optionLabel="option"
+                    placeholder="Date" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
+                    @change="fetchData" />
+            </span>
+
+            <span class="filterButton">
+                <label for="dropdown" id="filterLabel"> Filter: </label>
+                <Dropdown id="sort" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
+                    placeholder="Status" checkmark :highlightOnSelect="false" showClear class="w-full md:w-14rem"
+                    @change="fetchData" />
+            </span>
+
+            <span class="clearFilterButton">
+                <Button icon="pi pi-filter-slash"></Button>
+            </span>
 
             <!-- Button for Dialog Box/Pop Up -->
-            <Button id="bookingButton" @click="visible = true" label="Book a Schedule" icon="pi pi-plus" />
+            <Button id="bookingButton" @click="reqVisible = true" label="Book a Schedule" icon="pi pi-pencil" />
 
             <!-- Dialog Box/Pop Up for Creating Booking Request -->
-            <Dialog v-model:visible="visible" modal header="Booking Request" style="font-family: 'Inter', sans-serif;"
-                :style="{ width: '30rem' }">
+            <Dialog v-model:visible="reqVisible" modal header="Booking Request"
+                style="font-family: 'Inter', sans-serif;" :style="{ width: '30rem' }">
                 <span class="p-text-secondary block mb-5">Fill out the details.</span>
                 <form @submit.prevent="bookSchedule">
                     <div class="fields">
@@ -184,49 +248,51 @@ const clearInputFields = () => {
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Computer Lab. No.</label>
-                        <Dropdown v-model="bookingRequestData.computerLabID" :options="rooms" optionLabel="roomNum" placeholder="Select a Room"
-                            checkmark :highlightOnSelect="false" class="dropdownField" />
+                        <Dropdown v-model="bookingRequestData.computerLabID" :options="rooms" optionLabel="roomNum"
+                            placeholder="Select a Room" checkmark :highlightOnSelect="false" class="dropdownField" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Booking Date</label>
-                        <Calendar v-model="bookingRequestData.bookingDate" dateFormat="dd/mm/yy" class="calendarField" />
+                        <Calendar v-model="bookingRequestData.bookingDate" dateFormat="dd/mm/yy"
+                            class="calendarField" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Start Time</label>
-                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingStartTime" timeOnly :timeFormat="'HH:mm'" class="timeField-start" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingStartTime" timeOnly
+                            :timeFormat="'HH:mm'" hourFormat="12" class="timeField-start" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">End Time</label>
-                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingEndTime" timeOnly :timeFormat="'HH:mm'" class="timeField-end" />
+                        <Calendar id="calendar-timeonly" v-model="bookingRequestData.bookingEndTime" timeOnly
+                            :timeFormat="'HH:mm'" hourFormat="12" class="timeField-end" />
                     </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Purpose</label>
                         <InputText id="purpose" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.bookingPurpose" placeholder="(e.g., Course Name, Meeting, Event Name)" />
+                            v-model="bookingRequestData.bookingPurpose"
+                            placeholder="(e.g., Course Name, Meeting, Event Name)" />
                     </div>
                     <div class="dialogButtons">
                         <Button type="button" id="cancelButton" label="Cancel" severity="secondary"
                             @click="visible = false"></Button>
-                            <Button type="button" id="submitButton" label="Submit" @click="submitBookingRequest"></Button>
+                        <Button type="button" id="submitButton" label="Submit" @click="submitBookingRequest"></Button>
                     </div>
                 </form>
 
             </Dialog>
-
-
-
         </div>
 
+
         <div class="tableBookings">
-        <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
-            <Column field="computerLabID" header="Room" style="color: #DD385A;"></Column>
-            <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
-            <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
-            <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
-            <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
-            <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
-        </DataTable>
-    </div>
+            <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
+                <Column field="computerLabID" header="Room" style="color: #DD385A;"></Column>
+                <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
+                <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
+                <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
+                <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
+                <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
+            </DataTable>
+        </div>
 
     </div>
 
@@ -258,9 +324,23 @@ label {
     font-weight: 500;
 }
 
+.filterButton {
+    margin-left: 15px;
+}
+
+#sortLabel {
+    font-weight: 400;
+}
+
+#filterLabel {
+    font-weight: 400;
+}
+
 #bookingButton {
     background-color: #DD385A;
     border: none;
+    padding: 10px 15px;
+    margin-left: 25px;
 }
 
 .fields {

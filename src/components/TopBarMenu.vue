@@ -27,7 +27,7 @@ import 'primeicons/primeicons.css'
 }
 
 .menuWrapper {
-    position: fixed;
+    position: absolute;
     right: 30px;
     top: 18px;
 }
