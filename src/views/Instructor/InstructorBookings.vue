@@ -15,12 +15,12 @@ const sortOptions = [
 
 const selectedFilterOption = ref(null);
 const filterOptions = [
-    { status: 'Pending' }, 
+    { status: 'Pending' },
     { status: 'Approved' },
     { status: 'Rejected' },
 ];
 
-const booking = ref(null);
+const booking = ref();
 
 onMounted(fetchData);
 
@@ -232,6 +232,21 @@ const cancelBookingRequest = async (bookingRequestId) => {
     }
 };
 
+const getTextColorStyle = (status) => {
+    switch (status) {
+        case 'Approved':
+            return { color: 'green', fontWeight: '600' }; // Change text color to green for Approved
+        case 'Pending':
+            return { color: 'orange', fontWeight: '600' }; // Change text color to orange for Pending
+        case 'Rejected':
+            return { color: 'red', fontWeight: '600' }; // Change text color to red for Rejected
+        case 'Cancelled':
+            return { color: 'gray', fontWeight: '600' }; // Change text color to gray for Cancelled
+        default:
+            return null;
+    }
+};
+
 </script>
 
 <template>
@@ -247,7 +262,7 @@ const cancelBookingRequest = async (bookingRequestId) => {
         <!-- Buttons: Sorting, Filtering, Creating Request -->
         <div class="instructorBookings-buttons">
 
-            
+
 
             <span class="sortButton">
                 <label for="dropdown" id="sortLabel"> Sort By: </label>
@@ -319,15 +334,22 @@ const cancelBookingRequest = async (bookingRequestId) => {
 
         <div class="tableBookings">
             <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
-                <Column field="computerLabID" header="Room" style="color: #DD385A;"></Column>
+                <Column field="computerLabID" header="Room" style="color: #DD385A; height: 70px"></Column>
                 <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
                 <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
                 <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
                 <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
-                <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
+                <Column field="bookingReqStatus" header="Status" style="color: #DD385A;">
+                    <template #body="slotProps">
+                        <span :style="getTextColorStyle(slotProps.data.bookingReqStatus)">
+                            {{ slotProps.data.bookingReqStatus }}
+                        </span>
+                    </template>
+                </Column>
                 <Column header="Actions" style="color: #DD385A;">
                     <template #body="slotProps">
-                        <Button label="Cancel" icon="pi pi-times" class="p-button-danger" id="cancelRequestButton"
+                        <Button v-if="slotProps.data.bookingReqStatus !== 'Approved'" label="Cancel" icon="pi pi-times"
+                            class="p-button-danger" id="cancelRequestButton"
                             :disabled="slotProps.data.bookingReqStatus === 'Cancelled'"
                             @click="cancelBookingRequest(slotProps.data.bookingRequestID)" />
                     </template>
@@ -439,6 +461,7 @@ label {
 
 #cancelRequestButton:disabled {
     background-color: #dcdcdc;
+    color: #545454;
     cursor: not-allowed;
 }
 

@@ -22,6 +22,8 @@ import Password from 'primevue/password';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
+import Tag from 'primevue/tag';
+
 
 
 
@@ -49,6 +51,7 @@ createApp(App)
     .component("Dialog",Dialog)
     .component("Dropdown",Dropdown)
     .component("Calendar",Calendar)
+    .component("Tag",Tag)
     .mount('#app')
 
 
