@@ -4,7 +4,10 @@ import TopBarMenu from "../../components/TopBarMenu.vue";
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from "primevue/useconfirm";
 
+const toast = useToast();
+const confirm = useConfirm();
 
 const selectedSortOption = ref({ option: 'Recently Created', api: 'newest-to-oldest' });
 const sortOptions = [
@@ -54,8 +57,6 @@ const applyFilter = () => {
 
     console.log('Filtered Bookings:', filteredBookings.value);
 };
-
-const toast = useToast();
 
 
 const reqVisible = ref(false); // For Dialog: Creating a Booking Request
@@ -253,6 +254,26 @@ const cancelBookingRequest = async (bookingRequestId) => {
     }
 };
 
+const confirmCancel = (bookingRequestId) => {
+    confirm.require({
+        group: 'templating',
+        header: 'Confirmation',
+        message: 'Are you sure you want to cancel this booking?',
+        rejectClass: 'p-button-outlined p-button-sm',
+        acceptClass: 'p-button-sm',
+        rejectLabel: 'No',
+        acceptLabel: 'Yes',
+        accept: () => {
+            cancelBookingRequest(bookingRequestId);
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Cancelled.', detail: 'You have cancelled the action.', life: 3000 });
+        }
+    });
+
+};
+
+
 const getTextColorStyle = (status) => {
     switch (status) {
         case 'Approved':
@@ -276,14 +297,23 @@ const getTextColorStyle = (status) => {
     <TopBarMenu />
     <Toast />
 
+    <div class="p-confirm-dialog">
+        <ConfirmDialog group="templating">
+            <template #message="slotProps">
+                <div class="custom-dialog">
+                    <p>{{ slotProps.message.message }}</p>
+                </div>
+            </template>
+        </ConfirmDialog>
+    </div>
+
+
     <div class="instructorBookings-container">
 
         <span class="greetings">Bookings</span>
 
         <!-- Buttons: Sorting, Filtering, Creating Request -->
         <div class="instructorBookings-buttons">
-
-
 
             <span class="sortButton">
                 <label for="dropdown" id="sortLabel"> Sort By: </label>
@@ -368,7 +398,7 @@ const getTextColorStyle = (status) => {
                         <Button v-if="slotProps.data.bookingReqStatus !== 'Approved'" label="Cancel" icon="pi pi-times"
                             class="p-button-danger" id="cancelRequestButton"
                             :disabled="slotProps.data.bookingReqStatus === 'Cancelled'"
-                            @click="cancelBookingRequest(slotProps.data.bookingRequestID)" />
+                            @click="confirmCancel(slotProps.data.bookingRequestID)" />
                     </template>
                 </Column>
             </DataTable>
@@ -481,4 +511,10 @@ label {
     color: #545454;
     cursor: not-allowed;
 }
+
+.custom-dialog {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
 </style>
