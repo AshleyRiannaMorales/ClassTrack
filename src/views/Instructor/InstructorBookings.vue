@@ -196,24 +196,32 @@ const cancelBookingRequest = async (bookingRequestId) => {
                 life: 3000
             });
             // Update the booking status in the local state
-            const bookingItem = booking.value.find(b => b.bookingRequestID === bookingRequestId);
-            if (bookingItem) {
-                bookingItem.bookingReqStatus = 'Cancelled';
+            const booking = bookings.value.find(b => b.bookingRequestID === bookingRequestId);
+            if (booking) {
+                booking.bookingReqStatus = 'Cancelled';
             }
             fetchData(); // Refresh the bookings list
         }
     } catch (error) {
-        if (error.response && error.response.status === 500) {
-            const errorMessage = `Error cancelling booking request: ${error.response.data.detail}`;
-            console.error(errorMessage);
-            toast.add({
-                severity: 'error',
-                summary: 'Cancellation Error.',
-                detail: 'Booking request is already approved and cannot be cancelled.',
-                life: 3000
-            });
+        console.error('Error cancelling booking request:', error);
+        if (error.response) {
+            // Check the status code and display appropriate toast message
+            if (error.response.status === 400) {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Cancellation Warning.',
+                    detail: `${error.response.data.detail}.`,
+                    life: 3000
+                });
+            } else {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Cancellation Error.',
+                    detail: 'Error cancelling booking request. Please try again later.',
+                    life: 3000
+                });
+            }
         } else {
-            console.error('Error cancelling booking request:', error);
             toast.add({
                 severity: 'error',
                 summary: 'Cancellation Error.',
