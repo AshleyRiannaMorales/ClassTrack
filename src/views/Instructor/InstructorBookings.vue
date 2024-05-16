@@ -13,16 +13,22 @@ const sortOptions = [
 ];
 
 
-const selectedFilterOption = ref(null);
+const selectedFilterOption = ref({ status: 'All' });
 const filterOptions = [
+    { status: 'All' },
     { status: 'Pending' },
     { status: 'Approved' },
+    { status: 'Cancelled' },
     { status: 'Rejected' },
 ];
 
 const booking = ref();
 
-onMounted(fetchData);
+onMounted(() => {
+    fetchData().then(() => {
+        applyFilter();
+    });
+});
 
 async function fetchData() {
     try {
@@ -33,6 +39,22 @@ async function fetchData() {
         console.error('Error fetching bookings data:', error);
     }
 }
+
+const filteredBookings = ref([]);
+const applyFilter = () => {
+    console.log('Selected Filter Option:', selectedFilterOption.value);
+
+    // Check if a status filter option is selected
+    if (selectedFilterOption.value.status !== 'All') {
+        // Filter the bookings based on the selected status
+        filteredBookings.value = booking.value.filter(booking => booking.bookingReqStatus === selectedFilterOption.value.status);
+    } else {
+        // If 'All' status filter option is selected, show all bookings
+        filteredBookings.value = booking.value;
+    }
+
+    console.log('Filtered Bookings:', filteredBookings.value);
+};
 
 const toast = useToast();
 
@@ -196,9 +218,9 @@ const cancelBookingRequest = async (bookingRequestId) => {
                 life: 3000
             });
             // Update the booking status in the local state
-            const booking = bookings.value.find(b => b.bookingRequestID === bookingRequestId);
-            if (booking) {
-                booking.bookingReqStatus = 'Cancelled';
+            const cancelledBooking = booking.value.find(b => b.bookingRequestID === bookingRequestId);
+            if (cancelledBooking) {
+                cancelledBooking.bookingReqStatus = 'Cancelled';
             }
             fetchData(); // Refresh the bookings list
         }
@@ -272,14 +294,10 @@ const getTextColorStyle = (status) => {
             </span>
 
             <span class="filterButton">
-                <label for="dropdown" id="filterLabel"> Filter: </label>
+                <label for="dropdown" id="filterLabel"> Status: </label>
                 <Dropdown id="sort" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
                     placeholder="Status" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
-                    @change="fetchData" />
-            </span>
-
-            <span class="clearFilterButton">
-                <Button icon="pi pi-filter-slash" id="clearFilters"></Button>
+                    @change="applyFilter" />
             </span>
 
             <!-- Button for Dialog Box/Pop Up -->
@@ -333,7 +351,7 @@ const getTextColorStyle = (status) => {
 
 
         <div class="tableBookings">
-            <DataTable :value="booking" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
+            <DataTable :value="filteredBookings" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
                 <Column field="computerLabID" header="Room" style="color: #DD385A; height: 70px"></Column>
                 <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
                 <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
@@ -464,5 +482,4 @@ label {
     color: #545454;
     cursor: not-allowed;
 }
-
 </style>
