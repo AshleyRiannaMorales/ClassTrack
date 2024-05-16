@@ -46,7 +46,6 @@ const applyFilter = () => {
 
     // Check if a status filter option is selected
     if (selectedFilterOption.value.status !== 'All') {
-        // Filter the bookings based on the selected status
         filteredBookings.value = booking.value.filter(booking => booking.bookingReqStatus === selectedFilterOption.value.status);
     } else {
         // If 'All' status filter option is selected, show all bookings
