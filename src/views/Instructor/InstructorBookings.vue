@@ -100,7 +100,7 @@ const bookSchedule = async () => {
             });
 
             clearInputFields();
-            visible.value = false;
+            reqVisible.value = false;
         }
     } catch (error) {
         console.error('Error submitting booking request:', error);
@@ -184,17 +184,43 @@ const convertTo24HourFormat = (timeString) => {
     return `${hours}:${minutes}`;
 };
 
-const getStatusColor = (rowData) => {
-    const status = rowData.bookingReqStatus;
-    switch (status) {
-        case 'Pending':
-            return { color: 'orange' }; // Set text color to orange for Pending status
-        case 'Approved':
-            return { color: 'green' }; // Set text color to green for Approved status
-        case 'Rejected':
-            return { color: 'red' }; // Set text color to red for Rejected status
-        default:
-            return {}; // Default text color
+const cancelBookingRequest = async (bookingRequestId) => {
+    console.log("Booking Request ID to cancel:", bookingRequestId); // Log for debugging
+    try {
+        const response = await axios.put(`http://127.0.0.1:8000/api/booking-requests/${bookingRequestId}/cancel`);
+        if (response.status === 200) {
+            toast.add({
+                severity: 'success',
+                summary: 'Cancellation Success.',
+                detail: 'Booking request cancelled successfully!',
+                life: 3000
+            });
+            // Update the booking status in the local state
+            const bookingItem = booking.value.find(b => b.bookingRequestID === bookingRequestId);
+            if (bookingItem) {
+                bookingItem.bookingReqStatus = 'Cancelled';
+            }
+            fetchData(); // Refresh the bookings list
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 500) {
+            const errorMessage = `Error cancelling booking request: ${error.response.data.detail}`;
+            console.error(errorMessage);
+            toast.add({
+                severity: 'error',
+                summary: 'Cancellation Error.',
+                detail: 'Booking request is already approved and cannot be cancelled.',
+                life: 3000
+            });
+        } else {
+            console.error('Error cancelling booking request:', error);
+            toast.add({
+                severity: 'error',
+                summary: 'Cancellation Error.',
+                detail: 'Error cancelling booking request. Please try again later.',
+                life: 3000
+            });
+        }
     }
 };
 
@@ -225,12 +251,12 @@ const getStatusColor = (rowData) => {
             <span class="filterButton">
                 <label for="dropdown" id="filterLabel"> Filter: </label>
                 <Dropdown id="sort" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
-                    placeholder="Status" checkmark :highlightOnSelect="false" showClear class="w-full md:w-14rem"
+                    placeholder="Status" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
                     @change="fetchData" />
             </span>
 
             <span class="clearFilterButton">
-                <Button icon="pi pi-filter-slash"></Button>
+                <Button icon="pi pi-filter-slash" id="clearFilters"></Button>
             </span>
 
             <!-- Button for Dialog Box/Pop Up -->
@@ -291,6 +317,13 @@ const getStatusColor = (rowData) => {
                 <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
                 <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
                 <Column field="bookingReqStatus" header="Status" style="color: #DD385A;"></Column>
+                <Column header="Actions" style="color: #DD385A;">
+                    <template #body="slotProps">
+                        <Button label="Cancel" icon="pi pi-times" class="p-button-danger" id="cancelRequestButton"
+                            :disabled="slotProps.data.bookingReqStatus === 'Cancelled'"
+                            @click="cancelBookingRequest(slotProps.data.bookingRequestID)" />
+                    </template>
+                </Column>
             </DataTable>
         </div>
 
@@ -336,11 +369,20 @@ label {
     font-weight: 400;
 }
 
+#clearFilters {
+    background-color: white;
+    color: #6C757D;
+    border-style: solid;
+    border-color: #CED4DA;
+    padding: 10px 15px;
+    margin-left: 10px;
+}
+
 #bookingButton {
     background-color: #DD385A;
     border: none;
     padding: 10px 15px;
-    margin-left: 25px;
+    margin-left: 40px;
 }
 
 .fields {
@@ -380,4 +422,16 @@ label {
     background-color: #DD385A;
     border: none;
 }
+
+#cancelRequestButton {
+    background-color: #cf4545;
+    color: #ffffff;
+    border: none;
+}
+
+#cancelRequestButton:disabled {
+    background-color: #dcdcdc;
+    cursor: not-allowed;
+}
+
 </style>

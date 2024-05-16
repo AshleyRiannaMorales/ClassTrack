@@ -71,7 +71,7 @@ onMounted(async () => {
 <style scoped>
 * {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .instructorSched-container {

@@ -47,8 +47,14 @@ const loginAdmin = async () => {
         }
     } catch (error) {
         console.error('Error authenticating admin:', error.response ? error.response.data : error.message);
+        
         // Display error message to the user
-        alert(error.response.data.detail);
+        toast.add({ 
+        severity: 'error', 
+        summary: 'Login Failed!', 
+        detail: (error.response.data.detail),
+        life: 3000 });
+        return;
     }
 };
 </script>
@@ -133,6 +139,7 @@ label {
     background-color: #DD385A;
     color: white;
     width: 100%;
+    border: none;
 }
 
 .loginButton:hover {

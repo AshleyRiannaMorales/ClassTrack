@@ -118,7 +118,7 @@ const clearInputs = () => {
             <div class="signupHeader">
                 <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
                     aria-label="Return" />
-                <text id="signupTitle">Sign Up</text>
+                <text id="signupTitle">Verification</text>
             </div>
             <div class="verificationNote">
                 <Message :closable="false" severity="secondary" icon="pi pi-info-circle"
@@ -192,7 +192,7 @@ const clearInputs = () => {
     color: #DD385A;
     font-size: 33px;
     font-weight: 700;
-    margin-left: 35px;
+    margin-left: 13px;
 }
 
 .verificationNote {
@@ -230,6 +230,7 @@ label {
     background-color: #DD385A;
     color: white;
     width: 100%;
+    border-color: transparent;
 }
 
 .signupButton:hover {
