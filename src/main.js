@@ -25,6 +25,8 @@ import Tag from 'primevue/tag';
 import Textarea from 'primevue/textarea';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import Menu from 'primevue/menu';
+
 
 
 
@@ -58,6 +60,7 @@ createApp(App)
     .component("Textarea",Textarea)
     .component("IconField",IconField)
     .component("InputIcon",InputIcon)
+    .component("Menu",Menu)
     .mount('#app')
 
 

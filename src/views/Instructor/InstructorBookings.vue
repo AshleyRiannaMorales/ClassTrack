@@ -1,6 +1,6 @@
 <script setup>
 import SideBarMenu from "../../components/SideBarMenu.vue";
-import TopBarMenu from "../../components/TopBarMenu.vue";
+import InstructorTopBar from "../../components/InstructorTopBar.vue";
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
@@ -30,20 +30,23 @@ const filterOptions = [
 const booking = ref();
 
 onMounted(() => {
-    fetchData().then(() => {
-        applyFilter();
-    });
+    fetchData(selectedSortOption.value.api);
 });
 
-async function fetchData() {
+async function fetchData(sortOption = selectedSortOption.value.api) {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/booking-requests/${selectedSortOption.value.api}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/booking-requests/${sortOption}`);
         console.log('Bookings response data:', response.data);
         booking.value = response.data;
+        applyFilter(); // Apply filter after fetching data
     } catch (error) {
         console.error('Error fetching bookings data:', error);
     }
 }
+
+const handleSortChange = () => {
+    fetchData(selectedSortOption.value.api);
+};
 
 const filteredBookings = ref([]);
 const applyFilter = () => {
@@ -296,7 +299,7 @@ const getTextColorStyle = (status) => {
 <template>
 
     <SideBarMenu />
-    <TopBarMenu />
+    <InstructorTopBar />
     <Toast />
 
     <!-- Confirmation Dialog for Cancelling Request -->
@@ -322,7 +325,7 @@ const getTextColorStyle = (status) => {
                 <label for="dropdown" id="sortLabel"> Sort By: </label>
                 <Dropdown id="sort" v-model="selectedSortOption" :options="sortOptions" optionLabel="option"
                     placeholder="Date" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
-                    @change="fetchData" />
+                    @change="handleSortChange" />
             </span>
 
             <span class="filterButton">

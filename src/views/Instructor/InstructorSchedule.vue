@@ -1,6 +1,6 @@
 <script setup>
 import SideBarMenu from "../../components/SideBarMenu.vue";
-import TopBarMenu from "../../components/TopBarMenu.vue";
+import InstructorTopBar from "../../components/InstructorTopBar.vue";
 import { ref, onMounted } from 'vue';
 import axios from "axios";
 
@@ -29,7 +29,7 @@ onMounted(async () => {
 
 <template>
     <SideBarMenu />
-    <TopBarMenu />
+    <InstructorTopBar />
 
     <div class="instructorSched-container">
 

@@ -18,9 +18,7 @@ const navigateToHome = () => {
     router.push('/');
 };
 
-
 const signupInstructor = async () => {
-
     // Validate input fields
     if (!instructorData.value.instructorID || !instructorData.value.instructorEmail || !instructorData.value.instructorFname || !instructorData.value.instructorLname) {
         toast.add({
@@ -35,13 +33,16 @@ const signupInstructor = async () => {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(instructorData.value.instructorEmail)) {
-        alert('Please enter a valid email address.');
+        toast.add({
+            severity: 'error',
+            summary: 'Invalid Email',
+            detail: 'Please enter a valid email address.',
+            life: 3000
+        });
         return;
     }
 
     try {
-
-
         const formData = new FormData();
         formData.append('instructorID', instructorData.value.instructorID);
         formData.append('instructorEmail', instructorData.value.instructorEmail);
@@ -56,36 +57,43 @@ const signupInstructor = async () => {
 
         if (response.status === 200) {
             // Signup successful
-
             toast.add({
                 severity: 'success',
                 summary: 'Sign Up Successful.',
                 detail: 'Please wait for the approval of the Admin.',
                 life: 3000
             });
-
             clearInputs();
-
-            
-        } else {
-            // Handle specific error cases
-            const errorData = response.data;
-            if (errorData.error === 'ExistingEmail') {
-
-                toast.add({
-                    severity: 'error',
-                    summary: 'Email already exists.',
-                    detail: 'Please use a different email address.',
-                    life: 3000
-                });
-            } else {
-                alert('Signup failed: ' + errorData.error);
-            }
         }
     } catch (error) {
         console.error('Error signing up instructor:', error);
-        // Display error message or handle error
-        alert('Error signing up instructor: ' + error.message);
+        if (error.response) {
+            const status = error.response.status;
+            const detail = error.response.data.detail;
+
+            if (status === 400 && detail === "Instructor credentials not found in our database. Try contacting the School Administrator if you think this is a mistake.") {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Credentials Not Found',
+                    detail: detail,
+                    life: 3000
+                });
+            } else {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Sign Up Failed',
+                    detail: detail || 'Error creating account. Please try again later.',
+                    life: 3000
+                });
+            }
+        } else {
+            toast.add({
+                severity: 'error',
+                summary: 'Sign Up Failed',
+                detail: 'Error creating account. Please try again later.',
+                life: 3000
+            });
+        }
     }
 };
 
@@ -97,16 +105,11 @@ const clearInputs = () => {
         instructorLname: '',
     };
 };
-
 </script>
 
-
 <template>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Inter:wght@400;500;700;900&family=Lexend&family=Poppins:wght@400;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&family=Inter:wght@400;500;700;900&family=Lexend&family=Poppins:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.cdnfonts.com/css/cocogoose" rel="stylesheet">
 
     <Toast />
@@ -114,19 +117,15 @@ const clearInputs = () => {
     <div class="signup-container">
         <form @submit.prevent="signupInstructor">
             <div class="signupHeader">
-                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded
-                    aria-label="Return" />
+                <Button icon="pi pi-chevron-left" class="backButton" @click="navigateToHome" text rounded aria-label="Return" />
                 <text id="signupTitle">Verification</text>
             </div>
             <div class="verificationNote">
-                <Message :closable="false" severity="secondary" icon="pi pi-info-circle"
-                    style="background-color: #fce1e6; color: #DD385A;">
+                <Message :closable="false" severity="secondary" icon="pi pi-info-circle" style="background-color: #fce1e6; color: #DD385A;">
                     <div class="message-text-container">
-                        <text class="p-message-text">For security, we want to make sure first that
-                            you are an official UIC Instructor.</text>
+                        <text class="p-message-text">For security, we want to make sure first that you are an official UIC Instructor.</text>
                     </div>
                 </Message>
-
             </div>
 
             <div class="instructorID">
@@ -163,11 +162,10 @@ const clearInputs = () => {
                 <text id="haveAccount">Already have an account?</text>
                 <router-link to="/instructor"> <text id="logInLink">Log In</text> </router-link>
             </div>
-
         </form>
-
     </div>
 </template>
+
 
 
 <style scoped>

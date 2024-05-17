@@ -1,6 +1,6 @@
 <script setup>
 import SideBarMenu from "../../components/SideBarMenu.vue";
-import TopBarMenu from "../../components/TopBarMenu.vue";
+import InstructorTopBar from "../../components/InstructorTopBar.vue";
 import { ref, computed } from "vue";
 
 
@@ -34,7 +34,7 @@ const confirmedBookings = computed(() => schedWeek.value.filter(item => item.sta
 
 <template>
     <SideBarMenu />
-    <TopBarMenu />
+    <InstructorTopBar />
     <div class="instructorDashboard-container">
         <span class="greetings">Welcome, Instructor!</span>
 

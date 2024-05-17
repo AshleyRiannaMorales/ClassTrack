@@ -1,0 +1,135 @@
+<script setup>
+import 'primeicons/primeicons.css'
+import { ref } from "vue";
+import { useRouter } from "vue-router"; // Import useRouter from vue-router
+
+const menu = ref();
+const router = useRouter(); // Create a router instance
+const items = ref([
+  {
+    label: 'Options',
+    items: [
+      {
+        label: 'Update Password',
+        icon: 'pi pi-user-edit',
+        command: () => navigateTo('/InstructorProfile') // Add a command to navigate to '/refresh'
+      },
+      {
+        label: 'Log Out',
+        icon: 'pi pi-sign-out',
+        command: () => navigateTo('/') // Add a command to navigate to '/export'
+      }
+    ]
+  }
+]);
+
+const toggle = (event) => {
+  menu.value.toggle(event);
+};
+
+const navigateTo = (route) => {
+  router.push(route); // Programmatically navigate to the specified route
+};
+</script>
+
+
+<template>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <div class="menuWrapper">
+        <div class="card flex justify-content-center">
+            <Button type="button" id="ellipsisMenu" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true"
+                aria-controls="overlay_menu" />
+            <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+        </div>
+    </div>
+
+
+</template>
+
+
+<style scoped>
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    color: #DD385A;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.menuWrapper {
+    position: absolute;
+    right: 30px;
+    top: 18px;
+}
+
+#ellipsisMenu {
+    padding: 10px;
+    background-color: #DD385A;
+    border: none;
+    color:#ffffff;
+}
+
+#editProfileButton {
+    background-color: transparent;
+    padding: 10px;
+    border: none;
+    margin-right: 10px;
+}
+
+#editProfileButton:hover {
+    background-color: #fcebeb;
+}
+
+#signoutButton {
+    background-color: transparent;
+    padding: 10px;
+    border: none;
+}
+
+#signoutButton:hover {
+    background-color: #fcebeb;
+}
+
+
+ul {
+    list-style: none;
+    text-align: left;
+    width: 126px;
+}
+
+ul li .list {
+    display: inline-block;
+    position: relative;
+    padding: 9px 15px;
+}
+
+span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+ul li ul.dropdown li {
+    display: block;
+    margin: 4px 0px;
+}
+
+ul li ul.dropdown {
+    width: auto;
+    z-index: 999;
+    display: none;
+    background-color: #fff0f0;
+}
+
+ul li .list:hover {
+    background-color: #ecd3d3;
+    width: 100%;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+}
+</style>

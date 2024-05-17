@@ -124,10 +124,8 @@ const openCreateAccountDialog = (rowData) => {
 };
 
 const submitAccountCreation = async () => {
-
     try {
         const formData = new FormData();
-
         formData.append('instructorID', parseInt(selectedRowData.value.instructorID)); // Convert to integer
         formData.append('instructorEmail', selectedRowData.value.instructorEmail);
         formData.append('defaultPassword', defaultPass.value);
@@ -141,12 +139,11 @@ const submitAccountCreation = async () => {
         });
 
         if (response.status === 200) {
-            // Signup successful
-
+            // Account creation successful
             toast.add({
                 severity: 'success',
                 summary: 'Account Created.',
-                detail: 'Instructor Account is successfully created!',
+                detail: 'Instructor account is successfully created!',
                 life: 3000
             });
 
@@ -157,11 +154,18 @@ const submitAccountCreation = async () => {
         console.error('Error signing up instructor:', error);
         if (error.response) {
             // Check the status code and display appropriate toast message
-            if (error.response.status === 500) {
+            if (error.response.status === 400) {
                 toast.add({
                     severity: 'warn',
                     summary: 'Account Duplication.',
-                    detail: 'Instructor account already exists',
+                    detail: error.response.data.detail, // Display the detailed message from the server
+                    life: 3000
+                });
+            } else if (error.response.status === 500) {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Server Error.',
+                    detail: 'Internal server error occurred.',
                     life: 3000
                 });
             } else {
@@ -175,7 +179,7 @@ const submitAccountCreation = async () => {
         } else {
             toast.add({
                 severity: 'error',
-                summary: 'Error.',
+                summary: 'Network Error.',
                 detail: 'Error creating account. Please try again later.',
                 life: 3000
             });
@@ -183,7 +187,7 @@ const submitAccountCreation = async () => {
     }
 
     console.log('Account created for:', selectedRowData.value);
-    console.log('With password:', defaultPass.value); // Use defaultPass instead of defaultPassword
+    console.log('With password:', defaultPass.value);
 };
 
 const clearInputFields = () => {
