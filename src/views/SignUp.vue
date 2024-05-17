@@ -41,8 +41,6 @@ const signupInstructor = async () => {
 
     try {
 
-        // Check if email already exists - INSERT HERE
-
 
         const formData = new FormData();
         formData.append('instructorID', instructorData.value.instructorID);
@@ -68,7 +66,7 @@ const signupInstructor = async () => {
 
             clearInputs();
 
-            // router.push('/instructordashboard');
+            
         } else {
             // Handle specific error cases
             const errorData = response.data;

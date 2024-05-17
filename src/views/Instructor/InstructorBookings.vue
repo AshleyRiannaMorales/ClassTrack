@@ -5,6 +5,8 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from "primevue/useconfirm";
+import { FilterMatchMode } from 'primevue/api';
+
 
 const toast = useToast();
 const confirm = useConfirm();
@@ -297,6 +299,7 @@ const getTextColorStyle = (status) => {
     <TopBarMenu />
     <Toast />
 
+    <!-- Confirmation Dialog for Cancelling Request -->
     <div class="p-confirm-dialog">
         <ConfirmDialog group="templating">
             <template #message="slotProps">
@@ -324,7 +327,7 @@ const getTextColorStyle = (status) => {
 
             <span class="filterButton">
                 <label for="dropdown" id="filterLabel"> Status: </label>
-                <Dropdown id="sort" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
+                <Dropdown id="filter" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
                     placeholder="Status" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
                     @change="applyFilter" />
             </span>
@@ -382,11 +385,11 @@ const getTextColorStyle = (status) => {
         <div class="tableBookings">
             <DataTable :value="filteredBookings" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
                 <Column field="computerLabID" header="Room" style="color: #DD385A; height: 70px"></Column>
-                <Column field="bookingDate" header="Requested Date" style="color: #DD385A;"></Column>
-                <Column field="bookingStartTime" header="Start Time" style="color: #DD385A;"></Column>
-                <Column field="bookingEndTime" header="End Time" style="color: #DD385A;"></Column>
-                <Column field="bookingPurpose" header="Purpose" style="color: #DD385A;"></Column>
-                <Column field="bookingReqStatus" header="Status" style="color: #DD385A;">
+                <Column field="bookingDate" header="Requested Date" style="color: #DD385A; height: 70px"></Column>
+                <Column field="bookingStartTime" header="Start Time" style="color: #DD385A; height: 70px"></Column>
+                <Column field="bookingEndTime" header="End Time" style="color: #DD385A; height: 70px"></Column>
+                <Column field="bookingPurpose" header="Purpose" style="color: #DD385A; height: 70px"></Column>
+                <Column field="bookingReqStatus" header="Status" style="color: #DD385A; height: 70px">
                     <template #body="slotProps">
                         <span :style="getTextColorStyle(slotProps.data.bookingReqStatus)">
                             {{ slotProps.data.bookingReqStatus }}
@@ -395,8 +398,9 @@ const getTextColorStyle = (status) => {
                 </Column>
                 <Column header="Actions" style="color: #DD385A;">
                     <template #body="slotProps">
-                        <Button v-if="slotProps.data.bookingReqStatus !== 'Approved'" label="Cancel" icon="pi pi-times"
-                            class="p-button-danger" id="cancelRequestButton"
+                        <Button
+                            v-if="slotProps.data.bookingReqStatus !== 'Approved' && slotProps.data.bookingReqStatus !== 'Rejected'"
+                            label="Cancel" icon="pi pi-times" class="p-button-danger" id="cancelRequestButton"
                             :disabled="slotProps.data.bookingReqStatus === 'Cancelled'"
                             @click="confirmCancel(slotProps.data.bookingRequestID)" />
                     </template>
@@ -442,8 +446,16 @@ label {
     font-weight: 400;
 }
 
+#sort {
+    margin-left: 4px;
+}
+
 #filterLabel {
     font-weight: 400;
+}
+
+#filter {
+    margin-left: 4px;
 }
 
 #clearFilters {
@@ -516,5 +528,4 @@ label {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
 }
-
 </style>

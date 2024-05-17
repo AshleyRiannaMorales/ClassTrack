@@ -1,23 +1,67 @@
 <script setup>
 import AdminSideBarMenu from "../../components/AdminSideBarMenu.vue";
 import TopBarMenu from "../../components/TopBarMenu.vue";
-import { ref, onMounted } from 'vue';
-import axios from "axios";
+import { ref, reactive, onMounted } from 'vue';
+import axios from 'axios';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from "primevue/useconfirm";
 
-const userRequest = ref(null);
+
 const toast = useToast();
+const confirm = useConfirm();
 
-onMounted(async () => {
+
+
+const state = reactive({
+    userRequest: [],
+    filteredVerifications: [],
+    selectedOption: { option: 'Newest', api: 'new' },
+    selectedFilterOption: { status: 'All' },
+    sortOptions: [
+        { option: 'Newest', api: 'new' },
+        { option: 'Oldest', api: 'old' }
+    ],
+    filterOptions: [
+        { status: 'All' },
+        { status: 'Pending' },
+        { status: 'Approved' },
+        { status: 'Cancelled' },
+        { status: 'Rejected' },
+    ]
+});
+
+const createAccountVisible = ref(false);
+const selectedRowData = ref({});
+const defaultPass = ref("defaultPass123"); // Default password
+
+
+onMounted(() => {
+    fetchData();
+});
+
+async function fetchData() {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/pending_verification');
+        console.log(`Fetching data for sort option: ${state.selectedOption.api}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/${state.selectedOption.api}_verification_request`);
         console.log('User verification requests data:', response.data);
-
-        userRequest.value = response.data;
+        state.userRequest = response.data;
+        applyFilter();
     } catch (error) {
         console.error('Error fetching verification requests:', error);
     }
-});
+}
+
+function applyFilter() {
+    console.log('Selected Filter Option:', state.selectedFilterOption);
+
+    if (state.selectedFilterOption.status !== 'All') {
+        state.filteredVerifications = state.userRequest.filter(request => request.status === state.selectedFilterOption.status);
+    } else {
+        state.filteredVerifications = state.userRequest;
+    }
+
+    console.log('Filtered Verifications:', state.filteredVerifications);
+}
 
 const approveVerificationRequest = async (requestId) => {
     console.log('Approving request ID:', requestId); // Debugging log
@@ -31,7 +75,7 @@ const approveVerificationRequest = async (requestId) => {
                 life: 3000
             });
             // Refresh the user request list after approval
-            fetchVerificationRequests();
+            // fetchVerificationRequests();
         }
     } catch (error) {
         console.error('Error approving verification request:', error);
@@ -44,13 +88,106 @@ const approveVerificationRequest = async (requestId) => {
     }
 };
 
-const fetchVerificationRequests = async () => {
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/pending_verification');
-        userRequest.value = response.data;
-    } catch (error) {
-        console.error('Error fetching verification requests:', error);
+const getTextColorStyle = (status) => {
+    switch (status) {
+        case 'Approved':
+            return { color: 'green', fontWeight: '600' }; // Change text color to green for Approved
+        case 'Pending':
+            return { color: 'orange', fontWeight: '600' }; // Change text color to orange for Pending
+        case 'Rejected':
+            return { color: 'red', fontWeight: '600' }; // Change text color to red for Rejected
+        default:
+            return null;
     }
+};
+
+const confirm1 = (rowData) => {
+    confirm.require({
+        message: 'Do you consent this instructor to have access to the system?',
+        header: 'Confirmation',
+        rejectClass: 'p-button-secondary p-button-outlined',
+        rejectLabel: 'No',
+        acceptLabel: 'Yes',
+        accept: () => {
+            approveVerificationRequest(rowData.requestID);
+        },
+        reject: () => {
+            toast.add({ severity: 'error', summary: 'Verification Rejected', detail: 'You have rejected', life: 3000 });
+        }
+    });
+};
+
+const openCreateAccountDialog = (rowData) => {
+    selectedRowData.value = rowData;
+    defaultPass.value = "defaultPassword123"; // Set the default password
+    createAccountVisible.value = true;
+};
+
+const submitAccountCreation = async () => {
+
+    try {
+        const formData = new FormData();
+
+        formData.append('instructorID', parseInt(selectedRowData.value.instructorID)); // Convert to integer
+        formData.append('instructorEmail', selectedRowData.value.instructorEmail);
+        formData.append('defaultPassword', defaultPass.value);
+
+        console.log('Sending account data:', formData);
+
+        const response = await axios.post('http://127.0.0.1:8000/api/admin/create_instructor_account', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        if (response.status === 200) {
+            // Signup successful
+
+            toast.add({
+                severity: 'success',
+                summary: 'Account Created.',
+                detail: 'Instructor Account is successfully created!',
+                life: 3000
+            });
+
+            clearInputFields();
+            createAccountVisible.value = false;
+        }
+    } catch (error) {
+        console.error('Error signing up instructor:', error);
+        if (error.response) {
+            // Check the status code and display appropriate toast message
+            if (error.response.status === 500) {
+                toast.add({
+                    severity: 'warn',
+                    summary: 'Account Duplication.',
+                    detail: 'Instructor account already exists',
+                    life: 3000
+                });
+            } else {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Error.',
+                    detail: 'Error creating account. Please try again later.',
+                    life: 3000
+                });
+            }
+        } else {
+            toast.add({
+                severity: 'error',
+                summary: 'Error.',
+                detail: 'Error creating account. Please try again later.',
+                life: 3000
+            });
+        }
+    }
+
+    console.log('Account created for:', selectedRowData.value);
+    console.log('With password:', defaultPass.value); // Use defaultPass instead of defaultPassword
+};
+
+const clearInputFields = () => {
+    selectedRowData.value = {}; // Reset selectedRowData
 };
 
 </script>
@@ -60,30 +197,94 @@ const fetchVerificationRequests = async () => {
     <TopBarMenu />
 
     <Toast />
+    <Dialog />
+    <ConfirmDialog />
 
     <div class="userManagement-container">
-        <span class="greetings">Users</span>
+        <span class="greetings">User Management</span>
 
         <div class="userManagement-buttons">
-            <!-- Add any buttons for additional functionality if needed -->
+            <span class="sortButton">
+                <label for="dropdown"> Sort By: </label>
+                <Dropdown id="sort" v-model="state.selectedOption" :options="state.sortOptions" optionLabel="option"
+                    placeholder="Date" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
+                    @change="fetchData" />
+            </span>
+
+            <span class="filterButton">
+                <label for="dropdown" id="filterLabel"> Status: </label>
+                <Dropdown id="sort" v-model="state.selectedFilterOption" :options="state.filterOptions"
+                    optionLabel="status" placeholder="Status" checkmark :highlightOnSelect="false"
+                    class="w-full md:w-14rem" @change="applyFilter" />
+            </span>
         </div>
 
         <div class="userManagement-table">
             <div class="tableUsers">
-                <DataTable :value="userRequest" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
-                    <Column field="requestID" header="Request ID" style="color: #DD385A;"></Column>
-                    <Column field="instructorID" header="Instructor ID" style="color: #DD385A;"></Column>
-                    <Column field="instructorName" header="Name" style="color: #DD385A;"></Column>
-                    <Column field="instructorEmail" header="Email" style="color: #DD385A;"></Column>
+                <DataTable :value="state.filteredVerifications"
+                    tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
+                    <Column field="requestID" header="Request ID" style="color: #DD385A; height: 80px"></Column>
+                    <Column field="instructorID" header="Instructor ID" style="color: #DD385A; height: 70px"></Column>
+                    <Column field="instructorName" header="Name" style="color: #DD385A; height: 70px"></Column>
+                    <Column field="instructorEmail" header="Email" style="color: #DD385A; height: 70px"></Column>
+                    <Column field="status" header="Status" style="color: #DD385A; height: 70px">
+                        <template #body="slotProps">
+                            <span :style="getTextColorStyle(slotProps.data.status)">
+                                {{ slotProps.data.status }}
+                            </span>
+                        </template>
+                    </Column>
                     <Column header="Actions" style="color: #DD385A;">
                         <template #body="rowData">
-                            <Button label="Approve" icon="pi pi-check" class="p-button-info" id="approveButton" @click="approveVerificationRequest(rowData.data.requestID)" />
-                            <Button label="Reject" icon="pi pi-times" class="p-button-info" id="rejectButton" />
+                            <Button v-if="rowData.data.status !== 'Approved'" label="Approve" icon="pi pi-check"
+                                class="p-button-info" id="approveButton" @click="confirm1(rowData.data)" />
+                            <Button v-if="rowData.data.status !== 'Approved'" label="Reject" icon="pi pi-times"
+                                class="p-button-info" id="rejectButton" />
+                            <Button v-if="rowData.data.status == 'Approved'" label="Create Account" icon="pi pi-user"
+                                id="createAccountButton" @click="openCreateAccountDialog(rowData.data)" />
+
+
                         </template>
                     </Column>
                 </DataTable>
             </div>
         </div>
+
+        <!-- Dialog for Account Creation -->
+
+        <Dialog v-model:visible="createAccountVisible" modal header="Instructor Account" :style="{ width: '25rem' }">
+            <template #header>
+                <div class="dialogHeader">
+                    <span class="dialogHeader-text">Instructor Account</span>
+                </div>
+            </template>
+            <form @submit.prevent="submitAccountCreation">
+                <div class="dialogHeader-subtext">Verify the information below.</div>
+                <div class="input-container">
+                    <label for="instructorID" class="font-semibold w-6rem">Instructor ID</label>
+                    <InputText id="instructorID" class="p-id-input" v-model="selectedRowData.instructorID"
+                        autocomplete="off" />
+                </div>
+                <div class="input-container">
+                    <label for="email" class="font-semibold w-6rem">Email</label>
+                    <InputText id="email" class="p-email-input" v-model="selectedRowData.instructorEmail"
+                        autocomplete="off" />
+                </div>
+                <div class="input-container">
+                    <label for="password" class="font-semibold w-6rem">Password</label>
+                    <Password id="password" class="p-password-input" v-model="defaultPass" :feedback="false" />
+                </div>
+                <div class="buttons-container">
+                    <Button class="footerButton" id="footerButton-Cancel" label="Cancel" @click="visible = false"
+                        autofocus />
+                    <Button class="footerButton" id="footerButton-Submit" label="Submit" type="submit" autofocus />
+                </div>
+
+            </form>
+
+        </Dialog>
+
+
     </div>
 </template>
 
@@ -104,8 +305,21 @@ const fetchVerificationRequests = async () => {
     font-weight: 700;
 }
 
+.userManagement-buttons {
+    padding: 15px 0px;
+}
+
+#sort {
+    padding: 0px;
+    margin-left: 4px;
+}
+
+.filterButton {
+    margin-left: 15px;
+}
+
 .userManagement-table {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 button {
@@ -117,11 +331,66 @@ button {
     background-color: #31a533;
     color: #ffffff;
     width: 100px;
+    border: none;
 }
 
 #rejectButton {
     background-color: #cf4545;
     color: #ffffff;
     width: 100px;
+    border: none;
+}
+
+#createAccountButton {
+    background-color: #DD385A;
+    border: none;
+}
+
+.dialogHeader-text {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.dialogHeader-subtext {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: 500;
+}
+
+.input-container {
+    padding-top: 15px;
+}
+
+.p-id-input {
+    margin-left: 15px;
+}
+
+.p-email-input {
+    margin-left: 15px;
+}
+
+.p-password-input {
+    margin-left: 15px;
+}
+
+.buttons-container {
+
+    margin-top: 20px;
+}
+
+#footerButton-Cancel {
+    background-color: #607D8B;
+    color: #ffffff;
+    padding: 7px 15px;
+    border: none;
+}
+
+#footerButton-Submit {
+    background-color: #DD385A;
+    color: #ffffff;
+    padding: 7px 15px;
+    border: none;
 }
 </style>
