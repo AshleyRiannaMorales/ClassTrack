@@ -8,14 +8,19 @@ import { useConfirm } from "primevue/useconfirm";
 import { FilterMatchMode } from 'primevue/api';
 
 
+
+
 const toast = useToast();
 const confirm = useConfirm();
+
 
 const selectedSortOption = ref({ option: 'Recently Created', api: 'newest-to-oldest' });
 const sortOptions = [
     { option: 'Recently Created', api: 'newest-to-oldest' },
     { option: 'Previously Created', api: 'oldest-to-newest' }
 ];
+
+
 
 
 const selectedFilterOption = ref({ status: 'All' });
@@ -27,11 +32,14 @@ const filterOptions = [
     { status: 'Rejected' },
 ];
 
+
 const booking = ref();
 
-onMounted(() => {
+
+onMounted(async () => {
     fetchData(selectedSortOption.value.api);
 });
+
 
 async function fetchData(sortOption = selectedSortOption.value.api) {
     try {
@@ -44,13 +52,16 @@ async function fetchData(sortOption = selectedSortOption.value.api) {
     }
 }
 
+
 const handleSortChange = () => {
     fetchData(selectedSortOption.value.api);
 };
 
+
 const filteredBookings = ref([]);
 const applyFilter = () => {
     console.log('Selected Filter Option:', selectedFilterOption.value);
+
 
     // Check if a status filter option is selected
     if (selectedFilterOption.value.status !== 'All') {
@@ -60,11 +71,15 @@ const applyFilter = () => {
         filteredBookings.value = booking.value;
     }
 
+
     console.log('Filtered Bookings:', filteredBookings.value);
 };
 
 
+
+
 const reqVisible = ref(false); // For Dialog: Creating a Booking Request
+
 
 const rooms = ref([
     { roomNum: '201' },
@@ -73,6 +88,8 @@ const rooms = ref([
     { roomNum: '204' },
     { roomNum: '205' }
 ]);
+
+
 
 
 const bookingRequestData = ref({
@@ -84,7 +101,9 @@ const bookingRequestData = ref({
     bookingPurpose: '',
 });
 
+
 const bookSchedule = async () => {
+
 
     // Validate input fields
     if (!bookingRequestData.value.instructorID || !bookingRequestData.value.computerLabID || !bookingRequestData.value.bookingDate || !bookingRequestData.value.bookingStartTime || !bookingRequestData.value.bookingEndTime || !bookingRequestData.value.bookingPurpose) {
@@ -97,6 +116,7 @@ const bookSchedule = async () => {
         return;
     }
 
+
     try {
         const formData = new FormData();
         formData.append('instructorID', bookingRequestData.value.instructorID);
@@ -107,7 +127,10 @@ const bookSchedule = async () => {
         formData.append('booking_purpose', bookingRequestData.value.bookingPurpose);
 
 
+
+
         console.log('FormData:', formData);
+
 
         const response = await axios.post('http://127.0.0.1:8000/api/booking-requests/', formData, {
             headers: {
@@ -116,8 +139,11 @@ const bookSchedule = async () => {
         });
 
 
+
+
         if (response.status === 200) {
             console.log('Data:', bookingRequestData);
+
 
             toast.add({
                 severity: 'success',
@@ -125,6 +151,7 @@ const bookSchedule = async () => {
                 detail: 'Booking Request sent!',
                 life: 3000
             });
+
 
             clearInputFields();
             reqVisible.value = false;
@@ -140,11 +167,13 @@ const bookSchedule = async () => {
     }
 };
 
+
 const submitBookingRequest = () => {
     // Convert date objects to strings
     const bookingDate = bookingRequestData.value.bookingDate instanceof Date
         ? bookingRequestData.value.bookingDate.toISOString().split('T')[0] // Extract YYYY-MM-DD
         : bookingRequestData.value.bookingDate;
+
 
     // Convert start time to 24-hour format
     let bookingStartTime = bookingRequestData.value.bookingStartTime instanceof Date
@@ -152,14 +181,17 @@ const submitBookingRequest = () => {
         : bookingRequestData.value.bookingStartTime;
     bookingStartTime = convertTo24HourFormat(bookingStartTime); // Convert to 24-hour format
 
+
     // Convert end time to 24-hour format
     let bookingEndTime = bookingRequestData.value.bookingEndTime instanceof Date
         ? bookingRequestData.value.bookingEndTime.toLocaleTimeString()
         : bookingRequestData.value.bookingEndTime;
     bookingEndTime = convertTo24HourFormat(bookingEndTime); // Convert to 24-hour format
 
+
     // Convert instructorID to integer
     const instructorID = parseInt(bookingRequestData.value.instructorID);
+
 
     // Convert computerLabID to integer if it's not already
     let computerLabID = bookingRequestData.value.computerLabID;
@@ -169,7 +201,9 @@ const submitBookingRequest = () => {
         computerLabID = parseInt(computerLabID);
     }
 
+
     const bookingPurpose = bookingRequestData.value.bookingPurpose;
+
 
     // Update the bookingRequestData object with the modified data
     bookingRequestData.value = {
@@ -182,11 +216,14 @@ const submitBookingRequest = () => {
         bookingPurpose
     };
 
+
     // Now the bookingRequestData object contains the modified data
     console.log("Updated Booking Request Data:", bookingRequestData.value);
 
+
     bookSchedule();
 };
+
 
 const clearInputFields = () => {
     // Reset all input fields to initial state
@@ -197,6 +234,7 @@ const clearInputFields = () => {
     bookingRequestData.value.bookingEndTime = '';
     bookingRequestData.value.bookingPurpose = '';
 };
+
 
 // Function to convert time to 24-hour format
 const convertTo24HourFormat = (timeString) => {
@@ -210,6 +248,7 @@ const convertTo24HourFormat = (timeString) => {
     }
     return `${hours}:${minutes}`;
 };
+
 
 const cancelBookingRequest = async (bookingRequestId) => {
     console.log("Booking Request ID to cancel:", bookingRequestId); // Log for debugging
@@ -259,6 +298,7 @@ const cancelBookingRequest = async (bookingRequestId) => {
     }
 };
 
+
 const confirmCancel = (bookingRequestId) => {
     confirm.require({
         group: 'templating',
@@ -276,7 +316,10 @@ const confirmCancel = (bookingRequestId) => {
         }
     });
 
+
 };
+
+
 
 
 const getTextColorStyle = (status) => {
@@ -294,13 +337,17 @@ const getTextColorStyle = (status) => {
     }
 };
 
+
 </script>
 
+
 <template>
+
 
     <SideBarMenu />
     <InstructorTopBar />
     <Toast />
+
 
     <!-- Confirmation Dialog for Cancelling Request -->
     <div class="p-confirm-dialog">
@@ -314,12 +361,17 @@ const getTextColorStyle = (status) => {
     </div>
 
 
+
+
     <div class="instructorBookings-container">
+
 
         <span class="greetings">Bookings</span>
 
+
         <!-- Buttons: Sorting, Filtering, Creating Request -->
         <div class="instructorBookings-buttons">
+
 
             <span class="sortButton">
                 <label for="dropdown" id="sortLabel"> Sort By: </label>
@@ -328,6 +380,7 @@ const getTextColorStyle = (status) => {
                     @change="handleSortChange" />
             </span>
 
+
             <span class="filterButton">
                 <label for="dropdown" id="filterLabel"> Status: </label>
                 <Dropdown id="filter" v-model="selectedFilterOption" :options="filterOptions" optionLabel="status"
@@ -335,8 +388,10 @@ const getTextColorStyle = (status) => {
                     @change="applyFilter" />
             </span>
 
+
             <!-- Button for Dialog Box/Pop Up -->
             <Button id="bookingButton" @click="reqVisible = true" label="Book a Schedule" icon="pi pi-pencil" />
+
 
             <!-- Dialog Box/Pop Up for Creating Booking Request -->
             <Dialog v-model:visible="reqVisible" modal header="Booking Request"
@@ -381,8 +436,11 @@ const getTextColorStyle = (status) => {
                     </div>
                 </form>
 
+
             </Dialog>
         </div>
+
+
 
 
         <div class="tableBookings">
@@ -411,10 +469,14 @@ const getTextColorStyle = (status) => {
             </DataTable>
         </div>
 
+
     </div>
 
 
+
+
 </template>
+
 
 <style scoped>
 * {
@@ -422,44 +484,54 @@ const getTextColorStyle = (status) => {
     font-size: 15px;
 }
 
+
 .instructorBookings-container {
     margin-left: 60px;
     padding: 70px 100px;
     color: #DD385A;
 }
 
+
 .greetings {
     font-size: 40px;
     font-weight: 700;
 }
 
+
 .instructorBookings-buttons {
     padding: 15px 0px;
 }
+
 
 label {
     font-weight: 500;
 }
 
+
 .filterButton {
     margin-left: 15px;
 }
+
 
 #sortLabel {
     font-weight: 400;
 }
 
+
 #sort {
     margin-left: 4px;
 }
+
 
 #filterLabel {
     font-weight: 400;
 }
 
+
 #filter {
     margin-left: 4px;
 }
+
 
 #clearFilters {
     background-color: white;
@@ -470,6 +542,7 @@ label {
     margin-left: 10px;
 }
 
+
 #bookingButton {
     background-color: #DD385A;
     border: none;
@@ -477,37 +550,46 @@ label {
     margin-left: 40px;
 }
 
+
 .fields {
     margin: 15px 0;
 }
+
 
 .inputBox {
     margin-left: 15px;
 }
 
+
 .dropdownField {
     margin-left: 15px;
 }
+
 
 .calendarField {
     margin-left: 15px;
 }
 
+
 .timeField-start {
     margin-left: 15px;
 }
+
 
 .timeField-end {
     margin-left: 15px;
 }
 
+
 #purpose {
     width: 320px;
 }
 
+
 .dialogButtons {
     padding-top: 15px;
 }
+
 
 #submitButton {
     margin-left: 10px;
@@ -515,11 +597,13 @@ label {
     border: none;
 }
 
+
 #cancelRequestButton {
     background-color: #cf4545;
     color: #ffffff;
     border: none;
 }
+
 
 #cancelRequestButton:disabled {
     background-color: #dcdcdc;
@@ -527,8 +611,10 @@ label {
     cursor: not-allowed;
 }
 
+
 .custom-dialog {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
 }
 </style>
+

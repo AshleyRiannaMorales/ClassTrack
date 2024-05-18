@@ -3,8 +3,9 @@ import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
 import { useToast } from 'primevue/usetoast';
+import { useStore } from 'vuex';
 
-
+const store = useStore();
 const toast = useToast();
 
 
@@ -20,12 +21,13 @@ const instructorData = ref({
 const loginInstructor = async () => {
 
     // Validate input fields
-    if (!instructorData.value.instructorEmailorID || !instructorData.value.instructorPass ) {
-        toast.add({ 
-        severity: 'error', 
-        summary: 'Login Failed!', 
-        detail: 'Please fill out all fields.', 
-        life: 3000 });
+    if (!instructorData.value.instructorEmailorID || !instructorData.value.instructorPass) {
+        toast.add({
+            severity: 'error',
+            summary: 'Login Failed!',
+            detail: 'Please fill out all fields.',
+            life: 3000
+        });
         return;
     }
 
@@ -44,6 +46,9 @@ const loginInstructor = async () => {
 
         if (response.status === 200) {
 
+            const userData = response.data; // Extract the user data from the response
+
+            store.dispatch('setUser', userData);
             router.push('/instructordashboard');
 
 
@@ -53,13 +58,14 @@ const loginInstructor = async () => {
         }
     } catch (error) {
         console.error('Error authenticating instructor:', error.response ? error.response.data : error.message);
-        
+
         // Display error message to the user
-        toast.add({ 
-        severity: 'error', 
-        summary: 'Login Failed!', 
-        detail: (error.response.data.detail),
-        life: 3000 });
+        toast.add({
+            severity: 'error',
+            summary: 'Login Failed!',
+            detail: (error.response.data.detail),
+            life: 3000
+        });
         return;
     }
 };

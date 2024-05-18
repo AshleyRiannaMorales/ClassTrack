@@ -50,7 +50,6 @@ import InstructorTopBar from "../../components/InstructorTopBar.vue";
 .greetings {
     font-size: 40px;
     font-weight: 700;
-
 }
 
 .profileDetails {

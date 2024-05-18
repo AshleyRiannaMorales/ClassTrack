@@ -96,48 +96,98 @@ const getTextColorStyle = (status) => {
             return null;
     }
 };
-
 const showRejectDialog = ref(false);
 const rejectReason = ref('');
+const bookingRequestIdToReject = ref(null);
 
 const rejectBooking = (bookingRequestId) => {
+    // Log the received bookingRequestId
+    console.log('Received bookingRequestId:', bookingRequestId);
+
     // Show the reject dialog
     showRejectDialog.value = true;
     // Assign the booking request ID to a data property for later use
-    bookingRequestIdToReject = bookingRequestId;
+    bookingRequestIdToReject.value = bookingRequestId; // Use .value to assign the value
 };
-
-let bookingRequestIdToReject = null;
 
 const cancelReject = () => {
     // Reset rejectReason and hide the dialog
     rejectReason.value = '';
     showRejectDialog.value = false;
     // Reset the booking request ID
-    bookingRequestIdToReject = null;
+    bookingRequestIdToReject.value = null;
 };
 
 const confirmReject = async () => {
+
+    // Validate input fields
+    if (!rejectReason.value) {
+        toast.add({
+            severity: 'error',
+            summary: 'Invalid.',
+            detail: 'Please fill out the reason first.',
+            life: 3000
+        });
+        return;
+    }
+
     try {
-        // Perform the rejection action here, using the bookingRequestIdToReject and rejectReason
-        console.log('Rejecting booking request with ID:', bookingRequestIdToReject);
-        console.log('Reason for rejection:', rejectReason.value);
+        // Convert rejectReason to string if it's not already
+        const reasonString = typeof rejectReason.value === 'string' ? rejectReason.value : String(rejectReason.value);
+
+        // Check if bookingRequestIdToReject is a valid positive integer
+        const bookingRequestId = parseInt(bookingRequestIdToReject.value); // Use .value to access the value
+        if (isNaN(bookingRequestId) || bookingRequestId <= 0) {
+            throw new Error('bookingRequestIdToReject must be a valid positive integer.');
+        }
+
+        // Create a FormData object and append the reason
+        const formData = new FormData();
+        formData.append('reason', reasonString);
+
+        // Send the rejection request with the reason as form data
+        const response = await axios.put(
+            `http://127.0.0.1:8000/api/admin/reject-booking-request/${bookingRequestId}`,
+            formData,
+            { headers: { 'Content-Type': 'multipart/form-data' } } // Set content type as multipart/form-data
+        );
+
+        console.log('Booking rejected:', response.data);
+
+        // Find the booking in the array and update its status to 'Rejected'
+        const bookingIndex = bookingReq.value.findIndex(booking => booking.bookingRequestID === bookingRequestId);
+        if (bookingIndex !== -1) {
+            bookingReq.value[bookingIndex].bookingReqStatus = 'Rejected';
+            bookingReq.value[bookingIndex].rejectReason = reasonString;
+        }
+        applyFilter();
+        toast.add({
+            severity: 'success',
+            summary: 'Request Rejected!',
+            detail: 'The booking request has been rejected.',
+            life: 3000
+        });
+
         // After performing the rejection action, you can close the dialog
         showRejectDialog.value = false;
         // Reset the rejectReason and bookingRequestIdToReject
         rejectReason.value = '';
-        bookingRequestIdToReject = null;
+        bookingRequestIdToReject.value = null; // Use .value to reset the value
     } catch (error) {
         console.error('Error rejecting booking request:', error);
+        console.log('Error response:', error.response ? error.response.data : error);
         // Handle errors if necessary
     }
 };
+
+
 
 </script>
 
 <template>
     <AdminSideBarMenu />
     <TopBarMenu />
+    <Toast />
 
     <div class="adminBookings-container">
         <span class="greetings">Bookings</span>
@@ -199,16 +249,17 @@ const confirmReject = async () => {
             <Dialog v-model:visible="showRejectDialog" header="Reject Booking Request" modal style="width: 30rem;">
                 <div class="dialogContent">
                     <div class="p-fluid">
-                        <div class="p-field">
-                            <label for="rejectReason" id="reasonLabel">Reason for Rejection:</label>
-                            <Textarea id="rejectReason" v-model="rejectReason" rows="2" autoResize />
-                        </div>
-                    </div>
-                    <div class="p-dialog-footer">
-                        <Button label="Cancel" id="dialogCancel" icon="pi pi-times" class="p-button-text"
-                            @click="cancelReject" />
-                        <Button label="Reject" id="dialogReject" icon="pi pi-check" class="p-button-text"
-                            @click="confirmReject" />
+                        <form @submit.prevent="confirmReject">
+                            <div class="p-field">
+                                <label for="rejectReason" id="reasonLabel">Reason:</label>
+                                <Textarea id="rejectReason" v-model="rejectReason" rows="2" autoResize />
+                            </div>
+                            <div class="p-dialog-footer">
+                                <Button label="Cancel" id="dialogCancel" icon="pi pi-times" class="p-button-text"
+                                    @click="cancelReject" />
+                                <Button label="Reject" type="submit" id="dialogReject" icon="pi pi-check" class="p-button-text" />
+                            </div>
+                        </form>
                     </div>
                 </div>
             </Dialog>

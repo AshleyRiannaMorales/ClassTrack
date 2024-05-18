@@ -30,7 +30,7 @@ import Menu from 'primevue/menu';
 
 
 
-
+import store from './views/instructor/store.js';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 
@@ -43,6 +43,7 @@ createApp(App)
     .use(ConfirmationService)
     .use(ToastService)
     .use(PrimeVue, { ripple: true })
+    .use(store)
     .component("ConfirmDialog",ConfirmDialog)
     .component("Toast",Toast)
     .component("InputText", InputText)

@@ -38,6 +38,7 @@ const routes = [
     { path: "/instructorschedule", component: InstructorSchedule, },
     { path: "/instructorbookings", component: InstructorBookings, },
     { path: "/instructorprofile", component: InstructorProfile, },
+    { path: "/instructornotifications", component: InstructorNotifications, },
 
     { path: "/try", component: Try, },
     { path: "/trial", component: Trial, },
