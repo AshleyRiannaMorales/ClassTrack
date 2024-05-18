@@ -1,10 +1,10 @@
 <script setup>
 import 'primeicons/primeicons.css'
 import { ref } from "vue";
-import { useRouter } from "vue-router"; // Import useRouter from vue-router
+import { useRouter } from "vue-router"; 
 
 const menu = ref();
-const router = useRouter(); // Create a router instance
+const router = useRouter(); 
 const items = ref([
   {
     label: 'Options',
@@ -12,12 +12,12 @@ const items = ref([
       {
         label: 'Update Password',
         icon: 'pi pi-user-edit',
-        command: () => navigateTo('/InstructorProfile') // Add a command to navigate to '/refresh'
+        command: () => navigateTo('/InstructorProfile')
       },
       {
         label: 'Log Out',
         icon: 'pi pi-sign-out',
-        command: () => navigateTo('/') // Add a command to navigate to '/export'
+        command: () => navigateTo('/')
       }
     ]
   }

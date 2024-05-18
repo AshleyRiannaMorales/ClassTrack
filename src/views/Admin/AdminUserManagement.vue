@@ -5,11 +5,39 @@ import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from "primevue/useconfirm";
+import { useRouter } from "vue-router"; 
 
 
+const router = useRouter(); 
 const toast = useToast();
 const confirm = useConfirm();
 
+const menu = ref();
+const items = ref([
+  {
+    label: 'Options',
+    items: [
+      {
+        label: 'View Instructor Accounts',
+        icon: 'pi pi-user',
+        command: () => navigateTo('/AdminSeeAccounts')
+      },
+      {
+        label: 'View UIC Instructors',
+        icon: 'pi pi-folder',
+        command: () => navigateTo('/AdminSeeInstructors')
+      }
+    ]
+  }
+]);
+
+const toggle = (event) => {
+  menu.value.toggle(event);
+};
+
+const navigateTo = (route) => {
+  router.push(route); // Programmatically navigate to the specified route
+};
 
 
 const state = reactive({
@@ -221,6 +249,12 @@ const clearInputFields = () => {
                     optionLabel="status" placeholder="Status" checkmark :highlightOnSelect="false"
                     class="w-full md:w-14rem" @change="applyFilter" />
             </span>
+
+            <span class="menuButton">
+                <Button type="button" id="ellipsisMenu" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true"
+                    aria-controls="overlay_menu" />
+                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+            </span>
         </div>
 
         <div class="userManagement-table">
@@ -320,6 +354,13 @@ const clearInputFields = () => {
 
 .filterButton {
     margin-left: 15px;
+}
+
+#ellipsisMenu {
+    background-color: transparent;
+    color: #DD385A;
+    border: none;
+    
 }
 
 .userManagement-table {

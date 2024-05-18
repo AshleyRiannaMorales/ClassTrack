@@ -206,6 +206,7 @@ const confirmReject = async () => {
                     placeholder="Status" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
                     @change="applyFilter" />
             </span>
+
         </div>
 
         <div class="tableBookings">
@@ -257,7 +258,8 @@ const confirmReject = async () => {
                             <div class="p-dialog-footer">
                                 <Button label="Cancel" id="dialogCancel" icon="pi pi-times" class="p-button-text"
                                     @click="cancelReject" />
-                                <Button label="Reject" type="submit" id="dialogReject" icon="pi pi-check" class="p-button-text" />
+                                <Button label="Reject" type="submit" id="dialogReject" icon="pi pi-check"
+                                    class="p-button-text" />
                             </div>
                         </form>
                     </div>

@@ -10,6 +10,8 @@ import AdminBookings from "../views/Admin/AdminBookings.vue";
 import AdminNotifications from "../views/Admin/AdminNotifications.vue";
 import AdminSchedule from "../views/Admin/AdminSchedule.vue";
 import AdminUserManagement from "../views/Admin/AdminUserManagement.vue";
+import AdminSeeAccounts from "../views/Admin/AdminSeeAccounts.vue";
+
 
 import InstructorLogIn from "../views/Instructor/InstructorLogIn.vue"
 import InstructorDashboard from "../views/Instructor/InstructorDashboard.vue";
@@ -32,6 +34,8 @@ const routes = [
     { path: "/adminnotifications", component: AdminNotifications, },
     { path: "/adminschedule", component: AdminSchedule, },
     { path: "/users", component: AdminUserManagement, },
+    { path: "/adminseeaccounts", component: AdminSeeAccounts, },
+
 
     { path: "/instructor", component: InstructorLogIn, },
     { path: "/instructordashboard", component: InstructorDashboard, },

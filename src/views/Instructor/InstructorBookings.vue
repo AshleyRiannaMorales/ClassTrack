@@ -37,13 +37,20 @@ const booking = ref();
 
 
 onMounted(async () => {
+    console.log("ID stored in local storage:",localStorage.getItem('instructorEmailorID'));
     fetchData(selectedSortOption.value.api);
 });
 
 
 async function fetchData(sortOption = selectedSortOption.value.api) {
+    const instructorEmailorID = localStorage.getItem('instructorEmailorID');
+    if (!instructorEmailorID) {
+        console.error('No instructorEmailorID found in localStorage');
+        return;
+    }
+
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/booking-requests/${sortOption}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/booking-requests/instructor/${instructorEmailorID}/${sortOption}`);
         console.log('Bookings response data:', response.data);
         booking.value = response.data;
         applyFilter(); // Apply filter after fetching data
@@ -51,6 +58,7 @@ async function fetchData(sortOption = selectedSortOption.value.api) {
         console.error('Error fetching bookings data:', error);
     }
 }
+
 
 
 const handleSortChange = () => {
@@ -104,9 +112,11 @@ const bookingRequestData = ref({
 
 const bookSchedule = async () => {
 
+    // Retrieve instructorEmailorID from localStorage
+    const instructorEmailorID = localStorage.getItem('instructorEmailorID');
 
     // Validate input fields
-    if (!bookingRequestData.value.instructorID || !bookingRequestData.value.computerLabID || !bookingRequestData.value.bookingDate || !bookingRequestData.value.bookingStartTime || !bookingRequestData.value.bookingEndTime || !bookingRequestData.value.bookingPurpose) {
+    if (!bookingRequestData.value.computerLabID || !bookingRequestData.value.bookingDate || !bookingRequestData.value.bookingStartTime || !bookingRequestData.value.bookingEndTime || !bookingRequestData.value.bookingPurpose) {
         toast.add({
             severity: 'error',
             summary: 'Submission Error.',
@@ -119,7 +129,7 @@ const bookSchedule = async () => {
 
     try {
         const formData = new FormData();
-        formData.append('instructorID', bookingRequestData.value.instructorID);
+        formData.append('instructorID', instructorEmailorID);
         formData.append('computer_lab_id', bookingRequestData.value.computerLabID);
         formData.append('booking_date', bookingRequestData.value.bookingDate);
         formData.append('booking_start_time', bookingRequestData.value.bookingStartTime);
@@ -398,11 +408,6 @@ const getTextColorStyle = (status) => {
                 style="font-family: 'Inter', sans-serif;" :style="{ width: '30rem' }">
                 <span class="p-text-secondary block mb-5">Fill out the details.</span>
                 <form @submit.prevent="bookSchedule">
-                    <div class="fields">
-                        <label for="username" class="font-semibold w-6rem">Instructor ID</label>
-                        <InputText id="username" class="inputBox" autocomplete="off"
-                            v-model="bookingRequestData.instructorID" />
-                    </div>
                     <div class="fields">
                         <label for="email" class="font-semibold w-6rem">Computer Lab. No.</label>
                         <Dropdown v-model="bookingRequestData.computerLabID" :options="rooms" optionLabel="roomNum"

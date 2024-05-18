@@ -3,9 +3,7 @@ import router from '../../router';
 import { ref } from 'vue';
 import axios from 'axios';
 import { useToast } from 'primevue/usetoast';
-import { useStore } from 'vuex';
 
-const store = useStore();
 const toast = useToast();
 
 
@@ -45,10 +43,10 @@ const loginInstructor = async () => {
 
 
         if (response.status === 200) {
+            // Store instructorEmailorID in localStorage
+            localStorage.setItem('instructorEmailorID', instructorData.value.instructorEmailorID);
+            console.log("ID stored in local storage:",localStorage.getItem('instructorEmailorID'))
 
-            const userData = response.data; // Extract the user data from the response
-
-            store.dispatch('setUser', userData);
             router.push('/instructordashboard');
 
 
