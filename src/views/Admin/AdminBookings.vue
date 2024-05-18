@@ -33,7 +33,7 @@ const filterOptions = [
 ];
 
 onMounted(() => {
-    fetchData().then(() => {
+    fetchData(selectedOption.value.api).then(() => {
         applyFilter();
     });
 });
@@ -197,7 +197,7 @@ const confirmReject = async () => {
                 <label for="dropdown"> Sort By: </label>
                 <Dropdown id="sort" v-model="selectedOption" :options="sortOptions" optionLabel="option"
                     placeholder="Date" checkmark :highlightOnSelect="false" class="w-full md:w-14rem"
-                    @change="fetchData" />
+                    @change="fetchData(selectedOption.api)" />
             </span>
 
             <span class="filterButton">

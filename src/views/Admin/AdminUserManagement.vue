@@ -234,6 +234,11 @@ const clearInputFields = () => {
 
     <div class="userManagement-container">
         <span class="greetings">User Management</span>
+        <span class="menuButton">
+                <Button type="button" id="ellipsisMenu" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true"
+                    aria-controls="overlay_menu" />
+                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+            </span>
 
         <div class="userManagement-buttons">
             <span class="sortButton">
@@ -250,11 +255,7 @@ const clearInputFields = () => {
                     class="w-full md:w-14rem" @change="applyFilter" />
             </span>
 
-            <span class="menuButton">
-                <Button type="button" id="ellipsisMenu" icon="pi pi-ellipsis-v" @click="toggle" aria-haspopup="true"
-                    aria-controls="overlay_menu" />
-                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-            </span>
+            
         </div>
 
         <div class="userManagement-table">
@@ -360,7 +361,7 @@ const clearInputFields = () => {
     background-color: transparent;
     color: #DD385A;
     border: none;
-    
+    margin-left: 15px;
 }
 
 .userManagement-table {

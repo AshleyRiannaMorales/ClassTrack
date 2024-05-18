@@ -9,6 +9,11 @@ import router from '../../router';
 const notifications = ref([]);
 const pollingInterval = 10000; // 10 seconds
 
+onMounted(() => {
+    fetchBookings();
+    pollingIntervalId = setInterval(fetchBookings, pollingInterval);
+});
+
 
 const fetchBookings = async () => {
     try {
@@ -34,10 +39,7 @@ const fetchBookings = async () => {
 
 let pollingIntervalId;
 
-onMounted(() => {
-    fetchBookings();
-    pollingIntervalId = setInterval(fetchBookings, pollingInterval);
-});
+
 
 onUnmounted(() => {
     if (pollingIntervalId) {

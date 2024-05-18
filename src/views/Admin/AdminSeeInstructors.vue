@@ -11,7 +11,7 @@ const instructorAccounts = ref([]);
 
 onMounted(async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/admin/view/instructor_accounts/');
+        const response = await axios.get('http://127.0.0.1:8000/api/get/instructors/');
         instructorAccounts.value = response.data;
     } catch (error) {
         console.error('Error fetching instructor accounts:', error);
@@ -25,10 +25,11 @@ const items = ref([
         label: 'Options',
         items: [
             {
-                label: 'View UIC Instructors',
+                label: 'View Instructor Accounts',
                 icon: 'pi pi-user',
-                command: () => navigateTo('/AdminSeeInstructors')
-            },{
+                command: () => navigateTo('/AdminSeeAccounts')
+            },
+            {
                 label: 'View Verification Requests',
                 icon: 'pi pi-inbox',
                 command: () => navigateTo('/users')
@@ -59,15 +60,15 @@ const navigateTo = (route) => {
             <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
         </span>
 
-        <div class="subheader"> Instructor Accounts </div>
+        <div class="subheader"> Instructors </div>
 
 
         <div class="seeAccounts-table">
             <DataTable :value="instructorAccounts" tableStyle="max-width: 80rem; font-family: 'Inter', sans-serif;">
                 <Column field="instructorID" header="Instructor ID" style="color: #DD385A; height: 70px"></Column>
-                <Column field="instructorName" header="Email" style="color: #DD385A; height: 70px"></Column>
-                <Column field="passwordLastUpdated" header="Password Last Updated" style="color: #DD385A; height: 70px">
-                </Column>
+                <Column field="instructorEmail" header="Email" style="color: #DD385A; height: 70px"></Column>
+                <Column field="InstructorFirstName" header="First Name" style="color: #DD385A; height: 70px"></Column>
+                <Column field="InstructorLastName" header="Last Name" style="color: #DD385A; height: 70px"></Column>
             </DataTable>
         </div>
     </div>
